@@ -156,7 +156,28 @@ INSERT INTO `engineer` VALUES
 ('1', 'kankan', 'kankanzhou123@lms.com', "kankan", "zhou", "learner", "123"),
 ('2', 'lilykong', 'lilykong123@lms.com', "lily", "kong", "trainer", "123");
 
+INSERT INTO `course` VALUES
+('IS212', 'SPM', "Software Project Management");
 
+INSERT INTO `class` VALUES
+('IS212G2', 'IS212', '40', "5", "12:00:00", "15:15:00", "2021-08-08", "2021-12-08", "2021-08-08","2021-12-08",'1', '4');
+
+
+INSERT INTO `section` VALUES
+('1', 'IS212G2', 'Week1', 'Week1'),
+('2', 'IS212G2', 'Week2', 'Week2'),
+('3', 'IS212G2', 'Week3', 'Week3'),
+('4', 'IS212G2', 'Week4', 'Week4');
+
+INSERT INTO `learning_material` VALUES
+('1', '1', 'Week1', '.doc', 'Week 1_Learning_Material_part_1'),
+('2', '1', 'Week1', '.pdf','Week 1_Learning_Material_part_2'),
+('3', '2', 'Week2', '.ppt','Week 2_Learning_Material'),
+('4', '3', 'Week3', '.xml','Week 3_Learning_Material_part_1'),
+('5', '3', 'Week3', '.doc', 'Week 3_Learning_Material_part_2'),
+('6', '4', 'Week4', '.pdf','Week 4_Learning_Material_part_1'),
+('7', '4', 'Week4', '.ppt','Week 4_Learning_Material_part_2'),
+('8', '4', 'Week4', '.xml','Week 4_Learning_Material_part_3');
 -- phpMyAdmin SQL Dump
 -- version 4.9.2
 -- https://www.phpmyadmin.net/  
