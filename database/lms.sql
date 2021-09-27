@@ -170,14 +170,14 @@ INSERT INTO `section` VALUES
 ('4', 'IS212G2', 'Week4', 'Week4');
 
 INSERT INTO `learning_material` VALUES
-('1', '1', 'Week1', '.doc', 'Week 1_Learning_Material_part_1'),
+('1', '1', 'Week1', '.docx', 'Week 1_Learning_Material_part_1'),
 ('2', '1', 'Week1', '.pdf','Week 1_Learning_Material_part_2'),
-('3', '2', 'Week2', '.ppt','Week 2_Learning_Material'),
-('4', '3', 'Week3', '.xml','Week 3_Learning_Material_part_1'),
-('5', '3', 'Week3', '.doc', 'Week 3_Learning_Material_part_2'),
+('3', '2', 'Week2', '.pptx','Week 2_Learning_Material'),
+('4', '3', 'Week3', '.xlsx','Week 3_Learning_Material_part_1'),
+('5', '3', 'Week3', '.docx', 'Week 3_Learning_Material_part_2'),
 ('6', '4', 'Week4', '.pdf','Week 4_Learning_Material_part_1'),
-('7', '4', 'Week4', '.ppt','Week 4_Learning_Material_part_2'),
-('8', '4', 'Week4', '.xml','Week 4_Learning_Material_part_3');
+('7', '4', 'Week4', '.pptx','Week 4_Learning_Material_part_2'),
+('8', '4', 'Week4', '.xlsx','Week 4_Learning_Material_part_3');
 -- phpMyAdmin SQL Dump
 -- version 4.9.2
 -- https://www.phpmyadmin.net/  

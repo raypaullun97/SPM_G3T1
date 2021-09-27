@@ -1,5 +1,5 @@
 <?php 
-    class User{
+    class Section{
         public function __construct($section_id,$class_id, $section_name, $description,){
             $this->section_id = $section_id;
             $this->class_id = $class_id;
