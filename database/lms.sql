@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `engineer` (
 ) ;
 DROP TABLE IF EXISTS `learner_enrollment`;
 CREATE TABLE IF NOT EXISTS `learner_enrollment` (
-  `enrollment_id` varchar(50) NOT NULL,
+  `enrollment_id` int NOT NULL AUTO_INCREMENT,
   `engineer_id` varchar(50) NOT NULL,
   `course_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `class` (
   `end_date` date NOT NULL,
   `start_register_date` date NOT NULL,
   `end_register_date` date NOT NULL,
-  `engineer_id` varchar(50) NOT NULL,
-  `no_of_sections` int NOT NULL,
+  `engineer_id` varchar(50)  NULL,
+  `no_of_sections` int  NULL,
   PRIMARY KEY (`class_id`, `course_id`)
 ); 
 DROP TABLE IF EXISTS `qualified_courses`;
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `engineer_id` varchar(50) NOT NULL,
   `post_time` time NOT NULL,
   `post_date` date NOT NULL,
-  PRIMARY KEY (`post_id`, `thread_id`=)
+  PRIMARY KEY (`post_id`, `thread_id`)
 ) ;
 DROP TABLE IF EXISTS `course_prerequisite`;
 CREATE TABLE IF NOT EXISTS `course_prerequisite` (
