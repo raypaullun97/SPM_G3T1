@@ -14,12 +14,13 @@ $db = $database->getConnection();
 
 // get keywords
 $section_id = isset($_GET["s_id"]) ? $_GET["s_id"] : "";
+$class_id = isset($_GET["c_id"]) ? $_GET["c_id"] : "";
   
 // initialize object
 $learning_material = new LearningMaterial($db);
   
 // query products
-$stmt = $learning_material->search($section_id);
+$stmt = $learning_material->search($section_id, $class_id);
 $num = $stmt->rowCount();
 
 // check if more than 0 record found
@@ -38,6 +39,7 @@ if($num > 0) {
         $item = array(
             "learning_material_id" => $learning_material_id,
             "section_id" => $section_id,
+            "class_id" => $class_id,
             "description" => $description,
             "type" => $type,
             "document_name" => $document_name,

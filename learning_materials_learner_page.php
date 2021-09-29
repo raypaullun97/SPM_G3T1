@@ -1,7 +1,8 @@
 
 <?php 
     include 'header.html';
-    $section_id=''
+    $section_id='';
+    $class_id= 'IS212G2'; 
 
 ?>
             <div id="layoutSidenav_content">
@@ -15,7 +16,7 @@
                                             <div class="page-header-icon"><i data-feather="activity"></i></div>
                                             Learning Materials
                                         </h1>
-                                        <div class="page-header-subtitle">Example dashboard overview and content summary</div>
+                                        <div class="page-header-subtitle"><?php echo $class_id?></div>
                                     </div>
                                 </div>
                             </div>
@@ -30,7 +31,8 @@
                         <div class="position-sticky">
                         <div class="list-group list-group-flush mx-3 mt-4">
                             <?php 
-                                $class_id= 'IS212G2'; //identify using this
+                                //identify using this
+                             
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
                                     $sql = "select * from section where class_id=:class_id";
@@ -43,7 +45,7 @@
                                     while ($row = $stmt->fetch())
                                     {   
                                         ?>
-                                         <a href="#" class="list-group-item list-group-item-action py-2 ripple" onclick="select_materials(<?php echo $row['section_id']?>)">
+                                         <a href="#" class="list-group-item list-group-item-action py-2 ripple" onclick="select_materials('<?php echo $row['section_id']?>', '<?php echo  $row['class_id']?>')">
                                         <i class="fas fa-chart-area fa-fw me-3"></i><span>Section <?php echo $row['section_id']?></span>
                                         </a>
                                 
@@ -68,9 +70,9 @@
                                 <?php
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
-                                    $sql = "select * from learning_material";
+                                    $sql = "select * from learning_material where class_id = :class_id";
                                     $stmt = $pdo->prepare($sql);
-
+                                    $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
                                     $stmt->execute();
                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
             
@@ -96,8 +98,7 @@
 <?php include 'footer.html';?>
 
 <script>
-    function select_materials(section_id){
-        
+    function select_materials(section_id, class_id){
         var request = new XMLHttpRequest(); // Prep to make an HTTP request
         request.onreadystatechange = function() {
 
@@ -133,7 +134,7 @@
             }
         }
 
-        var url = 'http://localhost/SPM_G3T1/SPM_G3T1/model/config/learning_materials.php?s_id='+ section_id;
+        var url = 'http://localhost/SPM_G3T1/SPM_G3T1/model/config/learning_materials.php?s_id='+ section_id+'&c_id='+class_id;
             
         request.open("GET", url, false);
 
