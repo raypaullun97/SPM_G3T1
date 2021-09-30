@@ -44,7 +44,7 @@
             echo $insertStatus;
 ?>
             <script type="text/javascript">
-                alert('Learning Material has been added successfully!');
+                alert('Learning Materials has been added successfully!');
                 location.href = 'learning_materials_trainer_page.php';
             </script>
 <?php            
