@@ -74,7 +74,8 @@
                     <!-- Main page content-->
                      <!-- Sidebar -->
                 <body>
-                    <div class='container'>
+                    <div class='container'> <br>
+                    <button class="btn btn-primary" onclick="location.href='learning_materials_trainer_page.php'" >Back</button>
                         <form action= 'learning_materials_insert_page.php' method='POST' enctype = "multipart/form-data" id = 'new_learning_material'>
                             <div class="form-group"><br>
                                 <label for="documentName">Document Name</label>

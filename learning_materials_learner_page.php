@@ -4,6 +4,7 @@
     $section_id='';
     $class_id= 'IS212G2'; 
     $engineer_id='1';
+    $all_sections=array();
 
     function updateStatus($learning_material_id, $engineer_id){
         $dsn = "mysql:host=localhost;dbname=lms;port=3306";
@@ -63,7 +64,7 @@
                         <form action= 'learning_materials_learner_page.php' method='POST' enctype = "multipart/form-data" id = 'select_section'>
                             <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="" name='select_section' id="select_section">All Sections</button>
                             <?php 
-                                //identify using this
+                                //display all available sections
                              
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
@@ -76,6 +77,7 @@
 
                                     while ($row = $stmt->fetch())
                                     {   
+                                        array_push($all_sections, $row['section_id']);
                                         ?>
                                          <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section">Section <?php echo $row['section_id']?></button>
                                 
@@ -101,6 +103,7 @@
                             </thead>
                                 <?php
                                 if($section_id== ''){
+
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
                                     $sql = "select * from learning_material where class_id = :class_id";
@@ -108,8 +111,6 @@
                                     $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
                                     $stmt->execute();
                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            
-                                   
 
                                     while ($row = $stmt->fetch())
                                     {   
@@ -153,52 +154,52 @@
                                     }
                                     else{
                                         $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                    $pdo = new PDO($dsn,"root",'');
-                                    $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
-                                    $stmt->bindParam(':section_id', $section_id , PDO::PARAM_STR);
-                                    $stmt->execute();
-                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                        $pdo = new PDO($dsn,"root",'');
+                                        $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id";
+                                        $stmt = $pdo->prepare($sql);
+                                        $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
+                                        $stmt->bindParam(':section_id', $section_id , PDO::PARAM_STR);
+                                        $stmt->execute();
+                                        $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-                                    while ($row = $stmt->fetch())
-                                    {   
-                                        $learning_material_id= $row['learning_material_id'];
-                                        $file_location= "learningmaterials/". $row["document_name"];
-                                        $file_location .= $row['type'];
-                                        
-                                        $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                        $pdo2 = new PDO($dsn,"root",'');
-                                        $sql2 = "select * from learning_material_complete where learning_material_id = :learning_material_id and engineer_id =:engineer_id";
-                                        $stmt2 = $pdo2->prepare($sql2);
-                                        $stmt2->bindParam(':learning_material_id', $learning_material_id);
-                                        $stmt2->bindParam(':engineer_id', $engineer_id);
-                                        $stmt2->execute();
-                                        $stmt2->setFetchMode(PDO::FETCH_ASSOC);
-                                        
-                                        if($stmt2->rowCount() > 0){
-                                        ?>
-                                             <tr>
-                                                <td><?php echo $row['section_id']?></td>
-                                                <td ><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td>
-                                                <td><?php echo $row['description']?></td>
-                                                <td><button class="btn btn-light" disabled>Completed</button></td>
-                                            </tr>  
-                                        <?php
-                                        }
-                                        else{
-                                        ?>
-                                           <tr>
-                                                <td><?php echo $row['section_id']?></td>
-                                                <td ><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td>
-                                                <td><?php echo $row['description']?></td>
-                                                <td><button class="btn btn-dark" type="submit" name='update' id='update' value="<?php echo $row['learning_material_id']?>" >Mark as complete</button></td>
-                                            </tr>  
-                                        <?php
-                                        }
-                                        ?> 
-                                                                      
-                                    <?php    
+                                        while ($row = $stmt->fetch())
+                                        {   
+                                            $learning_material_id= $row['learning_material_id'];
+                                            $file_location= "learningmaterials/". $row["document_name"];
+                                            $file_location .= $row['type'];
+                                            
+                                            $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
+                                            $pdo2 = new PDO($dsn,"root",'');
+                                            $sql2 = "select * from learning_material_complete where learning_material_id = :learning_material_id and engineer_id =:engineer_id";
+                                            $stmt2 = $pdo2->prepare($sql2);
+                                            $stmt2->bindParam(':learning_material_id', $learning_material_id);
+                                            $stmt2->bindParam(':engineer_id', $engineer_id);
+                                            $stmt2->execute();
+                                            $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+                                            
+                                            if($stmt2->rowCount() > 0){
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $row['section_id']?></td>
+                                                    <td ><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td>
+                                                    <td><?php echo $row['description']?></td>
+                                                    <td><button class="btn btn-light" disabled>Completed</button></td>
+                                                </tr>  
+                                            <?php
+                                            }
+                                            else{
+                                            ?>
+                                            <tr>
+                                                    <td><?php echo $row['section_id']?></td>
+                                                    <td ><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td>
+                                                    <td><?php echo $row['description']?></td>
+                                                    <td><button class="btn btn-dark" type="submit" name='update' id='update' value="<?php echo $row['learning_material_id']?>" >Mark as complete</button></td>
+                                                </tr>  
+                                            <?php
+                                            }
+                                            ?> 
+                                                                        
+                                        <?php    
                                         };
                                     }
                                     ?>      
