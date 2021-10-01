@@ -1,8 +1,10 @@
 
 <?php 
+    session_start();
     include 'header.html';
     $section_id='';
-    $class_id= 'IS212G2'; 
+    $class_id= 'G2';
+    $course_id= 'IS212';  
     
     function delete_material($learning_material_id){
         $dsn = "mysql:host=localhost;dbname=lms;port=3306";
@@ -19,7 +21,11 @@
 
     }
 
-
+    if (isset($_POST['edit'])){
+        $_SESSION['learning_material']= $_POST['edit'];
+        header("Location: learning_materials_edit_page");
+        exit();
+    }
 
     if (isset($_POST['delete']))
     {   
@@ -27,12 +33,14 @@
     
 
 ?>
-     <script type="text/javascript">
+    <script type="text/javascript">
             alert('Learning Material has been deleted successfully!');
             location.href = 'learning_materials_trainer_page.php';
     </script>
+
 <?php
     }
+
     if (isset($_POST['select_section'])){
         $section_id = $_POST['select_section'];
     }
@@ -70,10 +78,10 @@
                              
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
-                                    $sql = "select * from section where class_id=:class_id";
+                                    $sql = "select * from section where class_id=:class_id and course_id= :course_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
-
+                                    $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
                                     $stmt->execute();
                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -81,7 +89,7 @@
                                     {   
                                         ?>
                                          <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section">Section <?php echo $row['section_id']?></button>
-                                
+                                        
                                 <?php    
                                     };
                                 ?>
@@ -104,16 +112,17 @@
                                 <th>Section</th>
                                 <th>Document Name</th>
                                 <th>Description</th>
-                                <th>Action</th>
+                                <th colspan="2" class="text-center">Actions</th>
                                 </tr>
                             </thead>
                                 <?php
                                     if($section_id == ''){
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
-                                    $sql = "select * from learning_material where class_id = :class_id";
+                                    $sql = "select * from learning_material where class_id = :class_id and course_id= :course_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
+                                    $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
                                     $stmt->execute();
                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
             
@@ -128,7 +137,8 @@
                                         <td><?php echo $row['section_id']?></td>
                                         <td ><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td>
                                         <td><?php echo $row['description']?></td>
-                                        <td><button type="submit" class="btn btn-danger" name='delete' value="<?php echo $row['learning_material_id']?>">Delete</button></td>
+                                        <td class='text-center'><button type="submit" class="btn btn-danger" name='delete' value="<?php echo $row['learning_material_id']?>">Delete</button></td>
+                                        <td class='text-center'><button type="submit" class="btn btn-danger" name='edit' value="<?php echo $row['learning_material_id']?>">Edit</button></td>
                                         </tr>                                
                                     <?php    
                                         }
@@ -136,10 +146,11 @@
                                     else{
                                         $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                         $pdo = new PDO($dsn,"root",'');
-                                        $sql = "select * from learning_material where class_id = :class_id and section_id= :section_id";
+                                        $sql = "select * from learning_material where class_id = :class_id and section_id= :section_id and course_id= :course_id";
                                         $stmt = $pdo->prepare($sql);
                                         $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
                                         $stmt->bindParam(':section_id', $section_id , PDO::PARAM_STR);
+                                        $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
                                         $stmt->execute();
                                         $stmt->setFetchMode(PDO::FETCH_ASSOC);
     
@@ -152,7 +163,8 @@
                                             <td><?php echo $row['section_id']?></td>
                                             <td ><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td>
                                             <td><?php echo $row['description']?></td>
-                                            <td><button type="submit" class="btn btn-danger" name='delete' value="<?php echo $row['learning_material_id']?>">Delete</button></td>
+                                            <td class='text-center'><button type="submit" class="btn btn-danger" name='delete' value="<?php echo $row['learning_material_id']?>">Delete</button></td>
+                                            <td class='text-center'><button type="submit" class="btn btn-danger" name='edit' value="<?php echo $row['learning_material_id']?>">Edit</button></td>
                                             </tr>                                
                                         <?php    
                                             }

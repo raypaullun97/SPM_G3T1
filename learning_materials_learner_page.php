@@ -3,7 +3,8 @@
 
     include 'header.html';
     $section_id='';
-    $class_id= 'IS212G2'; 
+    $class_id= 'G2';
+    $course_id= 'IS212'; 
     $engineer_id='1';
     $all_sections=array();
     $sections=array();
@@ -25,17 +26,17 @@
 
     }
 
-    function updateSectionStatus($current_section, $engineer_id, $class_id){
+    function updateSectionStatus($current_section, $engineer_id, $class_id, $course_id){
         $status="Completed";
         $mark = 0;
         $dsn = "mysql:host=localhost;dbname=lms;port=3306";
         $pdo = new PDO($dsn,"root",'');
-        $query = 'insert ignore into section_status values (:section_id, :engineer_id, :class_id, :status, :mark)';
+        $query = 'insert ignore into section_status values (:section_id, :engineer_id, :class_id, :course_id, :mark)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":section_id", $current_section);
         $stmt->bindParam(":engineer_id", $engineer_id);
         $stmt->bindParam(":class_id", $class_id);
-        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":course_id", $course_id);
         $stmt->bindParam(":mark", $mark);
         $updateSectionStatus = $stmt->execute();
         $stmt = null;
@@ -91,9 +92,10 @@
                              
                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                     $pdo = new PDO($dsn,"root",'');
-                                    $sql = "select * from section where class_id=:class_id";
+                                    $sql = "select * from section where class_id=:class_id and course_id = :course_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
+                                    $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
 
                                     $stmt->execute();
                                     $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -105,10 +107,11 @@
                                         array_push($sections, $row['section_id']);
                                         $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
                                         $pdo2 = new PDO($dsn2,"root",'');
-                                        $sql2 = "select * from learning_material where class_id = :class_id and section_id = :section_id";
+                                        $sql2 = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
                                         $stmt2 = $pdo->prepare($sql2);
-                                        $stmt2->bindParam(':class_id', $class_id , PDO::PARAM_STR);
-                                        $stmt2->bindParam(':section_id', $row['section_id'] , PDO::PARAM_STR);
+                                        $stmt2->bindParam(':class_id', $class_id);
+                                        $stmt2->bindParam(':section_id', $row['section_id']);
+                                        $stmt2->bindParam(':course_id', $row['course_id']);
                                         $stmt2->execute();
                                         $stmt2->setFetchMode(PDO::FETCH_ASSOC);
                                         $total= $stmt2->rowCount();
@@ -141,14 +144,14 @@
                                     for($x=0; $x<count($sections); $x++){
                                         $current_section= $sections[$x];
                                         $total_material= $all_sections[$current_section];
-                                        
                                         if($current_section == '1' && $completed == TRUE){
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdo = new PDO($dsn,"root",'');
-                                            $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id";
+                                            $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
                                             $stmt->bindParam(':section_id', $current_section , PDO::PARAM_STR);
+                                            $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
                                             $stmt->execute();
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -198,7 +201,7 @@
                                                     $completed = FALSE;              
                                                 }
                                                 else{
-                                                    $updateSectionStatus= updateSectionStatus($current_section, $engineer_id, $class_id);
+                                                    $updateSectionStatus= updateSectionStatus($current_section, $engineer_id, $class_id, $course_id);
                                                 }
 
                                             }//end of inner if
@@ -257,7 +260,7 @@
                                                     $completed = FALSE;                                          
                                                 }
                                                 else{
-                                                    $updateSectionStatus= updateSectionStatus($current_section, $engineer_id, $class_id);
+                                                    $updateSectionStatus= updateSectionStatus($current_section, $engineer_id, $class_id, $course_id);
                                                 }
                                             }
                                             
@@ -279,8 +282,6 @@
                                             $value= $row['section_id']+1;
                                             $last_saved[]= strval($value);
                                         }
-                                        
-                                        var_dump($last_saved);
                                         
                                         if(in_array($section_id, $last_saved) == TRUE || $section_id =='1'){
                                             

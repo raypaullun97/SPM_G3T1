@@ -2,15 +2,17 @@
 <?php 
     include 'header.html';
     $section_id='';
-    $class_id= 'IS212G2'; 
+    $class_id= 'G2'; 
+    $course_id= 'IS212'; 
 
-    function insert($section_id, $class_id, $description, $type, $document_name){
+    function insert($section_id, $class_id ,$course_id, $description, $type, $document_name){
             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
             $pdo = new PDO($dsn,"root",'');
-            $query = 'insert into learning_material (`section_id`, `class_id`, `description`, `type`, `document_name`) values (:section_id, :class_id, :description, :type, :document_name)';
+            $query = 'insert into learning_material (`section_id`, `class_id`,`course_id`, `description`, `type`, `document_name`) values (:section_id, :class_id, :course_id,:description, :type, :document_name)';
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(":section_id", $section_id);
             $stmt->bindParam(":class_id", $class_id);
+            $stmt->bindParam(":course_id", $course_id);
             $stmt->bindParam(":description", $description);
             $stmt->bindParam(":type", $type);
             $stmt->bindParam(":document_name", $document_name);
@@ -40,7 +42,7 @@
             $uploadOk = 1;
             move_uploaded_file($_FILES["customFile"]["tmp_name"], $target_file);
 
-            $insertStatus= insert($_POST['section'], $class_id, $_POST['description'], $_POST['type'],$_POST['document_name']);
+            $insertStatus= insert($_POST['section'], $class_id, $course_id,$_POST['description'], $_POST['type'],$_POST['document_name']);
             echo $insertStatus;
 ?>
             <script type="text/javascript">
