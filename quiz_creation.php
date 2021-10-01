@@ -30,7 +30,7 @@
 
     if (!isset($_POST['submit']))
     {
-        header('Location: create_quiz.php');
+        header('Location: create_question.php');
     }
     else
     {
