@@ -24,29 +24,7 @@
     return $insertStatus;
  }
 
- /*if (isset($_POST['submit']))
- {
-     if (empty($_POST['section_name'])  || empty($_POST['description']))
-     {
-?>
-         <script type="text/javascript">
-         alert('Please enter all fields in the form!');
-         </script>
-<?php 
-     }
-     else
-     {
-         $class_id = '2';
-         $insertStatus = createSections($class_id, $_POST['section_name'],$_POST['description']);
-     
-?>
-         <script type="text/javascript">
-         alert('Section has been created successfully!');
-         </script>
-<?php            
-     }
- }
-*/
+
 include 'header.html';?>
 
             <div id="layoutSidenav_content">
@@ -68,7 +46,7 @@ include 'header.html';?>
                     </header>
                     <!-- Main page content-->
                     <div class = 'container'>
-                        <form action = "create_quiz.php" method = "POST" enctype = "multipart/form-data" id = 'newSectionForm'>
+                        <form action = "create_question.php" method = "POST" enctype = "multipart/form-data" id = 'newSectionForm'>
                             <div class="form-group row" style = 'margin-top: 20px;'>
                                 <label for="PassingMark" class="col-sm-2 col-form-label">Passing Mark</label>
                                 <div class="col-sm-6">
@@ -80,14 +58,14 @@ include 'header.html';?>
                                     Time Limit
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea class="form-control" name = 'description' rows="3" id="description" placeholder="Time Limit of Quiz"></textarea>
+                                    <textarea class="form-control" name = 'timelimit' id="timelimit" placeholder="Time Limit of Quiz"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-2">
                                 </div>
                                 <div class="col-sm-6">
-                                    <button type="button" class="btn btn-primary" style = "margin-top: 10px; float:right;">Next</button>
+                                    <button type="submit" class="btn btn-primary" style = "margin-top: 10px; float:right;">Next</button>
                                 </div>
                                 <div class="col-sm-2">
                                 </div>
