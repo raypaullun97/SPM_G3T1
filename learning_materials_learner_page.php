@@ -7,6 +7,7 @@
     $course_id= 'IS212'; 
     $engineer_id='1';
     $all_sections=array();
+    $completed_section=0;
     $sections=array();
     $completed= TRUE;
     $last_saved[] ='1';
@@ -104,10 +105,23 @@
                                     {   
                                         //count what learning material in each section
 
+                                        // array_push($sections, $row['section_id']);
+                                        // $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
+                                        // $pdo2 = new PDO($dsn2,"root",'');
+                                        // $sql2 = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
+                                        // $stmt2 = $pdo->prepare($sql2);
+                                        // $stmt2->bindParam(':class_id', $class_id);
+                                        // $stmt2->bindParam(':section_id', $row['section_id']);
+                                        // $stmt2->bindParam(':course_id', $row['course_id']);
+                                        // $stmt2->execute();
+                                        // $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+                                        // $total= $stmt2->rowCount();
+                                        // $all_sections[$row['section_id']]= $total;
+
                                         array_push($sections, $row['section_id']);
                                         $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
                                         $pdo2 = new PDO($dsn2,"root",'');
-                                        $sql2 = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
+                                        $sql2 = "SELECT section_id, engineer_id FROM learning_material LEFT JOIN learning_material_complete ON learning_material.learning_material_id = learning_material_complete.learning_material_id WHERE class_id= :class_id and section_id= :section_id and course_id= :course_id";
                                         $stmt2 = $pdo->prepare($sql2);
                                         $stmt2->bindParam(':class_id', $class_id);
                                         $stmt2->bindParam(':section_id', $row['section_id']);
@@ -116,11 +130,26 @@
                                         $stmt2->setFetchMode(PDO::FETCH_ASSOC);
                                         $total= $stmt2->rowCount();
                                         $all_sections[$row['section_id']]= $total;
+                                            while ($row2 = $stmt2->fetch()){
+                                                if($row2['engineer_id'] != NULL){
+                                                    $completed_section++;
+                                                }
+                                            }
+                                        $percent_complete= round(($completed_section/$total)*100);
+
                                         ?>
-                                         <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section">Section <?php echo $row['section_id']?></button>
-                                
+                                         <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section">
+                                            Section <?php echo $row['section_id']?>   
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: calc(<?php echo $percent_complete?>%)">
+                                                        <?php echo $percent_complete?> %
+                                                </div>
+                                            </div>
+                                        </button>
+                                        
                                 <?php    
-                                    }
+                                        $completed_section=0;
+                                }
                                 ?>
                         </div>
                         </div>
@@ -337,9 +366,9 @@
                                         else{
                                             ?>
                                             <br>
-                                            <div class='text-center'>
-                                                <h1>You have not completed previous sections</h1>
-                                            </div>
+                                            <tr>
+                                                <td colspan='4' class='text-center'><h1>You have not completed previous sections</h1></td>
+                                            </tr> 
                                             
                                             <?php
                                         }
