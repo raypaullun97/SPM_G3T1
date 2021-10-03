@@ -87,7 +87,7 @@
                         <div class="position-sticky">
                         <div class="list-group list-group-flush mx-3 mt-4">
                         <form action= 'learning_materials_learner_page.php' method='POST' enctype = "multipart/form-data" id = 'select_section'>
-                            <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="" name='select_section' id="select_section">All Sections</button>
+                            <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="" name='select_section' id="select_section"><b>All Sections</b></button>
                             <?php 
                                 //display all available sections
                              
@@ -139,9 +139,9 @@
 
                                         ?>
                                          <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section">
-                                            Section <?php echo $row['section_id']?>   
+                                            <b>Section <?php echo $row['section_id']?></b>
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: calc(<?php echo $percent_complete?>%)">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: calc(<?php echo $percent_complete?>%)">
                                                         <?php echo $percent_complete?> %
                                                 </div>
                                             </div>
