@@ -72,7 +72,7 @@
                         <div class="position-sticky">
                         <div class="list-group list-group-flush mx-3 mt-4">
                         <form action= 'learning_materials_trainer_page.php' method='POST' enctype = "multipart/form-data" id = 'select_section'>
-                            <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="" name='select_section' id="select_section">All Sections</button>
+                            <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="" name='select_section' id="select_section"><b>All Sections</b></button>
                             <?php 
                                 //identify using this
                              
@@ -88,7 +88,7 @@
                                     while ($row = $stmt->fetch())
                                     {   
                                         ?>
-                                         <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section">Section <?php echo $row['section_id']?></button>
+                                         <button href="#" class="list-group-item list-group-item-action py-2 ripple" type="submit" value="<?php echo $row['section_id']?>" name='select_section' id="select_section"><b>Section <?php echo $row['section_id']?></b></button>
                                         
                                 <?php    
                                     };
