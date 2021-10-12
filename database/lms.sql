@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `learner_enrollment` (
   `engineer_id` varchar(50) NOT NULL,
   `course_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
+  `status` varchar(50)  NULL,
   PRIMARY KEY (`enrollment_id`)
 ) ;
 DROP TABLE IF EXISTS `trainer_assignment`;
@@ -87,8 +88,19 @@ CREATE TABLE IF NOT EXISTS `section_status` (
   `engineer_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL,
-  `mark` int NOT NULL,
+  
   PRIMARY KEY (`section_id`, `engineer_id`)
+) ;
+DROP TABLE IF EXISTS `section_quiz_grade`;
+CREATE TABLE IF NOT EXISTS `section_quiz_grade` (
+  `section_id` int NOT NULL,
+  `engineer_id` varchar(50) NOT NULL,
+  `class_id` varchar(50) NOT NULL,
+  `course_id` varchar(50) NOT NULL,
+  `mark` int NOT NULL,
+  `quiz_id` varchar(50) NOT NULL,
+  
+  PRIMARY KEY (`engineer_id`,  `quiz_id`)
 ) ;
 DROP TABLE IF EXISTS `quiz`;
 CREATE TABLE IF NOT EXISTS `quiz` (
@@ -98,6 +110,7 @@ CREATE TABLE IF NOT EXISTS `quiz` (
   `engineer_id` varchar(50) NOT NULL,
   `passing_mark` int NOT NULL,
   `time_limit` int NOT NULL,
+  `type` varchar(50) NOT NULL,
   PRIMARY KEY (`quiz_id`)
 ) ;
 DROP TABLE IF EXISTS `question`;
