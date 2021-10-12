@@ -36,26 +36,8 @@
                     <div class="container-fluid px-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        ...
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                                <table class="table table-hover table-bordered" id="datatablesSimple"> 
+                                
+                                <table class="table table-hover table-bordered" id="datatablesSimple" > 
                                     <thead class="thead-dark">
                                         <tr> 
                                             <th>Class ID</th> 
@@ -89,9 +71,13 @@
                                             <td><?php echo $row['engineer_id'];?></td>
                                             <td><?php echo $row['capacity'];?></td>  
                                             <td>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href=""  title="Edit Class"><i data-feather="edit"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark" href="#!" title="Delete Class"><i data-feather="trash-2"></i></a>
-                                                <button class="btn btn-datatable btn-icon btn-transparent-dark" href="" title="Assign Engineer"  data-toggle="modal" data-target="#exampleModal"><i data-feather="user"></i></button>
+                                                <?php $class_id = $row['class_id'];?>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark me-2 mx-2" href=""  title="Edit Class"><i data-feather="edit"></i></a>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="#!" title="Delete Class"><i data-feather="trash-2"></i></a>
+                                                <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2 " href="" title="Assign Engineer"  data-toggle="modal" data-target="#exampleModal"><i data-feather="user"></i></button>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="admin_self_enrollment.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>" title="View Class"><i data-feather="user-check"></i></a>
+                                                <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"   value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
+                                                <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"  data-toggle="modal" data-target="#self_enrollment" value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
                                             </td>
                                         </tr> 
                                         <?php 
@@ -100,9 +86,18 @@
                                             $pdo = null;
                                         ?> 
                                     </tbody>
-                                </table> 
-                            </div>
+                                </table>
+                               
                         </div>
                     </div>
                 </main>
+<script>
+
+function runPop(el) {
+    var report = el.parentNode.parentNode.cells[0].innerHTML;
+    //console.log(report);
+    document.getElementById("label_class_id").innerText = report;
+}
+
+</script>
 <?php include 'footer.html';?>

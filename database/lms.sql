@@ -48,10 +48,11 @@ CREATE TABLE IF NOT EXISTS `course` (
 DROP TABLE IF EXISTS `section`;
 CREATE TABLE IF NOT EXISTS `section` (
   `section_id` int NOT NULL AUTO_INCREMENT,
-  `class_id` varchar(256) NOT NULL,
+  `class_id` varchar(50) NOT NULL,
+  `course_id` varchar(50) NOT NULL,
   `section_name` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
-  PRIMARY KEY (`section_id`, `class_id`)
+  PRIMARY KEY (`section_id`, `class_id`, `course_id`)
 ) ;
 DROP TABLE IF EXISTS `class`;
 CREATE TABLE IF NOT EXISTS `class` (
@@ -87,6 +88,7 @@ CREATE TABLE IF NOT EXISTS `section_status` (
   `section_id` int NOT NULL,
   `engineer_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
+  `course_id` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL,
   
   PRIMARY KEY (`section_id`, `engineer_id`)
@@ -106,6 +108,7 @@ DROP TABLE IF EXISTS `quiz`;
 CREATE TABLE IF NOT EXISTS `quiz` (
   `quiz_id` int NOT NULL AUTO_INCREMENT,
   `course_id` varchar(50) NOT NULL,
+  `class_id` varchar(50) NOT NULL,
   `section_id` int NOT NULL,
   `engineer_id` varchar(50) NOT NULL,
   `passing_mark` int NOT NULL,
@@ -128,18 +131,19 @@ CREATE TABLE IF NOT EXISTS `question` (
 ) ;
 DROP TABLE IF EXISTS `learning_material`;
 CREATE TABLE IF NOT EXISTS `learning_material` (
-  `learning_material_id` varchar(50) NOT NULL,
+  `learning_material_id` int NOT NULL AUTO_INCREMENT,
   `section_id` int NOT NULL,
+  `class_id` varchar(50) NOT NULL,
+  `class_id` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
   `type` varchar(50) NOT NULL,
   `document_name` varchar(256) NOT NULL,
   PRIMARY KEY (`learning_material_id`)
 ) ;
-DROP TABLE IF EXISTS `learning_material_status`;
-CREATE TABLE IF NOT EXISTS `learning_material_status` (
+DROP TABLE IF EXISTS `learning_material_complete`;
+CREATE TABLE IF NOT EXISTS `learning_material_complete` (
   `learning_material_id` varchar(50) NOT NULL,
   `engineer_id` varchar(50) NOT NULL,
-  `status` boolean NOT NULL,
   PRIMARY KEY (`learning_material_id`,  `engineer_id`)
 ) ;
 DROP TABLE IF EXISTS `forum`;
@@ -188,16 +192,18 @@ INSERT INTO `engineer` VALUES
 
 INSERT INTO course VALUES
 ('IS212', 'SPM', "Software Project Management");
+('IS111', 'WAD', "CODE");
+('IS112', 'IDP', "Ideation");
 
 INSERT INTO class VALUES
-('IS212G2', 'IS212', '40', "5", "12:00:00", "15:15:00", "2021-08-08", "2021-12-08", "2021-08-08","2021-12-08",'1', '4');
+('IS212', 'G2', '40', "5", "12:00:00", "15:15:00", "2021-08-08", "2021-12-08", "2021-08-08","2021-12-08",'1', '4');
 
 
 INSERT INTO section VALUES
-('1', 'IS212G2', 'Week1', 'Week1'),
-('2', 'IS212G2', 'Week2', 'Week2'),
-('3', 'IS212G2', 'Week3', 'Week3'),
-('4', 'IS212G2', 'Week4', 'Week4');
+('1', 'G2', 'Week1', 'Week1'),
+('2', 'G2', 'Week2', 'Week2'),
+('3', 'G2', 'Week3', 'Week3'),
+('4', 'G2', 'Week4', 'Week4');
 
 INSERT INTO learning_material VALUES
 ('1', '1', 'Week1', '.docx', 'Week 1_Learning_Material_part_1'),
