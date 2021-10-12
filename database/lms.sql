@@ -47,14 +47,13 @@ CREATE TABLE IF NOT EXISTS `course` (
 ) ;
 DROP TABLE IF EXISTS `section`;
 CREATE TABLE IF NOT EXISTS `section` (
-  `section_id` int NOT NULL,
+  `section_id` int NOT NULL AUTO_INCREMENT,
   `class_id` varchar(50) NOT NULL,
   `course_id` varchar(50) NOT NULL,
   `section_name` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
   PRIMARY KEY (`section_id`, `class_id`, `course_id`)
 ) ;
-
 DROP TABLE IF EXISTS `class`;
 CREATE TABLE IF NOT EXISTS `class` (
   `class_id` varchar(50) NOT NULL ,
@@ -70,7 +69,6 @@ CREATE TABLE IF NOT EXISTS `class` (
   `engineer_id` varchar(50)  NULL,
   `no_of_sections` int  NULL,
   PRIMARY KEY (`class_id`, `course_id`)
-
 ); 
 DROP TABLE IF EXISTS `qualified_courses`;
 CREATE TABLE IF NOT EXISTS `qualified_courses` (
@@ -92,7 +90,19 @@ CREATE TABLE IF NOT EXISTS `section_status` (
   `class_id` varchar(50) NOT NULL,
   `course_id` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL,
+  
   PRIMARY KEY (`section_id`, `engineer_id`)
+) ;
+DROP TABLE IF EXISTS `section_quiz_grade`;
+CREATE TABLE IF NOT EXISTS `section_quiz_grade` (
+  `section_id` int NOT NULL,
+  `engineer_id` varchar(50) NOT NULL,
+  `class_id` varchar(50) NOT NULL,
+  `course_id` varchar(50) NOT NULL,
+  `mark` int NOT NULL,
+  `quiz_id` varchar(50) NOT NULL,
+  
+  PRIMARY KEY (`engineer_id`,  `quiz_id`)
 ) ;
 DROP TABLE IF EXISTS `quiz`;
 CREATE TABLE IF NOT EXISTS `quiz` (
@@ -103,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `quiz` (
   `engineer_id` varchar(50) NOT NULL,
   `passing_mark` int NOT NULL,
   `time_limit` int NOT NULL,
+  `type` varchar(50) NOT NULL,
   PRIMARY KEY (`quiz_id`)
 ) ;
 DROP TABLE IF EXISTS `question`;
@@ -121,9 +132,9 @@ CREATE TABLE IF NOT EXISTS `question` (
 DROP TABLE IF EXISTS `learning_material`;
 CREATE TABLE IF NOT EXISTS `learning_material` (
   `learning_material_id` int NOT NULL AUTO_INCREMENT,
-  `section_id` varchar(50) NOT NULL,
+  `section_id` int NOT NULL,
   `class_id` varchar(50) NOT NULL,
-  `course_id` varchar(50) NOT NULL,
+  `class_id` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
   `type` varchar(50) NOT NULL,
   `document_name` varchar(256) NOT NULL,
@@ -180,8 +191,8 @@ INSERT INTO `engineer` VALUES
 ('2', 'lilykong', 'lilykong123@lms.com', "lily", "kong", "engineer", "123");
 
 INSERT INTO course VALUES
-('IS212', 'SPM', "Software Project Management"),
-('IS111', 'WAD', "CODE"),
+('IS212', 'SPM', "Software Project Management");
+('IS111', 'WAD', "CODE");
 ('IS112', 'IDP', "Ideation");
 
 INSERT INTO class VALUES
@@ -189,20 +200,20 @@ INSERT INTO class VALUES
 
 
 INSERT INTO section VALUES
-('1', 'G2','IS212', 'Week1', 'Week1'),
-('2', 'G2','IS212', 'Week2', 'Week2'),
-('3', 'G2','IS212', 'Week3', 'Week3'),
-('4', 'G2','IS212', 'Week4', 'Week4');
+('1', 'G2', 'Week1', 'Week1'),
+('2', 'G2', 'Week2', 'Week2'),
+('3', 'G2', 'Week3', 'Week3'),
+('4', 'G2', 'Week4', 'Week4');
 
 INSERT INTO learning_material VALUES
-('1', '1', 'G2', 'IS212','Week1', '.docx', 'Week 1_Learning_Material_part_1'),
-('2', '1', 'G2', 'IS212','Week1', '.pdf','Week 1_Learning_Material_part_2'),
-('3', '2', 'G2', 'IS212','Week2', '.pptx','Week 2_Learning_Material'),
-('4', '3', 'G2', 'IS212','Week3', '.xlsx','Week 3_Learning_Material_part_1'),
-('5', '3', 'G2', 'IS212','Week3', '.docx', 'Week 3_Learning_Material_part_2'),
-('6', '4', 'G2', 'IS212','Week4', '.pdf','Week 4_Learning_Material_part_1'),
-('7', '4', 'G2', 'IS212','Week4', '.pptx','Week 4_Learning_Material_part_2'),
-('8', '4', 'G2', 'IS212','Week4', '.xlsx','Week 4_Learning_Material_part_3');
+('1', '1', 'Week1', '.docx', 'Week 1_Learning_Material_part_1'),
+('2', '1', 'Week1', '.pdf','Week 1_Learning_Material_part_2'),
+('3', '2', 'Week2', '.pptx','Week 2_Learning_Material'),
+('4', '3', 'Week3', '.xlsx','Week 3_Learning_Material_part_1'),
+('5', '3', 'Week3', '.docx', 'Week 3_Learning_Material_part_2'),
+('6', '4', 'Week4', '.pdf','Week 4_Learning_Material_part_1'),
+('7', '4', 'Week4', '.pptx','Week 4_Learning_Material_part_2'),
+('8', '4', 'Week4', '.xlsx','Week 4_Learning_Material_part_3');
 
 -- phpMyAdmin SQL Dump
 -- version 4.9.2
