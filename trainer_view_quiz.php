@@ -6,7 +6,8 @@
     );
 
 ?>
-<?php include 'header.html';?>
+<?php include 'header.html';
+?>
             <div id="layoutSidenav_content">
                 <main>
                     <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
@@ -20,13 +21,13 @@
                                         </h1>
                                     </div>
                                     <div class="col-12 col-xl-auto mb-3">
-                                        <a class="btn btn-sm btn-light text-primary" href="#">
+                                        <a class="btn btn-sm btn-light text-primary" href="trainer_view_quiz_list.php">
                                             <i class="me-1" data-feather="arrow-left"></i>
-                                            Back to Course (TBD)
+                                            Back to Quiz List
                                         </a>
-                                        <a class="btn btn-sm btn-light text-primary" href="create_quiz">
+                                        <a class="btn btn-sm btn-light text-primary" href="#">
                                             <i class="me-1" data-feather="user-plus"></i>
-                                            Add New Quiz
+                                            Edit Quiz
                                         </a>
                                     </div>
                                 </div>
@@ -37,24 +38,29 @@
                     <div class="container-fluid px-4">
                         <div class="card">
                             <div class="card-body">
+
+
                                 
                                 <table class="table table-hover table-bordered" id="datatablesSimple"> 
                                     <thead class="thead-dark">
                                         <tr> 
-                                            <th>Quiz ID</th> 
-                                            <th>Course ID</th>
-                                            <th>Section ID</th>
-                                            <th>Engineer ID</th>
-                                            <th>Passing Mark</th>
-                                            <th>Time Limit (Minute)</th>                                            
+                                            <th>Question No.</th> 
+                                            <th>Question</th>
+                                            <th>Option 1</th>
+                                            <th>Option 2</th>
+                                            <th>Option 3</th>
+                                            <th>Option 4</th>
+                                            <th>Correct Answer</th>                                            
                                         </tr> 
                                     </thead>
                                     <tbody>
                                         <?php
+                                            $quiz_id = $_GET['quiz_id'];
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdo = new PDO($dsn,"root",'');
-                                            $sql = 'select * from quiz';
+                                            $sql = 'select * from question where quiz_id = :quiz_id';
                                             $stmt = $pdo->prepare($sql);
+                                            $stmt->bindParam(":quiz_id",$quiz_id);
                                             $stmt->execute();
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                             while ($row = $stmt->fetch())
@@ -62,17 +68,13 @@
                                         <tr> 
                                             <!--FETCHING DATA FROM EACH  
                                                 ROW OF EVERY COLUMN--> 
-                                            <td><?php echo $row['quiz_id'];?></td> 
-                                            <td><?php echo $row['course_id'];?></td> 
-                                            <td><?php echo $row['section_id'];?></td>
-                                            <td><?php echo $row['engineer_id'];?></td>
-                                            <td><?php echo $row['passing_mark'];?></td>
-                                            <td><?php echo $row['time_limit'];?></td>  
-                                            <td>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark me-2 mx-2" href=""  title="Edit Quiz"><i data-feather="edit"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href='view_quiz.php?quiz_id=<?php echo $row['quiz_id'];?>' title="View Quiz"><i data-feather="eye"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href = 'delete_quiz.php?quiz_id=<?php echo $row['quiz_id'];?>' onclick = "return confirm('Are you sure you want to delete?')" title="Delete Quiz"><i data-feather="trash-2"></i></a>
-                                            </td>
+                                            <td><?php echo $row['question_id'];?></td> 
+                                            <td><?php echo $row['description'];?></td> 
+                                            <td><?php echo $row['option_1'];?></td>
+                                            <td><?php echo $row['option_2'];?></td>
+                                            <td><?php echo $row['option_3'];?></td>
+                                            <td><?php echo $row['option_4'];?></td>  
+                                            <td><?php echo $row['answer'];?></td>  
                                         </tr> 
                                         <?php 
                                             } 
@@ -88,17 +90,3 @@
 
 <?php include 'footer.html';?>
 
-<script type = "text/javascript">
-    function confirmDelete(){
-        const answer = confirm('Are you sure you want to delete quiz?');
-
-        if (answer)
-        {
-            <?php 
-                
-            ?>
-
-            alert('Quiz has been deleted');
-        }
-    }
-</script>
