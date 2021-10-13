@@ -19,5 +19,5 @@ elseif($status[0]=='rec'){
 }
 $dao = new LearnerEnrollmentDAO();
 $status = $dao->updateStatus($user_id, $value);
-echo $status;
+echo $value;
 ?>

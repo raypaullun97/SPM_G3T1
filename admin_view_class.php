@@ -75,7 +75,7 @@
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2 mx-2" href=""  title="Edit Class"><i data-feather="edit"></i></a>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="#!" title="Delete Class"><i data-feather="trash-2"></i></a>
                                                 <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2 " href="" title="Assign Engineer"  data-toggle="modal" data-target="#exampleModal"><i data-feather="user"></i></button>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="admin_self_enrollment.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>" title="View Class"><i data-feather="user-check"></i></a>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="admin_self_enrollment.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>" title="View Enrollment"><i data-feather="user-check"></i></a>
                                                 <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"   value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
                                                 <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"  data-toggle="modal" data-target="#self_enrollment" value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
                                             </td>

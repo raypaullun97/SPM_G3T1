@@ -4,7 +4,7 @@
             require_once "model/$class.php";
         }
     );
-
+    $engineer_id = 3;
 ?>
 <?php include 'header.html';?>
             <div id="layoutSidenav_content">
@@ -16,18 +16,12 @@
                                     <div class="col-auto mb-3">
                                         <h1 class="page-header-title">
                                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                                            Quiz List
+                                            My Class List 
                                         </h1>
                                     </div>
                                     <div class="col-12 col-xl-auto mb-3">
-                                        <a class="btn btn-sm btn-light text-primary" href="#">
-                                            <i class="me-1" data-feather="arrow-left"></i>
-                                            Back to Course (TBD)
-                                        </a>
-                                        <a class="btn btn-sm btn-light text-primary" href="trainer_create_quiz.php">
-                                            <i class="me-1" data-feather="user-plus"></i>
-                                            Add New Quiz
-                                        </a>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -38,23 +32,27 @@
                         <div class="card">
                             <div class="card-body">
                                 
-                                <table class="table table-hover table-bordered" id="datatablesSimple"> 
+                                <table class="table table-hover table-bordered" id="datatablesSimple" > 
                                     <thead class="thead-dark">
                                         <tr> 
-                                            <th>Quiz ID</th> 
-                                            <th>Course ID</th>
-                                            <th>Section ID</th>
-                                            <th>Engineer ID</th>
-                                            <th>Passing Mark</th>
-                                            <th>Time Limit (Minute)</th>                                            
+                                            <th>Course ID</th> 
+                                            <th>Class ID</th> 
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Amount of days</th>
+                                            
+                                            <th>Capacity</th>
+                                            <th>Actions</th>
+                                            
                                         </tr> 
                                     </thead>
                                     <tbody>
                                         <?php
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdo = new PDO($dsn,"root",'');
-                                            $sql = 'select * from quiz';
+                                            $sql = 'select * from class where engineer_id= :engineer_id';
                                             $stmt = $pdo->prepare($sql);
+                                            $stmt->bindParam(':engineer_id', $engineer_id , PDO::PARAM_STR);
                                             $stmt->execute();
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                             while ($row = $stmt->fetch())
@@ -62,16 +60,19 @@
                                         <tr> 
                                             <!--FETCHING DATA FROM EACH  
                                                 ROW OF EVERY COLUMN--> 
-                                            <td><?php echo $row['quiz_id'];?></td> 
                                             <td><?php echo $row['course_id'];?></td> 
-                                            <td><?php echo $row['section_id'];?></td>
-                                            <td><?php echo $row['engineer_id'];?></td>
-                                            <td><?php echo $row['passing_mark'];?></td>
-                                            <td><?php echo $row['time_limit'];?></td>  
+                                            <td><?php echo $row['class_id'];?></td> 
+                                            <td><?php echo $row['start_date'];?></td> 
+                                            <td><?php echo $row['end_date'];?></td>
+                                            <td><?php echo $row['day'];?></td>
+                                            
+                                            <td><?php echo $row['capacity'];?></td>  
                                             <td>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark me-2 mx-2" href=""  title="Edit Quiz"><i data-feather="edit"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href='trainer_view_quiz.php?quiz_id=<?php echo $row['quiz_id'];?>' title="View Quiz"><i data-feather="eye"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href = 'trainer_delete_quiz.php?quiz_id=<?php echo $row['quiz_id'];?>' onclick = "return confirm('Are you sure you want to delete?')" title="Delete Quiz"><i data-feather="trash-2"></i></a>
+                                                <?php $class_id = $row['class_id'];?>
+                                                
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="trainer_view_section.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>" title="View Section"><i data-feather="user-check"></i></a>
+                                                <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"   value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
+                                                <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"  data-toggle="modal" data-target="#self_enrollment" value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
                                             </td>
                                         </tr> 
                                         <?php 
@@ -81,10 +82,17 @@
                                         ?> 
                                     </tbody>
                                 </table>
-                            </div>
+                               
                         </div>
                     </div>
                 </main>
+<script>
 
+function runPop(el) {
+    var report = el.parentNode.parentNode.cells[0].innerHTML;
+    //console.log(report);
+    document.getElementById("label_class_id").innerText = report;
+}
+
+</script>
 <?php include 'footer.html';?>
-

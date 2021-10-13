@@ -28,7 +28,12 @@ function approveuser(id){
             //alert(result);
             // $('table#sHold tr#'+trid).remove();
             //alert('Updated');
-            alert(result);
+            if(result == "Enrolled"){
+                alert("Successfully enrolled");
+            }
+            else{
+                alert("Successfully rejected");
+            }
             location.reload(true);
 
 

@@ -21,9 +21,9 @@
                                         </h1>
                                     </div>
                                     <div class="col-12 col-xl-auto mb-3">
-                                        <a class="btn btn-sm btn-light text-primary" href="trainer_view_quiz_list.php">
+                                        <a class="btn btn-sm btn-light text-primary" href="trainer_view_section.php?course_id=<?php echo $_GET['course_id']?>&class_id=<?php echo $_GET['class_id']?>">
                                             <i class="me-1" data-feather="arrow-left"></i>
-                                            Back to Quiz List
+                                            Back to Section
                                         </a>
                                         <a class="btn btn-sm btn-light text-primary" href="#">
                                             <i class="me-1" data-feather="user-plus"></i>

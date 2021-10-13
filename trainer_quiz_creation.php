@@ -56,13 +56,13 @@
     else
     {
         #FOR QUIZ TABLE
-        $course_id = 'IS412';
-        $class_id = 'G2';
-        $section_id = '1';
+        $course_id = $_GET['course_id'];
+        $class_id = $_GET['class_id'];
+        $section_id = $_POST['section'];
         #Quiz ID will be combination of courseID, classID and SectionID
         #Format is like IS212G2S1
         $quiz_id = $course_id.$class_id.'S'.$section_id;
-        $engineer_id = '1';
+        $engineer_id = '3';
         $passing_mark = $_POST['passing_mark'];
         $time_limit = $_POST['time_limit'];
 
@@ -108,7 +108,8 @@
         }
 
      $quizStatus = createQuiz($quiz_id, $class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit);
-     header('Location: trainer_view_quiz_list.php');
+     echo $quizStatus;
+     header('Location: trainer_view_section.php?course_id='. $course_id .'&class_id=' . $class_id);
 
 
     }

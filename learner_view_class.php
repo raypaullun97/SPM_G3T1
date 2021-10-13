@@ -76,7 +76,7 @@ $engineer_id = "1";
                                             <td><?php 
                                             $con = mysqli_connect('localhost', 'root', '');
                                             mysqli_select_db($con, 'lms');
-                                            $sql = "select * from learner_enrollment where class_id ='$class_id' and course_id = '$course_id'";
+                                            $sql = "select * from learner_enrollment where class_id ='$class_id' and course_id = '$course_id' and status = 'Enrolled'";
                                             $result = mysqli_query($con, $sql);
                                             $number_of_results = mysqli_num_rows($result);
                                             $remaining_slot = (int)$row['capacity'] - $number_of_results  ;

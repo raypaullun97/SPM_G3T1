@@ -67,7 +67,7 @@ if (isset($_POST['submit']))
                                     <div class="col-auto mb-3">
                                         <h1 class="page-header-title">
                                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                                            Create Quiz in <?php echo $course_id?> <?php echo $class_id?>
+                                            Create Training Materials in <?php echo $course_id?> <?php echo $class_id?>
                                         </h1>
                                     </div>
                                     <div class="col-12 col-xl-auto mb-3">
@@ -84,19 +84,19 @@ if (isset($_POST['submit']))
                     <!-- Main page content-->
                     <div class="container-xl px-4 mt-4">
                         <div class="row">
-                            <form action = "trainer_create_question.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>" method = "POST" enctype = "multipart/form-data" id = 'new_learning_material'>
+                            <form action = "trainer_create_learning_materials.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>" method = "POST" enctype = "multipart/form-data" id = 'new_learning_material'>
                                 <div class="col-xl-12">
                                     <!-- Account details card-->
                                     <div class="card mb-4">
-                                        <div class="card-header">Quiz Details</div>
+                                        <div class="card-header">Learning Materials Details</div>
                                         <div class="card-body">
                                             <form>
                                                 <!-- Form Row-->
                                                 <div class="row gx-3 mb-3">
                                                     <!-- Form Group (Course ID)-->
                                                     <div class="col-md-6">
-                                                        <label class="small mb-1" for="passing_mark">Passing Mark</label>
-                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  type="number" placeholder="Passing Mark of the Quiz" value="" />
+                                                        <label class="small mb-1" for="document_name">Document Name</label>
+                                                        <input required class="form-control" name = 'document_name' id="document_name"  type="text" placeholder="Enter Document Name" value="" />
                                                         
                                                     </div>
                                                     <!-- Form Group (Course Name)-->
@@ -126,16 +126,41 @@ if (isset($_POST['submit']))
                                                     </div>
                                                 </div>
                                                 <!-- Form Group (description)-->
-                                                
+                                                <div class="row gx-3 mb-3">
+                                                    <!-- Form Group (Course ID)-->
+                                                    <div class="col-md-6">
+                                                        <label class="small mb-1" for="type">Document Type</label>
+                                                        <select class="form-control" id="type" name="type" required>
+                                                            <option value= '.docx'>.docx</option>
+                                                            <option value= '.pdf'>.pdf</option>
+                                                            <option value= '.pptx'>.pptx</option>
+                                                            <option value= '.xlsx'>.xlsx</option>
+                                                            <option value= '.mp4'>.mp4</option>
+                                                            <option value= '.png'>.png</option>
+                                                            <option value= '.jpeg'>.jpeg</option>
+                                                            <option >Others</option>
+                                                        </select>
+                                                        
+                                                    </div>
+                                                    <!-- Form Group (Course Name)-->
+                                                    <div class="col-md-6">
+                                                        <label class="small mb-1" for="customFile">Insert File</label>
+                                                        
+                                                        <input type="file" class="form-control" id="customFile" required name="customFile"/>
+                                                    </div>
+                                                </div>
 
                                                 
-                                                <div class="col-md-6 mb-3">
-                                                    <label class="small mb-1" for="time_limit">Time Limit</label>
-                                                    <input class="form-control" required name = 'time_limit' id="time_limit"  rows="3" type="number" placeholder="Time Limit of Quiz in Minutes" value="">
+                                                <div class="mb-3">
+                                                    <label class="small mb-1" for="description">Description</label>
+                                                    <textarea class="form-control" required name = 'description' id="description"  rows="3" type="text" placeholder="Enter your description for section" value=""></textarea>
                                                 </div>
                                                 <!-- Submit button-->
-                                               
-                                                <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Next</button>
+                                                <div class="mb-3" id='error_msg' style ="color:red">
+                                                    
+                                                    <!-- <label id="error_msg" style ="color:red"></label> -->
+                                                </div>
+                                                <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Add Learning Materials</button>
                                             </form>
                                         </div>
                                     </div>
