@@ -4,8 +4,12 @@
             require_once "model/$class.php";
         }
     );
-    $quiz_id = 'IS412G2S1';
-
+    $quiz_id = $_GET['quiz_id'];
+    $class_id = $_GET['class_id'];
+    $course_id = $_GET['course_id'];
+    $section_id = $_GET['section_id'];
+    $engineer_id = 1;
+    $passingmark = 0;
     function getPassingMark($quiz_id){
         $conn_manager = new ConnectionManager();
         $pdo = $conn_manager->getConnection();
@@ -223,10 +227,10 @@
                     $passingmark = getPassingMark($quiz_id);
 
                     #Quiz Attempt Submission
-                    $course_id = 'IS412';
-                    $class_id = 'G2';
-                    $section_id = 1;
-                    $engineer_id = '1';
+
+
+
+                    
                     $submit_attempt = submitQuiz($section_id, $engineer_id, $class_id, $course_id, $grade, $quiz_id)
 
 
@@ -254,7 +258,7 @@
                             <!-- Submit Button -->
                             <div class = 'container'>
                                 <div class = 'col-sm-6'>
-                                <a type="submit" class="btn btn-primary mt-2" id = "submit" name = "submit" href = 'learner_view_quiz_list.php'>Done</a>
+                                <a type="submit" class="btn btn-primary mt-2" id = "submit" name = "submit" href = 'learner_my_class.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>'>Done</a>
                                     <input type = 'hidden' value = '<?php echo $question_count;?>'  name = 'question_count'>
                                 </div>
                             </div>

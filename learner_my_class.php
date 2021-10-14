@@ -52,6 +52,56 @@ function updateSectionStatus($current_section, $engineer_id, $class_id, $course_
 
     return $updateSectionStatus;
 }
+function retrieveGrade($section_id, $engineer_id, $class_id, $course_id, $quiz_id)
+    {
+        $grade = 0;
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = '
+        SELECT mark FROM `section_quiz_grade` WHERE section_id = :section_id and engineer_id = :engineer_id and class_id = :class_id and course_id = :course_id and quiz_id = :quiz_id order by attempts DESC limit 1
+        ';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":section_id",$section_id);
+        $stmt->bindParam(":engineer_id",$engineer_id);
+        $stmt->bindParam(":class_id",$class_id);
+        $stmt->bindParam(":course_id",$course_id);
+        $stmt->bindParam(":quiz_id",$quiz_id);
+        $stmt->execute();
+
+        if($row = $stmt->fetch()){
+            $grade = $row['mark'];
+        }
+
+        $stmt = null;
+        $pdo = null;
+
+        return $grade;
+    }
+
+    function retrieveNumAttempts($section_id, $engineer_id, $class_id, $course_id, $quiz_id)
+    {
+        $num = 0;
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = 'select count(*) as num from section_quiz_grade where section_id = :section_id and engineer_id = :engineer_id and class_id = :class_id
+        and course_id = :course_id and quiz_id = :quiz_id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":section_id",$section_id);
+        $stmt->bindParam(":engineer_id",$engineer_id);
+        $stmt->bindParam(":class_id",$class_id);
+        $stmt->bindParam(":course_id",$course_id);
+        $stmt->bindParam(":quiz_id",$quiz_id);
+        $stmt->execute();
+
+        if($row = $stmt->fetch()){
+            $num = $row['num'];
+        }
+
+        $stmt = null;
+        $pdo = null;
+
+        return $num;
+    }
 
 if (isset($_POST['update']))
 {   
@@ -63,7 +113,8 @@ if (isset($_POST['update']))
 <?php 
 }
 ?>
-<!-- header hereee jc -->
+
+<?php include 'header.html';?>
 <div id="layoutSidenav_content">
                 <main>
                     <header class="page-header page-header-dark bg-gradient-primary-to-secondary ">
@@ -73,7 +124,7 @@ if (isset($_POST['update']))
                                     <div class="col-auto mt-4">
                                         <h1 class="page-header-title">
                                             <div class="page-header-icon"><i data-feather="book"></i></div>
-                                            My enrolled class
+                                            My Enrolled Class
                                         </h1>
                                         <div class="page-header-subtitle"></div>
                                     </div>
@@ -143,9 +194,14 @@ if (isset($_POST['update']))
                                 ?>
                             </div>
                             <div class="col-md-9">
+                            <div class="card">
+                            <div class="card-header">
+                                Training Materials
+                            </div>
+                            <div class="card-body">
                                 <form action= 'learner_my_class.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>' method='POST' enctype = "multipart/form-data" id = 'update_status'>
                                     <div class="col" id= 'learning_materials'>
-                                        <table class="table">
+                                        <table class="table table-hover table-bordered" >
                                             <thead>
                                                 <tr>
                                                 <th>Section Name</th>
@@ -164,7 +220,7 @@ if (isset($_POST['update']))
                                                         if($current_section == 'Session 1' && $completed == TRUE){
                                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                                             $pdo = new PDO($dsn,"root",'');
-                                                            $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
+                                                            $sql = "select * from learning_material lm inner join section s on lm.class_id = s.class_id and lm.section_id = s.section_id and lm.course_id = s.course_id where s.class_id = :class_id and s.section_id = :section_id and s.course_id= :course_id";
                                                             $stmt = $pdo->prepare($sql);
                                                             $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
                                                             $stmt->bindParam(':section_id', $current_section , PDO::PARAM_STR);
@@ -214,7 +270,7 @@ if (isset($_POST['update']))
                                                                 ?> 
                                                                                             
                                                             <?php    
-                                                            };
+                                                            }
                                                                 
                                                                 if($total_material != $count_material){
                                                                     $completed = FALSE;              
@@ -227,7 +283,7 @@ if (isset($_POST['update']))
                                                             elseif ($completed == TRUE) {
                                                                 $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                                                 $pdo = new PDO($dsn,"root",'');
-                                                                $sql = "select * from learning_material lm inner join section s on lm.class_id = s.class_id and lm.section_id = s.section_id and lm.course_id = s.course_id where  class_id = :class_id and section_id = :section_id";
+                                                                $sql = "select * from learning_material lm inner join section s on lm.class_id = s.class_id and lm.section_id = s.section_id and lm.course_id = s.course_id where  s.class_id = :class_id and s.section_id = :section_id";
                                                                 $stmt = $pdo->prepare($sql);
                                                                 $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
                                                                 $stmt->bindParam(':section_id', $current_section , PDO::PARAM_STR);
@@ -275,7 +331,7 @@ if (isset($_POST['update']))
                                                                     ?> 
                                                                                                 
                                                                 <?php    
-                                                                };
+                                                                }
                                                                 if($total_material != $count_material){
                                                                     $completed = FALSE;                                          
                                                                 }
@@ -283,12 +339,14 @@ if (isset($_POST['update']))
                                                                     $updateSectionStatus= updateSectionStatus($current_section, $engineer_id, $class_id, $course_id);
                                                                 }
                                                             }
-                                                            var_dump($sections);
-                                                            var_dump($all_sections);
                                                             
-                                                        }//end of for loop
+                                                        }//end of for loop?>
+
+                                                       <?php 
+                                        
                                                     }//end of if statement
                                                     else{
+                                                        
                                                         $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
                                                         $pdo2 = new PDO($dsn2,"root",'');
                                                         $query2 = 'select * from section_status ss inner join section s on s.section_id = ss.section_id and s.class_id = ss.class_id where s.class_id=:class_id and engineer_id= :engineer_id';
@@ -300,7 +358,7 @@ if (isset($_POST['update']))
                                                         $last_saved=array();
 
                                                         while ($row = $stmt2->fetch()){
-                                                            $value= $row['section_name'];
+                                                            $value= $row['section_id'];
                                                             $last_saved[]= strval($value);
                                                         }
                                                         
@@ -367,11 +425,93 @@ if (isset($_POST['update']))
                                                     }
                                                     ?>      
                                         </table>
+                                    
+                                    
                                     </div>
                                 </form>
+
+                            </div>
+                            </div>
+                            <div class="card mt-2">
+                                    <div class="card-header">
+                                        Quiz
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-hover table-bordered" > 
+                                            <thead class="thead-dark">
+                                                <tr> 
+                                                    <th>Section Name</th>
+                                                    <th>Current Quiz</th>
+                                                    <th>Grade</th>
+                                                    <th>Status</th>        
+                                                    <th>Attempts</th>                                                                          
+                                                </tr> 
+                                            </thead>
+                                            <tbody>
+                                                <!-- HARD CODED-->
+                                                <?php
+                                                if($section_id == ''){
+                                                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
+                                                    $pdo = new PDO($dsn,"root",'');
+                                                    $sql = 'select * from quiz q inner join section s on s.course_id = q.course_id and s.class_id = q.class_id and s.section_id = q.section_id where s.course_id = :course_id and s.class_id = :class_id';
+                                                    $stmt = $pdo->prepare($sql);
+                                                    $stmt->bindParam(":course_id",$course_id);
+                                                    $stmt->bindParam(":class_id",$class_id);
+                                                    $stmt->execute();
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                }
+                                                else{
+                                                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
+                                                    $pdo = new PDO($dsn,"root",'');
+                                                    $sql = 'select * from quiz q inner join section s on s.course_id = q.course_id and s.class_id = q.class_id and s.section_id = q.section_id where s.course_id = :course_id and s.class_id = :class_id and s.section_id =:section_id' ;
+                                                    $stmt = $pdo->prepare($sql);
+                                                    $stmt->bindParam(":course_id",$course_id);
+                                                    $stmt->bindParam(":class_id",$class_id);
+                                                    $stmt->bindParam(":section_id",$section_id);
+                                                    $stmt->execute();
+                                                    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                                                }
+                                                    while ($row = $stmt->fetch())
+                                                {
+                                                    $num = retrieveNumAttempts($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
+                                                    
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $row['section_name']?></td>    
+                                                    <td>
+                                                        <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_id'];?></a>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                            $grade = retrieveGrade($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
+                                                            echo $grade; 
+                                                        ?>
+                                                    </td>      
+                                                    <td>
+                                                    <?php 
+                                                        if ($num > 0)
+                                                        {
+                                                            echo 'Completed';
+                                                        }
+                                                        else
+                                                        {
+                                                            echo "Incomplete";
+                                                        }
+                                                    ?>
+                                                    </td>
+                                                    <td><?php echo $num;?> / Unlimited</td>
+                                                </tr>
+                                                <?php
+                                                }
+                                                $stmt = null;
+                                                $pdo = null;
+                                                ?> 
+
+                                            </tbody>
+                                        </table>
                             </div>
                         </div>
-                        
+
                     </div>
                 </main>
 <?php include 'footer.html';?>
