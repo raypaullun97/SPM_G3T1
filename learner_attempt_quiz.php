@@ -154,7 +154,7 @@ $time_limit = 0;
                             <input type = 'hidden' value = '<?php echo $question_count;?>'  name = 'question_count'>
                         </div>
                         <div class = 'col-sm-6'>
-                            <a style='float:right' type="submit" class="btn btn-danger mt-2" id = "submit" name = "submit" href = 'learner_my_class.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>'>Leave</a>
+                            <a style='float:right' ya type="submit" class="btn btn-danger mt-2" id = "submit" name = "submit" href = 'learner_my_class.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>'>Leave</a>
                         </div>
                     </div>
                 </div>
