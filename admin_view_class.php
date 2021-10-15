@@ -209,12 +209,11 @@ spl_autoload_register(
                                                                         </script>
                                                     <?php
                                                                     }
-                                                                }
+                                                                }}
                                                                 $stmt = null;
                                                                 $pdo = null;
                                                             }
                                                         }
-                                                    }
 
 
                                                     ?>
