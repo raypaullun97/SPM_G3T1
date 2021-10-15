@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 13, 2021 at 02:37 PM
+-- Generation Time: Oct 15, 2021 at 04:46 PM
 -- Server version: 8.0.18
 -- PHP Version: 7.4.0
 
@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `learner_enrollment` (
 
 INSERT INTO `learner_enrollment` (`enrollment_id`, `engineer_id`, `course_id`, `class_id`, `status`) VALUES
 (30, '1', 'IS424', 'G1', 'Pending'),
-(34, '1', 'IS212', 'G4', 'Enrolled');
+(34, '1', 'IS212', 'G2', 'Enrolled');
 
 -- --------------------------------------------------------
 
@@ -238,15 +238,16 @@ CREATE TABLE IF NOT EXISTS `learning_material` (
   `type` varchar(50) NOT NULL,
   `document_name` varchar(256) NOT NULL,
   PRIMARY KEY (`learning_material_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `learning_material`
 --
 
 INSERT INTO `learning_material` (`learning_material_id`, `section_id`, `class_id`, `course_id`, `description`, `type`, `document_name`) VALUES
-(1, 4, 'G2', 'IS212', 'Week 1', '.docx', 'Data Mining'),
-(2, 5, 'G2', 'IS212', 'Week 2', '.pptx', 'Data Mining2');
+(1, 4, 'G2', 'IS212', 'Week 1', '.pptx', 'Data Mining'),
+(2, 5, 'G2', 'IS212', 'Week 2', '.pptx', 'Data Mining2'),
+(3, 6, 'G2', 'IS212', 'for week 3', '.pptx', 'Data Mining3');
 
 -- --------------------------------------------------------
 
@@ -313,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `qualified_courses` (
 
 DROP TABLE IF EXISTS `question`;
 CREATE TABLE IF NOT EXISTS `question` (
-  `quiz_id` varchar(50) NOT NULL,
+  `quiz_id` int(11) NOT NULL,
   `question_id` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
   `option_1` varchar(50) NOT NULL,
@@ -330,8 +331,8 @@ CREATE TABLE IF NOT EXISTS `question` (
 --
 
 INSERT INTO `question` (`quiz_id`, `question_id`, `description`, `option_1`, `option_2`, `option_3`, `option_4`, `answer`, `type`) VALUES
-('IS212G2S4', '1', 'Did iron man die?', 'True', 'False', 'NIL', 'NIL', 'Answer 1', 'True or False'),
-('IS212G2S5', '1', 'Did spiderman die?', 'True', 'False', 'NIL', 'NIL', 'Answer 2', 'True or False');
+(1, '1', 'Did iron man die?', 'True', 'False', 'NIL', 'NIL', 'Answer 1', 'True or False'),
+(1, '2', 'Did spiderman die?', 'True', 'False', 'NIL', 'NIL', 'Answer 2', 'True or False');
 
 -- --------------------------------------------------------
 
@@ -341,7 +342,7 @@ INSERT INTO `question` (`quiz_id`, `question_id`, `description`, `option_1`, `op
 
 DROP TABLE IF EXISTS `quiz`;
 CREATE TABLE IF NOT EXISTS `quiz` (
-  `quiz_id` varchar(50) NOT NULL,
+  `quiz_id` int(11) NOT NULL AUTO_INCREMENT,
   `course_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
   `section_id` int(11) NOT NULL,
@@ -349,16 +350,17 @@ CREATE TABLE IF NOT EXISTS `quiz` (
   `passing_mark` int(11) NOT NULL,
   `time_limit` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
+  `quiz_name` varchar(50) NOT NULL,
   PRIMARY KEY (`quiz_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quiz`
 --
 
-INSERT INTO `quiz` (`quiz_id`, `course_id`, `class_id`, `section_id`, `engineer_id`, `passing_mark`, `time_limit`, `type`) VALUES
-('IS212G2S4', 'IS212', 'G2', 4, '3', 3, 2, ''),
-('IS212G2S5', 'IS212', 'G2', 5, '3', 2, 4, '');
+INSERT INTO `quiz` (`quiz_id`, `course_id`, `class_id`, `section_id`, `engineer_id`, `passing_mark`, `time_limit`, `type`, `quiz_name`) VALUES
+(1, 'IS212', 'G2', 4, '3', 1, 1, '', 'MARVEL'),
+(2, 'IS212', 'G2', 5, '3', 2, 4, '', 'MARVEL');
 
 -- --------------------------------------------------------
 
@@ -374,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `section` (
   `section_name` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
   PRIMARY KEY (`section_id`,`class_id`,`course_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `section`
@@ -385,7 +387,8 @@ INSERT INTO `section` (`section_id`, `class_id`, `course_id`, `section_name`, `d
 (2, 'G1', 'IS424', 'Session 2', 'for week 2'),
 (3, 'G1', 'IS424', 'Session 3', 'for week 3'),
 (4, 'G2', 'IS212', 'Session 1', 'for week 1'),
-(5, 'G2', 'IS212', 'Session 2', 'for week 2');
+(5, 'G2', 'IS212', 'Session 2', 'for week 2'),
+(6, 'G2', 'IS212', 'Session 3', 'for week 3');
 
 -- --------------------------------------------------------
 
@@ -403,7 +406,24 @@ CREATE TABLE IF NOT EXISTS `section_quiz_grade` (
   `mark` int(11) NOT NULL,
   `quiz_id` varchar(50) NOT NULL,
   PRIMARY KEY (`attempts`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `section_quiz_grade`
+--
+
+INSERT INTO `section_quiz_grade` (`attempts`, `section_id`, `engineer_id`, `class_id`, `course_id`, `mark`, `quiz_id`) VALUES
+(8, 4, '1', 'G2', 'IS212', 1, 'IS212G2S4'),
+(9, 4, '1', 'G2', 'IS212', 1, 'IS212G2S4'),
+(10, 4, '1', 'G2', 'IS212', 0, 'IS212G2S4'),
+(11, 4, '1', 'G2', 'IS212', 1, 'IS212G2S4'),
+(12, 4, '1', 'G2', 'IS212', 0, 'IS212G2S4'),
+(13, 4, '1', 'G2', 'IS212', 0, 'IS212G2S4'),
+(14, 4, '1', 'G2', 'IS212', 2, 'IS212G2S4'),
+(15, 4, '1', 'G2', 'IS212', 1, 'IS212G2S4'),
+(16, 4, '1', 'G2', 'IS212', 2, 'IS212G2S4'),
+(17, 4, '1', 'G2', 'IS212', 1, 'IS212G2S4'),
+(18, 4, '1', 'G2', 'IS212', 2, 'IS212G2S4');
 
 -- --------------------------------------------------------
 
@@ -416,18 +436,10 @@ CREATE TABLE IF NOT EXISTS `section_status` (
   `section_id` int(11) NOT NULL,
   `engineer_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
-  `status` varchar(50) NOT NULL,
+  `course_id` varchar(50) NOT NULL,
   `mark` int(11) NOT NULL,
-  PRIMARY KEY (`section_id`,`engineer_id`)
+  PRIMARY KEY (`section_id`,`engineer_id`,`class_id`,`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `section_status`
---
-
-INSERT INTO `section_status` (`section_id`, `engineer_id`, `class_id`, `status`, `mark`) VALUES
-(4, '1', 'G2', 'IS212', 0),
-(5, '1', 'G2', 'IS212', 0);
 
 -- --------------------------------------------------------
 

@@ -17,7 +17,7 @@ $engineer_id = 1;
                                     <div class="col-auto mt-4">
                                         <h1 class="page-header-title">
                                             <div class="page-header-icon"><i data-feather="book"></i></div>
-                                            My enrolled class
+                                            My Enrolled Class
                                         </h1>
                                         <div class="page-header-subtitle"></div>
                                     </div>

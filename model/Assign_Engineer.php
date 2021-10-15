@@ -1,6 +1,6 @@
 <?php 
     class Assign_Engineer{
-        private $engineer_id
+        private $engineer_id;
         private $course_id;
         private $class_id;
         

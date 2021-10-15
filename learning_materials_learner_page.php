@@ -173,7 +173,7 @@
                                     for($x=0; $x<count($sections); $x++){
                                         $current_section= $sections[$x];
                                         $total_material= $all_sections[$current_section];
-                                        if($current_section == '1' && $completed == TRUE){
+                                        if($current_section == 'Session 1' && $completed == TRUE){
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdo = new PDO($dsn,"root",'');
                                             $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
