@@ -235,7 +235,7 @@ if (isset($_POST['update']))
                                                                 $learning_material_id= $row['learning_material_id'];
                                                                 $file_location= "learningmaterials/". $row["document_name"];
                                                                 $file_location .= $row['type'];
-                                                                var_dump($file_location);
+
                                                                 $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
                                                                 $pdo2 = new PDO($dsn,"root",'');
                                                                 $sql2 = "select * from learning_material_complete where learning_material_id = :learning_material_id and engineer_id =:engineer_id";
@@ -482,7 +482,6 @@ if (isset($_POST['update']))
 
                                                     for ($x=1; $total_section_cleared+2 > $x; $x++){
                                                         $section_name = "Session " . strval($x);
-                                                        var_dump($section_name);
                                                         $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
                                                         $pdo2 = new PDO($dsn2,"root",'');
                                                         $sql2 = 'select * from quiz q inner join section s on s.course_id = q.course_id and s.class_id = q.class_id and s.section_id = q.section_id where s.course_id = :course_id and s.class_id = :class_id and section_name = :section_name';

@@ -34,7 +34,10 @@ $engineer_id = 1;
                             <?php
                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                             $pdo = new PDO($dsn,"root",'');
-                            $sql = "SELECT * from learner_enrollment inner join course on course.course_id = learner_enrollment.course_id where engineer_id= :engineer_id and status= 'Enrolled'";
+                            $sql = "SELECT * from learner_enrollment 
+                                    inner join course on course.course_id = learner_enrollment.course_id 
+                                    inner join class c on c.course_id = course.course_id and c.class_id  = learner_enrollment.class_id
+                                    where learner_enrollment.engineer_id= :engineer_id and status= 'Enrolled' and start_date <= cast(now() as date)";
                             $stmt = $pdo->prepare($sql);
                             $stmt->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
                             $stmt->execute();

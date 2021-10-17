@@ -12,7 +12,7 @@
     
 
     $dao = new LearnerEnrollmentDAO();
-    $status_creation = $dao->add($engineer_id, $course_id,$class_id, $status);
+    $status_creation = $dao->add($engineer_id, $course_id,$class_id, $status, "Self");
     if($status_creation){ 
         
         echo '<script>alert("Send enrollment to admin successfully")</script>';

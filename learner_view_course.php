@@ -5,7 +5,7 @@
     }
 );
 session_start();
-
+$engineer_id = "1";
 ?>
 <?php include 'header.html';?>
 <div id="layoutSidenav_content">
@@ -89,9 +89,10 @@ session_start();
                                                     $prerequisite = $row['prerequisite'];
                                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                                     $pdos = new PDO($dsn,"root",'');
-                                                    $sqls = "SELECT status from course_status where engineer_id = '1' and course_id = :course_id ";
+                                                    $sqls = "SELECT status from course_status where engineer_id = :engineer_id and course_id = :course_id and status = 'Completed' ";
                                                     $stmts = $pdos->prepare($sqls);
                                                     $stmts->bindParam(":course_id",$prerequisite,PDO::PARAM_STR);
+                                                    $stmts->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
                                                     $stmts->execute();
                                                     $course = null;
                                                     $stmts->setFetchMode(PDO::FETCH_ASSOC);
@@ -109,9 +110,10 @@ session_start();
                                             $course_id = $row['course_id'];
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdoss = new PDO($dsn,"root",'');
-                                            $sqlss = "SELECT status from course_status where engineer_id = '1' and course_id = :course_id ";
+                                            $sqlss = "SELECT status from course_status where engineer_id = :engineer_id and course_id = :course_id and status = 'Completed' ";
                                             $stmtss = $pdoss->prepare($sqlss);
                                             $stmtss->bindParam(":course_id",$course_id,PDO::PARAM_STR);
+                                            $stmtss->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
                                             $stmtss->execute();
                                             $course = null;
                                             $stmtss->setFetchMode(PDO::FETCH_ASSOC);
@@ -133,9 +135,10 @@ session_start();
                                                 else{
                                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                                     $pdosss = new PDO($dsn,"root",'');
-                                                    $sqlsss = "SELECT status from learner_enrollment where engineer_id = '1' and course_id = :course_id";
+                                                    $sqlsss = "SELECT status from learner_enrollment where engineer_id = :engineer_id and course_id = :course_id";
                                                     $stmtsss = $pdosss->prepare($sqlsss);
                                                     $stmtsss->bindParam(":course_id",$course_id,PDO::PARAM_STR);
+                                                    $stmtsss->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
                                                     $stmtsss->execute();
                                                     $stmtsss->setFetchMode(PDO::FETCH_ASSOC);
                                                     if($rowsss = $stmtsss->fetch()){ 

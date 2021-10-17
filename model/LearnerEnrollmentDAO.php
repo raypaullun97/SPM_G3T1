@@ -2,17 +2,18 @@
     class LearnerEnrollmentDAO{
 
         # Add a new user to the database
-        public function add($engineer_id, $course_id, $class_id, $status){
+        public function add($engineer_id, $course_id, $class_id, $status, $type){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             
-            $sql = "insert into learner_enrollment (engineer_id, course_id, class_id, status) 
-                    values (:engineer_id, :course_id, :class_id, :status)";
+            $sql = "insert into learner_enrollment (engineer_id, course_id, class_id, status, type) 
+                    values (:engineer_id, :course_id, :class_id, :status, :type)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(":engineer_id",$engineer_id);
             $stmt->bindParam(":course_id",$course_id);
             $stmt->bindParam(":class_id",$class_id);
             $stmt->bindParam(":status",$status);
+            $stmt->bindParam(":type",$type);
             $status = $stmt->execute();
             
             $stmt = null;

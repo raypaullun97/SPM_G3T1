@@ -19,6 +19,22 @@
             $pdo = null;
             return $status;
         }
+        public function addEngineer_course_status($engineer_id,$course_id,$status){
+            $conn_manager = new ConnectionManager();
+            $pdo = $conn_manager->getConnection();
+            
+            $sql = "insert into course_status (engineer_id,course_id, status) 
+                    values (:engineer_id, :course_id , :status)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(":engineer_id",$engineer_id);
+            $stmt->bindParam(":course_id",$course_id);
+            $stmt->bindParam(":status",$status);
+            $status = $stmt->execute();
+            
+            $stmt = null;
+            $pdo = null;
+            return $status;
+        }
         public function retrieveAllenrollment(){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();

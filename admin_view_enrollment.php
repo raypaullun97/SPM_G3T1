@@ -15,10 +15,17 @@
                                     <div class="col-auto mb-3">
                                         <h1 class="page-header-title">
                                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                                            Class List of <?php echo $_GET["course_id"] ?>
+                                            Confirmed Class List of <?php echo $_GET["course_id"] ?> <?php echo $_GET["class_id"] ?>
                                         </h1>
                                     </div>
-                                   
+                                    <div class="col-12 col-xl-auto mb-3">
+                                        <a class="btn btn-sm btn-light text-primary" href="admin_view_class.php?course_id=<?php echo $_GET['course_id'] ?>">
+                                            <i class="me-1" data-feather="arrow-left"></i>
+                                            Back to Class
+                                        </a>
+                                        
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -33,8 +40,7 @@
                                             <th>Engineer ID</th> 
                                             <th>Engineer Name</th>
                                             <th>Engineer Email</th>
-                                            <th>Course ID</th>              
-                                            <th>Class ID</th>
+                                           
 
 
                                         </tr> 
@@ -43,13 +49,13 @@
                                         <?php
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdo = new PDO($dsn,"root",'');
-                                            $sql = 'select engineer.engineer_id, engineer.engineer_name, engineer.username,learner_enrollment.course_id,learner_enrollment.class_id
-                                            from ((learner_enrollment
-                                            inner join engineer on engineer.engineer_id = learner_enrollment.engineer_id and learner_enrollment.course_id = :course_id)
-                                            inner join class on class.class_id = learner_enrollment.class_id)';
+                                            $sql = 'select * from class c inner join learner_enrollment le on c.class_id = le.class_id and c.course_id = le.course_id
+                                                    inner join engineer e on e.engineer_id = le.engineer_id
+                                                    where c.class_id = :class_id and c.course_id = :course_id and le.status = "Enrolled" ';
                                             
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':course_id', $_GET['course_id'] , PDO::PARAM_STR);
+                                            $stmt->bindParam(':class_id', $_GET['class_id'] , PDO::PARAM_STR);
                                             $stmt->execute();
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                             while ($row = $stmt->fetch())
@@ -60,8 +66,7 @@
                                             <td><?php echo $row['engineer_id'];?></td> 
                                             <td><?php echo $row['engineer_name'];?></td> 
                                             <td><?php echo $row['username'];?></td> 
-                                            <td><?php echo $row['course_id'];?></td> 
-                                            <td><?php echo $row['class_id'];?></td> 
+
                                             
                                         </tr> 
                                         <?php 

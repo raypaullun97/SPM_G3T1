@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 15, 2021 at 04:46 PM
+-- Generation Time: Oct 17, 2021 at 02:58 PM
 -- Server version: 8.0.18
 -- PHP Version: 7.4.0
 
@@ -50,9 +50,13 @@ CREATE TABLE IF NOT EXISTS `class` (
 --
 
 INSERT INTO `class` (`class_id`, `course_id`, `capacity`, `day`, `start_time`, `end_time`, `start_date`, `end_date`, `start_register_date`, `end_register_date`, `engineer_id`, `no_of_sections`) VALUES
-('G1', 'IS424', 3, 3, '14:30:00', '17:30:00', '2021-11-27', '2021-12-12', '2021-10-01', '2021-11-12', '3', NULL),
-('G2', 'IS212', 40, 5, '12:00:00', '15:15:00', '2021-11-27', '2021-12-01', '2021-09-30', '2021-11-12', '3', 4),
-('G3', 'IS212', 3, 2, '14:30:00', '17:30:00', '2021-12-11', '2021-12-12', '2021-09-28', '2021-11-12', '3', NULL),
+('G1', 'IS216', 3, 3, '16:00:00', '17:00:00', '2021-12-03', '2021-12-05', '2021-10-16', '2021-11-30', '3', NULL),
+('G1', 'IS424', 4, 3, '14:30:00', '17:30:00', '2021-11-27', '2021-12-12', '2021-10-01', '2021-11-12', '3', NULL),
+('G1', 'IS460', 1, 2, '12:00:00', '15:15:00', '2021-10-17', '2021-10-31', '2021-09-30', '2021-10-10', '3', NULL),
+('G2', 'IS212', 40, 5, '12:00:00', '15:15:00', '2021-10-16', '2021-12-01', '2021-09-30', '2021-11-12', '3', 4),
+('G2', 'IS424', 1, 3, '14:30:00', '17:30:00', '2021-11-27', '2021-12-12', '2021-10-01', '2021-10-17', '3', NULL),
+('G3', 'IS212', 3, 2, '14:30:00', '17:30:00', '2021-10-16', '2021-12-12', '2021-09-28', '2021-11-12', '3', NULL),
+('G3', 'IS424', 1, 3, '14:30:00', '17:30:00', '2021-10-17', '2021-10-19', '2021-10-01', '2021-10-16', '3', NULL),
 ('G4', 'IS212', 1, 3, '12:00:00', '15:15:00', '2021-12-10', '2021-12-07', '2021-09-30', '2021-11-12', '3', NULL);
 
 -- --------------------------------------------------------
@@ -74,13 +78,14 @@ CREATE TABLE IF NOT EXISTS `course` (
 --
 
 INSERT INTO `course` (`course_id`, `course_name`, `description`) VALUES
-('IS111', 'Programming', '233'),
+('IS111', 'Programming', 'Good'),
 ('IS211', 'IDP', 'Ideation'),
 ('IS212', 'SPM', 'Software Project Management'),
 ('IS216', 'WAD2', 'Code and Code'),
 ('IS424', 'DM', 'Data Mining'),
 ('IS446', 'MCRA', 'Managing Customer Relations Management'),
-('IS453', 'FA', 'Financial Analytics');
+('IS453', 'FA', 'Financial Analytics'),
+('IS460', 'ML', 'Machine Learning');
 
 -- --------------------------------------------------------
 
@@ -124,7 +129,12 @@ CREATE TABLE IF NOT EXISTS `course_status` (
 INSERT INTO `course_status` (`engineer_id`, `course_id`, `status`) VALUES
 ('1', 'IS111', 'Completed'),
 ('1', 'IS211', 'Completed'),
-('2', 'IS212', 'Completed');
+('1', 'IS460', 'Completed'),
+('2', 'IS212', 'Completed'),
+('4', 'IS111', 'Completed'),
+('5', 'IS111', 'Completed'),
+('6', 'IS111', 'Completed'),
+('6', 'IS216', 'Completed');
 
 -- --------------------------------------------------------
 
@@ -152,7 +162,11 @@ INSERT INTO `engineer` (`engineer_id`, `engineer_name`, `username`, `first_name`
 ('1', 'weilun', 'lwl_1997@hotmail.com', 'wl', 'lim', 'engineer', '123'),
 ('2', 'lilykong', 'lilykong123@lms.com', 'lily', 'kong', 'engineer', '123'),
 ('3', 'kankan', 'kankanzhou123@lms.com', 'kankan', 'zhou', 'senior engineer', '123'),
-('4', 'jia cheng', 'jcteo@lms.com', 'jc', 'teo', 'engineer', '123');
+('4', 'jia cheng', 'jcteo@lms.com', 'jc', 'teo', 'engineer', '123'),
+('5', 'ian', 'ian@lms.com', 'ian', 'leong', 'engineer', '123'),
+('6', 'cheyrl', 'cheryl@lms.com', 'cheryl', 'chee', 'engineer', '123'),
+('7', 'jia xiang', 'jiaxiang@lms.com', 'jiaxiang', 'leow', 'engineer', '123'),
+('8', 'testing', 'testing@lms.com', 'test', 'ing', 'engineer', '123');
 
 -- --------------------------------------------------------
 
@@ -211,16 +225,19 @@ CREATE TABLE IF NOT EXISTS `learner_enrollment` (
   `course_id` varchar(50) NOT NULL,
   `class_id` varchar(50) NOT NULL,
   `status` varchar(50) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`enrollment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `learner_enrollment`
 --
 
-INSERT INTO `learner_enrollment` (`enrollment_id`, `engineer_id`, `course_id`, `class_id`, `status`) VALUES
-(30, '1', 'IS424', 'G1', 'Pending'),
-(34, '1', 'IS212', 'G2', 'Enrolled');
+INSERT INTO `learner_enrollment` (`enrollment_id`, `engineer_id`, `course_id`, `class_id`, `status`, `type`) VALUES
+(34, '2', 'IS212', 'G4', 'Enrolled', NULL),
+(35, '2', 'IS424', 'G2', 'Enrolled', NULL),
+(36, '1', 'IS460', 'G1', 'Enrolled', NULL),
+(60, '1', 'IS424', 'G3', 'Pending', 'Self');
 
 -- --------------------------------------------------------
 
@@ -305,6 +322,19 @@ CREATE TABLE IF NOT EXISTS `qualified_courses` (
   `course_id` varchar(50) NOT NULL,
   PRIMARY KEY (`engineer_id`,`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `qualified_courses`
+--
+
+INSERT INTO `qualified_courses` (`engineer_id`, `course_id`) VALUES
+('3', 'IS111'),
+('3', 'IS211'),
+('3', 'IS216'),
+('3', 'IS424'),
+('3', 'IS446'),
+('3', 'IS453'),
+('8', 'IS424');
 
 -- --------------------------------------------------------
 
@@ -440,6 +470,15 @@ CREATE TABLE IF NOT EXISTS `section_status` (
   `mark` int(11) NOT NULL,
   PRIMARY KEY (`section_id`,`engineer_id`,`class_id`,`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `section_status`
+--
+
+INSERT INTO `section_status` (`section_id`, `engineer_id`, `class_id`, `course_id`, `mark`) VALUES
+(1, '1', 'G1', 'IS424', 0),
+(2, '1', 'G1', 'IS424', 0),
+(3, '1', 'G1', 'IS424', 0);
 
 -- --------------------------------------------------------
 
