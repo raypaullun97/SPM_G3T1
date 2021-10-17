@@ -500,7 +500,7 @@ if (isset($_POST['update']))
                                                         <tr>
                                                             <td><?php echo $row['section_name']?></td>    
                                                             <td>
-                                                                <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_id'];?></a>
+                                                                <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?></a>
                                                             </td>
                                                             <td>
                                                                 <?php
