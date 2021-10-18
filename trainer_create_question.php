@@ -11,6 +11,16 @@ $passing_mark = $_POST['passing_mark'];
 $section = $_POST['section'];
 $class_id = $_GET['class_id'];
 $course_id = $_GET['course_id'];
+$quiz_name = $_POST['quiz_name'];
+
+if (isset($_POST['quiz_type']))
+{
+    $quiz_type = $_POST['quiz_type'];
+}
+else
+{
+    $quiz_type = 'Ungraded';
+}
 
 
 ?>
@@ -160,6 +170,8 @@ $course_id = $_GET['course_id'];
                                             <input type = 'hidden' value = '<?php echo $time_limit; ?>' name = 'time_limit'>
                                             <input type = 'hidden' value = '<?php echo $passing_mark; ?>' name = 'passing_mark'>
                                             <input type = 'hidden' value = '<?php echo $section; ?>' name = 'section'>
+                                            <input type = 'hidden' value = '<?php echo $quiz_name; ?>' name = 'quiz_name'>
+                                            <input type = 'hidden' value = '<?php echo $quiz_type; ?>' name = 'quiz_type'>
                                         </div>
                                     </div>
                                 </form>

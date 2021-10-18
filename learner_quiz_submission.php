@@ -227,16 +227,8 @@
                     $passingmark = getPassingMark($quiz_id);
 
                     #Quiz Attempt Submission
-
-
-
-                    
                     $submit_attempt = submitQuiz($section_id, $engineer_id, $class_id, $course_id, $grade, $quiz_id)
-
-
                 ?>
-                            
-   
                             <div class = 'container'>
                                 <div class = 'col-sm-6'>
                                     <p><b>Final Grade:</b> <?php echo $grade.' / '.$question_count;?></p>

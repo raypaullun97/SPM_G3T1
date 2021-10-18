@@ -95,9 +95,8 @@ if (isset($_POST['submit']))
                                                 <div class="row gx-3 mb-3">
                                                     <!-- Form Group (Course ID)-->
                                                     <div class="col-md-6">
-                                                        <label class="small mb-1" for="passing_mark">Passing Mark</label>
-                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  type="number" placeholder="Passing Mark of the Quiz" value="" />
-                                                        
+                                                        <label class="small mb-1" for="quiz_name">Quiz Name</label>
+                                                        <input required class="form-control" name = 'quiz_name' id="quiz_name" placeholder="Name of the Quiz" value="" />
                                                     </div>
                                                     <!-- Form Group (Course Name)-->
                                                     <div class="col-md-6">
@@ -128,14 +127,27 @@ if (isset($_POST['submit']))
                                                 <!-- Form Group (description)-->
                                                 
 
-                                                
-                                                <div class="col-md-6 mb-3">
-                                                    <label class="small mb-1" for="time_limit">Time Limit</label>
-                                                    <input class="form-control" required name = 'time_limit' id="time_limit"  rows="3" type="number" placeholder="Time Limit of Quiz in Minutes" value="">
+                                                <div class="row gx-3 mb-3">
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="small mb-1" for="time_limit">Time Limit</label>
+                                                        <input class="form-control" required name = 'time_limit' id="time_limit"  rows="3" type="number" placeholder="Time Limit of Quiz in Minutes" value="">
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="small mb-1" for="passing_mark">Passing Mark</label>
+                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  type="number" placeholder="Passing Mark of the Quiz" value="" />
+                                                    </div>
                                                 </div>
+
+                                                <div class = "row gx-3 mb-3">
+                                                    <div class = "col-md-6 mb-3">
+                                                        <input type = 'checkbox' value = 'Graded' name = 'quiz_type' id = 'quiz_type'></input>
+                                                        <label for ='graded'>Graded</label>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Next</button>
+                                                
                                                 <!-- Submit button-->
                                                
-                                                <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Next</button>
                                             </form>
                                         </div>
                                     </div>

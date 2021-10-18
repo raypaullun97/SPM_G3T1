@@ -42,7 +42,7 @@ function deleteQuiz($quiz_id)
         
         if ($delQuestionStatus)
         {
-            header('Location: trainer_view_quiz_list.php');
+            header('Location: trainer_view_section.php?course_id='.$_GET["course_id"].'&class_id='.$_GET["class_id"]);
         }
     }
 ?>

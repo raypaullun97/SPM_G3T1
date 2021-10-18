@@ -22,8 +22,23 @@ function retrieveQnCount($quiz_id)
     $stmt = null;
     $pdo = null;
     return $count;
-
 }
+function deleteQuestion($quiz_id, $question_id)
+{
+    $conn_manager = new ConnectionManager();
+    $pdo = $conn_manager->getConnection();
+    $sql = 'delete from question where quiz_id = :quiz_id and question_id = :question_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":quiz_id", $quiz_id);
+    $stmt->bindParam(":question_id", $question_id);
+
+    $stmt->execute();
+    $stmt = null;
+    $pdo = null;
+    
+    return;
+}
+
 function insertQuestion($quiz_id, $question_no, $description, $option_1, $option_2, $option_3, $option_4, $answer, $type){
     $conn_manager = new ConnectionManager();
     $pdo = $conn_manager->getConnection();
@@ -227,6 +242,7 @@ include 'header.html';
                                                             <th colspan = '4' style = 'text-align: center;'>Options
                                                             </th>
                                                             <th rowspan = '2' style = 'text-align: center;'>Correct Answer</th>
+                                                            <th rowspan = '2'>Remove</th>
 
                                                         </tr> 
                                                         <tr>
@@ -280,7 +296,6 @@ include 'header.html';
                                                             <td><textarea required name = "qn<?php echo $row2['question_id'];?>_option3" id = "qn<?php echo $row2['question_id'];?>_option3" value = '<?php echo $row2['option_3'];?>'><?php echo $row2['option_3'];?></textarea></td> 
                                                             <td><textarea required name = "qn<?php echo $row2['question_id'];?>_option4" id = "qn<?php echo $row2['question_id'];?>_option4" value = '<?php echo $row2['option_4'];?>'><?php echo $row2['option_4'];?></textarea></td> 
                                                             <td><select class="form-control" id="qn<?php echo $row2['question_id'];?>_correctans" name="qn<?php echo $row2['question_id'];?>_correctans" required>
-                                                        
                                                         <?php 
                                                             $selected = '';
                                                             
@@ -300,6 +315,8 @@ include 'header.html';
                                                         ?>
                                                                 </select>
                                                             </td> 
+                                                            <td><a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick = "deleteQuestion($_GET['quiz_id'], $_row2['question_id'])" title="Delete Quiz"><i data-feather="trash-2"></i></a></td>
+
                                                         </tr> 
                                                         <?php 
                                                             } 
@@ -359,6 +376,7 @@ include 'header.html';
 
                 </select>
             </td> 
+            <td><a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href = '#' onclick = "return confirm('Are you sure you want to delete?')" title="Delete Quiz"><i data-feather="trash-2"></i></a></td>
         </tr>
         `;
         document.getElementById('table_body').innerHTML += html;

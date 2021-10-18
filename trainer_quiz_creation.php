@@ -5,19 +5,44 @@
         }
     );
 
-    function createQuiz($quiz_id, $class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit){
+    function retrieveQuizID($course_id, $class_id, $section_id)
+    {
+        $quiz_id = 0;
         $conn_manager = new ConnectionManager();
         $pdo = $conn_manager->getConnection();
-        $sql = 'insert into quiz(`quiz_id`, `class_id`, `course_id`,`section_id`, `engineer_id`, `passing_mark`, `time_limit`) VALUES 
-        (:quiz_id, :class_id, :course_id, :section_id, :engineer_id, :passing_mark, :time_limit)';
+        $sql = '
+        SELECT quiz_id FROM `quiz` WHERE course_id = :course_id and class_id = :class_id and section_id = :section_id order by quiz_id DESC limit 1
+        ';
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":quiz_id",$quiz_id);
+        $stmt->bindParam(":course_id",$course_id);
+        $stmt->bindParam(":class_id",$class_id);
+        $stmt->bindParam(":section_id",$section_id);
+        $stmt->execute();
+
+        if($row = $stmt->fetch()){
+            $quiz_id = $row['quiz_id'];
+        }
+
+        $stmt = null;
+        $pdo = null;
+
+        return $quiz_id;
+    }
+
+    function createQuiz($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $quiz_type, $quiz_name){
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = 'insert into quiz(`class_id`, `course_id`,`section_id`, `engineer_id`, `passing_mark`, `time_limit`, `type`, `quiz_name`) VALUES 
+        (:class_id, :course_id, :section_id, :engineer_id, :passing_mark, :time_limit, :type, :quiz_name)';
+        $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":class_id",$class_id);
         $stmt->bindParam(":course_id",$course_id);
         $stmt->bindParam(":section_id",$section_id);
         $stmt->bindParam(":engineer_id",$engineer_id);
         $stmt->bindParam(":passing_mark",$passing_mark);
         $stmt->bindParam(":time_limit",$time_limit);
+        $stmt->bindParam(":type",$quiz_type);
+        $stmt->bindParam(":quiz_name",$quiz_name);
 
         $quizCreation = $stmt->execute();
         $stmt = null;
@@ -59,12 +84,13 @@
         $course_id = $_GET['course_id'];
         $class_id = $_GET['class_id'];
         $section_id = $_POST['section'];
-        #Quiz ID will be combination of courseID, classID and SectionID
-        #Format is like IS212G2S1
-        $quiz_id = $course_id.$class_id.'S'.$section_id;
         $engineer_id = '3';
         $passing_mark = $_POST['passing_mark'];
         $time_limit = $_POST['time_limit'];
+        $quiz_name = $_POST['quiz_name'];
+        $quiz_type = $_POST['quiz_type'];
+        $quizStatus = createQuiz($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $quiz_type, $quiz_name);
+        $quiz_id = retrieveQuizID($course_id, $class_id, $section_id);
 
         #FOR QUESTION TABLE
         $question_num = $_POST['questionnumber'];
@@ -92,23 +118,10 @@
                 $answer_four = $_POST['q'.$i.'a4'];
             }
 
-            echo $quiz_id;
-            echo $i;
-            echo $question;
-            echo $answer_one;
-            echo $answer_two ;
-            echo $answer_three;
-            echo $answer_four;
-            echo $correct_answer;
-            echo $question_type;
-
-
-
            $insertStatus = insertListing($quiz_id, $i, $question, $answer_one, $answer_two, $answer_three, $answer_four, $correct_answer, $question_type);
         }
+        echo $quiz_id;
 
-     $quizStatus = createQuiz($quiz_id, $class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit);
-     echo $quizStatus;
      header('Location: trainer_view_section.php?course_id='. $course_id .'&class_id=' . $class_id);
 
 
