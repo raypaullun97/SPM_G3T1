@@ -19,6 +19,52 @@ $section_name = '';
 if (isset($_POST['select_section'])){
     $section_id = $_POST['select_section'];
 }
+
+function getNum_completed_material($learning_material_id, $engineer_id)
+{
+    $num = 0;
+    $conn_manager = new ConnectionManager();
+    $pdo = $conn_manager->getConnection();
+    $sql = "SELECT count(*) as num FROM `learning_material_complete` WHERE learning_material_id = :learning_material_id and engineer_id = :engineer_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":learning_material_id",$learning_material_id);
+    $stmt->bindParam(":engineer_id",$engineer_id);
+    $stmt->execute();
+
+    if($row = $stmt->fetch()){
+        $num = $row['num'];
+    }
+
+    $stmt = null;
+    $pdo = null;
+
+    return $num;
+}
+
+function get_material_id($class_id, $course_id)
+{
+    $array = array();
+    $conn_manager = new ConnectionManager();
+    $pdo = $conn_manager->getConnection();
+    $sql = 'select * from learning_material where class_id = :class_id and course_id = :course_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":class_id",$class_id);
+    $stmt->bindParam(":course_id",$course_id);
+
+    $stmt->execute();
+
+    while($row = $stmt->fetch()){
+        array_push($array, $row['learning_material_id']);
+    }
+
+    $stmt = null;
+    $pdo = null;
+
+    return $array;
+}
+
+
+
 function updateStatus($learning_material_id, $engineer_id){
     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
     $pdo = new PDO($dsn,"root",'');
@@ -500,7 +546,40 @@ if (isset($_POST['update']))
                                                         <tr>
                                                             <td><?php echo $row['section_name']?></td>    
                                                             <td>
-                                                                <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                <?php
+                                                                    if ($row['type'] == 'Graded')
+                                                                    {
+                                                                        $counter = 0;
+                                                                        $material_id_array = get_material_id($class_id, $course_id);
+                                                                        $num_of_material_id = count($material_id_array);
+                    
+                                                                        for ($i = 0; $i < $num_of_material_id; $i++)
+                                                                        {
+                                                                            $counter += getNum_completed_material($material_id_array[$i], $engineer_id);
+                                                                        }
+
+                                                                        if ($num_of_material_id == $counter)
+                                                                        {
+                                                                        ?>
+                                                                            <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                        <?php
+                                                                        }
+
+                                                                        else
+                                                                        {
+                                                                        ?>
+                                                                            <a href = "javascript:alert('Please complete all learning materials before accessing Final Quiz!');"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                        <?php
+                                                                        }
+                                                                    }
+
+                                                                    else
+                                                                    {
+                                                                ?>
+                                                                        <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                <?php  
+                                                                    }
+                                                                ?>
                                                             </td>
                                                             <td>
                                                                 <?php
@@ -589,8 +668,41 @@ if (isset($_POST['update']))
                                                         ?>
                                                         <tr>
                                                             <td><?php echo $row['section_name']?></td>    
-                                                            <td>
-                                                                <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_id'];?></a>
+                                                            <td></td>
+                                                            <?php
+                                                                if ($row['type'] == 'Graded')
+                                                                {
+                                                                    $counter = 0;
+                                                                    $material_id_array = get_material_id($class_id, $course_id);
+                                                                    $num_of_material_id = count($material_id_array);
+                    
+                                                                    for ($i = 0; $i < $num_of_material_id; $i++)
+                                                                    {
+                                                                        $counter += getNum_completed_material($material_id_array[$i], $engineer_id);
+                                                                    }
+
+                                                                    if ($num_of_material_id == $counter)
+                                                                    {
+                                                                    ?>
+                                                                        <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                    <?php
+                                                                    }
+
+                                                                    else
+                                                                    {
+                                                                    ?>
+                                                                        <a href = "javascript:alert('Please complete all learning materials before accessing Final Quiz!');"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                    <?php
+                                                                    }
+                                                                }
+
+                                                                else
+                                                                {
+                                                            ?>
+                                                                    <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                            <?php  
+                                                                }
+                                                            ?>
                                                             </td>
                                                             <td>
                                                                 <?php
@@ -614,6 +726,8 @@ if (isset($_POST['update']))
                                                         </tr>
                                                         <?php
                                                         }
+                                                
+
                                                         $stmt = null;
                                                         $pdo = null;
                                                     }
@@ -626,12 +740,7 @@ if (isset($_POST['update']))
                                                             
                                                             <?php
                                                     }   
-                                                    
-                                                    
-                                                    
                                                 }
-                                                    
-                                                    
                                                 ?> 
 
                                             </tbody>
@@ -641,4 +750,25 @@ if (isset($_POST['update']))
 
                     </div>
                 </main>
+<?php
+    $counter = 0;
+    $material_id_array = get_material_id($class_id, $course_id);
+    $num_of_material_id = count($material_id_array);
+                    
+    for ($i = 0; $i < $num_of_material_id; $i++)
+    {
+        $counter += getNum_completed_material($material_id_array[$i], $engineer_id);
+    }
+    if ($num_of_material_id == $counter)
+    {
+    ?>
+
+    <?php
+    }
+    else
+    {
+        echo 'no';
+    }
+?>
+
 <?php include 'footer.html';?>

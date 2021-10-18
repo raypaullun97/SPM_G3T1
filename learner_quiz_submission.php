@@ -10,6 +10,7 @@
     $section_id = $_GET['section_id'];
     $engineer_id = 1;
     $passingmark = 0;
+    
     function getPassingMark($quiz_id){
         $conn_manager = new ConnectionManager();
         $pdo = $conn_manager->getConnection();
