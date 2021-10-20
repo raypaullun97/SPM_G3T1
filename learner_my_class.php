@@ -15,9 +15,32 @@ $sections=array();
 $completed= TRUE;
 $last_saved[] ='1';
 $section_name = '';
+$end_date = getEndDate($class_id, $course_id);
 
 if (isset($_POST['select_section'])){
     $section_id = $_POST['select_section'];
+}
+
+function getEndDate($class_id, $course_id)
+{
+    $end_date_time = '';
+    $conn_manager = new ConnectionManager();
+    $pdo = $conn_manager->getConnection();
+    $sql = 'select * from class where class_id = :class_id and course_id = :course_id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":class_id",$class_id);
+    $stmt->bindParam(":course_id",$course_id);
+
+    $stmt->execute();
+
+    if($row = $stmt->fetch()){
+        $end_date = $row['end_date'];
+    }
+
+    $stmt = null;
+    $pdo = null;
+
+    return $end_date;
 }
 
 function getNum_completed_material($learning_material_id, $engineer_id)
@@ -497,124 +520,126 @@ if (isset($_POST['update']))
 
                             </div>
                             </div>
+                            
+                            <!-- Validation for Quiz end_date -->    
+
+                            <?php 
+                            $today = date("Y-m-d");
+
+                            if (strtotime($today) < strtotime($end_date))
+                            {?>
                             <div class="card mt-2">
-                                    <div class="card-header">
-                                        Quiz
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-hover table-bordered" > 
-                                            <thead class="thead-dark">
-                                                <tr> 
-                                                    <th>Section Name</th>
-                                                    <th>Current Quiz</th>
-                                                    <th>Grade</th>
-                                                    <th>Status</th>        
-                                                    <th>Attempts</th>                                                                          
-                                                </tr> 
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                if($section_id == ''){
-                                                    $dsn5 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                    $pdo5 = new PDO($dsn5,"root",'');
-                                                    $sql5 = 'select * from section_status where course_id = :course_id and class_id = :class_id and engineer_id = :engineer_id';
-                                                    $stmt5 = $pdo->prepare($sql5);
-                                                    $stmt5->bindParam(":course_id",$course_id);
-                                                    $stmt5->bindParam(":class_id",$class_id);
-                                                    $stmt5->bindParam(":engineer_id",$engineer_id);
-                                                    $stmt5->execute();
-                                                    $stmt5->setFetchMode(PDO::FETCH_ASSOC);
-                                                    $total_section_cleared = $stmt5->rowCount();
+                                <div class="card-header">
+                                    Quiz
+                                </div>
 
-                                                    for ($x=1; $total_section_cleared+2 > $x; $x++){
-                                                        $section_name = "Session " . strval($x);
-                                                        #var_dump($section_name);
-                                                        $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                        $pdo2 = new PDO($dsn2,"root",'');
-                                                        $sql2 = 'select * from quiz q inner join section s on s.course_id = q.course_id and s.class_id = q.class_id and s.section_id = q.section_id where s.course_id = :course_id and s.class_id = :class_id and section_name = :section_name';
-                                                        $stmt2 = $pdo->prepare($sql2);
-                                                        $stmt2->bindParam(":course_id",$course_id);
-                                                        $stmt2->bindParam(":class_id",$class_id);
-                                                        $stmt2->bindParam(":section_name",$section_name);
-                                                        $stmt2->execute();
-                                                        $stmt2->setFetchMode(PDO::FETCH_ASSOC);
-                                                        while ($row = $stmt2->fetch())
-                                                        {
-                                                            $num = retrieveNumAttempts($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
+                                <div class="card-body">
+                                    <table class="table table-hover table-bordered"> 
+                                        <thead class="thead-dark">
+                                            <tr> 
+                                                <th>Section Name</th>
+                                                <th>Current Quiz</th>
+                                                <th>Grade</th>
+                                                <th>Status</th>        
+                                                <th>Attempts</th>                                                                          
+                                            </tr> 
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if($section_id == ''){
+                                                $dsn5 = "mysql:host=localhost;dbname=lms;port=3306";
+                                                $pdo5 = new PDO($dsn5,"root",'');
+                                                $sql5 = 'select * from section_status where course_id = :course_id and class_id = :class_id and engineer_id = :engineer_id';
+                                                $stmt5 = $pdo->prepare($sql5);
+                                                $stmt5->bindParam(":course_id",$course_id);
+                                                $stmt5->bindParam(":class_id",$class_id);
+                                                $stmt5->bindParam(":engineer_id",$engineer_id);
+                                                $stmt5->execute();
+                                                $stmt5->setFetchMode(PDO::FETCH_ASSOC);
+                                                $total_section_cleared = $stmt5->rowCount();
+
+                                                for ($x=1; $total_section_cleared+2 > $x; $x++){
+                                                    $section_name = "Session " . strval($x);
+                                                    #var_dump($section_name);
+                                                    $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
+                                                    $pdo2 = new PDO($dsn2,"root",'');
+                                                    $sql2 = 'select * from quiz q inner join section s on s.course_id = q.course_id and s.class_id = q.class_id and s.section_id = q.section_id where s.course_id = :course_id and s.class_id = :class_id and section_name = :section_name';
+                                                    $stmt2 = $pdo->prepare($sql2);
+                                                    $stmt2->bindParam(":course_id",$course_id);
+                                                    $stmt2->bindParam(":class_id",$class_id);
+                                                    $stmt2->bindParam(":section_name",$section_name);
+                                                    $stmt2->execute();
+                                                    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+                                                    while ($row = $stmt2->fetch())
+                                                    {
+                                                        $num = retrieveNumAttempts($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
                                                             
-                                                        ?>
-                                                        <tr>
-                                                            <td><?php echo $row['section_name']?></td>    
-                                                            <td>
-                                                                <?php
-                                                                    if ($row['type'] == 'Graded')
-                                                                    {
-                                                                        $counter = 0;
-                                                                        $material_id_array = get_material_id($class_id, $course_id);
-                                                                        $num_of_material_id = count($material_id_array);
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $row['section_name']?></td>    
+                                                        <td>
+                                                            <?php
+                                                                if ($row['type'] == 'Graded')
+                                                                {
+                                                                    $counter = 0;
+                                                                    $material_id_array = get_material_id($class_id, $course_id);
+                                                                    $num_of_material_id = count($material_id_array);
                     
-                                                                        for ($i = 0; $i < $num_of_material_id; $i++)
-                                                                        {
-                                                                            $counter += getNum_completed_material($material_id_array[$i], $engineer_id);
-                                                                        }
+                                                                    for ($i = 0; $i < $num_of_material_id; $i++)
+                                                                    {
+                                                                        $counter += getNum_completed_material($material_id_array[$i], $engineer_id);
+                                                                    }
 
-                                                                        if ($num_of_material_id == $counter)
-                                                                        {
-                                                                        ?>
-                                                                            <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
-                                                                        <?php
-                                                                        }
-
-                                                                        else
-                                                                        {
-                                                                        ?>
-                                                                            <a href = "javascript:alert('Please complete all learning materials before accessing Final Quiz!');"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
-                                                                        <?php
-                                                                        }
+                                                                    if ($num_of_material_id == $counter)
+                                                                    {
+                                                                    ?>
+                                                                        <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                    <?php
                                                                     }
 
                                                                     else
                                                                     {
-                                                                ?>
-                                                                        <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
-                                                                <?php  
+                                                                    ?>
+                                                                        <a href = "javascript:alert('Please complete all learning materials before accessing Final Quiz!');"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                                    <?php
                                                                     }
-                                                                ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php
-                                                                    $grade = retrieveGrade($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
-                                                                    echo $grade; 
-                                                                ?>
-                                                            </td>      
-                                                            <td>
-                                                            <?php 
-                                                                if ($num > 0)
-                                                                {
-                                                                    echo 'Completed';
                                                                 }
+
                                                                 else
                                                                 {
-                                                                    echo "Incomplete";
+                                                            ?>
+                                                                    <a href = "learner_attempt_quiz.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>&quiz_id=<?php echo $row['quiz_id'];?>" onclick = "return confirm('Are you sure you want to start quiz?')"><?php echo $row['quiz_name'];?> (<?php echo $row['type'];?>)</a>
+                                                            <?php  
                                                                 }
                                                             ?>
-                                                            </td>
-                                                            <td><?php echo $num;?> / Unlimited</td>
-                                                        </tr>
-                                                        <?php
-                                                        }
-                                                        $stmt2 = null;
-                                                        $pdo2 = null;
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                                $grade = retrieveGrade($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
+                                                                echo $grade; 
+                                                            ?>
+                                                        </td>      
+                                                        <td>
+                                                        <?php 
+                                                            if ($num > 0)
+                                                            {
+                                                                echo 'Completed';
+                                                            }
+                                                            else
+                                                            {
+                                                                echo "Incomplete";
+                                                            }
+                                                        ?>
+                                                        </td>
+                                                        <td><?php echo $num;?> / Unlimited</td>
+                                                    </tr>
+                                                    <?php
                                                     }
-
-                                                    
-                                                    ?> <?php
-                                                    
-                                                        
-                                                    
-                                                    
+                                                    $stmt2 = null;
+                                                    $pdo2 = null;
                                                 }
-                                            
+                                                    
+                                            }
                                                 else{
                                                     #check if session id inside db (check previous done or current inside)
                                                     $session_name = "";
@@ -727,7 +752,6 @@ if (isset($_POST['update']))
                                                         <?php
                                                         }
                                                 
-
                                                         $stmt = null;
                                                         $pdo = null;
                                                     }
@@ -743,10 +767,13 @@ if (isset($_POST['update']))
                                                 }
                                                 ?> 
 
-                                            </tbody>
-                                        </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                            <?php }
+                            ?>
+                                            
 
                     </div>
                 </main>
@@ -772,3 +799,5 @@ if (isset($_POST['update']))
 ?>
 
 <?php include 'footer.html';?>
+
+
