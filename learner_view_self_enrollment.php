@@ -68,12 +68,25 @@ $engineer_id = "1";
                                             <td><?php echo $row['course_name'];?></td>
                                             <td><?php echo $row['class_id'];?></td>
                                             <td><?php echo $row['status'];?></td>
-                                            <form method="post"  action ="insert_enrollment.php">
-                                                <input type="hidden" name="enrollment_id" value="<?php echo $row['enrollment_id']?>">
-                                                <input type="hidden" name="status" value="Withdraw">
-                                                <td><button  name= "withdraw_enrollment" value="withdraw_enrollment" class="btn btn-primary mt-auto" type="submit">Withdraw</button></td> 
-                                            </form>
-                                        </tr> 
+                                            <td>
+                                                
+                                            
+                                                <?php
+                                                if($row['status'] == "Enrolled"){?>
+                                                    <form method="post"  action ="withdraw_enrollment.php">
+                                                        <input type="hidden" name="enrollment_id" value="<?php echo $row['enrollment_id']?>">
+                                                        <input type="hidden" name="course_id" value="<?php echo $row['course_id']?>">
+                                                        <input type="hidden" name="engineer_id" value="<?php echo $engineer_id?>">
+                                                        <input type="hidden" name="status" value="Withdrawn">
+                                                        <button  name= "withdraw" value="withdraw" class="btn btn-primary mt-auto" type="submit">Withdraw</button>
+                                                    </form>
+                                                <?php }
+                                               ?>
+                                            </td>   
+                                        </tr>     
+                                        
+                                            
+                                         
                                         <?php 
                                             } 
                                             $stmt = null;

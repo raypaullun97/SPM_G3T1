@@ -40,7 +40,7 @@
                                             <th>Engineer ID</th> 
                                             <th>Engineer Name</th>
                                             <th>Engineer Email</th>
-                                           
+                                            
 
 
                                         </tr> 
@@ -65,8 +65,16 @@
                                                 ROW OF EVERY COLUMN--> 
                                             <td><?php echo $row['engineer_id'];?></td> 
                                             <td><?php echo $row['engineer_name'];?></td> 
-                                            <td><?php echo $row['username'];?></td> 
-
+                                            <td><?php echo $row['username'];?></td>
+                                            <td>
+                                            <form method="post"  action ="withdraw_enrollment.php">
+                                                <input type="hidden" name="enrollment_id" value="<?php echo $row['enrollment_id']?>">
+                                                <input type="hidden" name="course_id" value="<?php echo $row['course_id']?>">
+                                                <input type="hidden" name="engineer_id" value="<?php echo $row['engineer_id']?>">
+                                                <input type="hidden" name="status" value="Withdrawn">
+                                                <button  name= "withdraw" value="withdraw" class="btn btn-primary mt-auto" type="submit">Withdraw</button>
+                                            </form> 
+                                            </td>
                                             
                                         </tr> 
                                         <?php 

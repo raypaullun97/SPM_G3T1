@@ -135,7 +135,7 @@ $engineer_id = "1";
                                                 else{
                                                     $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                                     $pdosss = new PDO($dsn,"root",'');
-                                                    $sqlsss = "SELECT status from learner_enrollment where engineer_id = :engineer_id and course_id = :course_id";
+                                                    $sqlsss = "SELECT status from learner_enrollment where engineer_id = :engineer_id and course_id = :course_id and (status = 'Pending' or status = 'Enrolled') ";
                                                     $stmtsss = $pdosss->prepare($sqlsss);
                                                     $stmtsss->bindParam(":course_id",$course_id,PDO::PARAM_STR);
                                                     $stmtsss->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
@@ -148,7 +148,9 @@ $engineer_id = "1";
                                                          <?php }
                                                          else{
                                                             ?><a href="learner_view_class.php?course_id=<?php echo $row['course_id']?>" class="btn btn-primary mt-auto disabled" style = "float:center; clear: both">Enrolled</a>
-                                                         <?php }}
+                                                         <?php }
+                                                       
+                                                         }
                                                     else{
                                                         ?><a href="learner_view_class.php?course_id=<?php $_SESSION['course_id'] = $row['course_id']; echo $row['course_id']?>" class="btn btn-primary mt-auto" style = "float:center; clear: both">View Class</a>
                                                    <?php }

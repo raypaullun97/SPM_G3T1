@@ -49,7 +49,7 @@ $course_id =  $_GET['course_id'] ;
                                 <th>End Date</th>
                                 <th>Amount</th>
                                 <th>Trainer</th>
-                                <th>Leftover slots/Capacity</th>
+                                <th>No Of Students Enrolled/Capacity</th>
                                 <th>Actions</th>
 
                             </tr>
@@ -80,7 +80,7 @@ $course_id =  $_GET['course_id'] ;
                                             $result = mysqli_query($con, $sql);
                                             $number_of_results = mysqli_num_rows($result);
                                             $remaining_slot = (int)$row['capacity'] - $number_of_results  ;
-                                            echo $remaining_slot . '/'. $row['capacity']; 
+                                            echo $number_of_results . '/'. $row['capacity']; 
                                             ?></td>
                                     <td>
                                         <?php $class_id = $row['class_id']; ?>
