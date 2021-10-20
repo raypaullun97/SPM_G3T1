@@ -13,6 +13,23 @@
     $quiz_type = getQuizType($quiz_id);
     $badge_name = getBadgeName($course_id);
 
+    function updateCourseStatus($engineer_id, $course_id)
+    {
+        $badge_name = '';
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = 'update course_status set status = "Completed" where engineer_id = :engineer_id and course_id = :course_id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":engineer_id",$engineer_id);
+        $stmt->bindParam(":course_id",$course_id);
+        $updateStatus = $stmt->execute();
+        
+        $stmt = null;
+        $pdo = null;
+    
+        return $badge_name;
+    }
+
     function getBadgeName($course_id)
     {
         $badge_name = '';
@@ -322,6 +339,7 @@
                                         if ($quiz_type == 'Graded')
                                         {
                                             assignBadge($engineer_id, $badge_name);
+                                            updateCourseStatus($engineer_id, $course_id);
                                             echo 'You have been awarded the <b>'.$badge_name.'</b> badge!<br>';
 
                                             echo '<br><img src = "assets/img/badges.png">';
