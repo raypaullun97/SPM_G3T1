@@ -18,4 +18,5 @@
             $this->type = $type;
             $this->document_name = $document_name;
     }
+}
 ?>

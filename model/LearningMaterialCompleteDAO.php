@@ -24,7 +24,7 @@
             $stmt->bindParam(":engineer_id", $engineer_id);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $learning_material_complete= null
+            $learning_material_complete= null;
             if($row = $stmt->fetch()){   
                 $learning_material_complete = new LearningMaterialComplete($row["learning_material_id"],$row["engineer_id"]);
             }

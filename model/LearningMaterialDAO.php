@@ -5,7 +5,7 @@
         public function insert_learning_material($section_id, $class_id, $course_id, $description, $type, $document_name){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
-            $sql = "INSERT into learning_material (`section_id`, `class_id`,`course_id`, `description`, `type`, `document_name`) values (:section_id, :class_id, :course_id,:description, :type, :document_name)"
+            $sql = "INSERT into learning_material (`section_id`, `class_id`,`course_id`, `description`, `type`, `document_name`) values (:section_id, :class_id, :course_id,:description, :type, :document_name)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(":section_id", $section_id);
             $stmt->bindParam(":class_id", $class_id);
@@ -52,7 +52,7 @@
             $stmt->bindParam(':section_id', $section_id);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $learning_material= null
+            $learning_material= null;
             if($row = $stmt->fetch()){   
                 $learning_material = new LearningMaterial($row["learning_material_id"],$row["section_id"],$row["class_id"],$row["course_id"],$row["description"],$row["type"],$row["document_name"]);
             }
@@ -69,7 +69,7 @@
             $stmt->bindParam(':learning_material_id', $learning_material_id);
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $learning_material= null
+            $learning_material= null;
             if($row = $stmt->fetch()){   
                 $learning_material = new LearningMaterial($row["learning_material_id"],$row["section_id"],$row["class_id"],$row["course_id"],$row["description"],$row["type"],$row["document_name"]);
             }
@@ -88,7 +88,7 @@
             $status= $stmt->execute();
             $stmt = null;
             $pdo = null;
-            return $status
+            return $status;
         }
 
     }
