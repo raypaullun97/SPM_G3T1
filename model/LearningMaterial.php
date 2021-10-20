@@ -1,41 +1,21 @@
 <?php 
     class LearningMaterial{
-        private $conn;
-        private $table_name = 'learning_material';
+       
+        private $learning_material_id;
+        private $section_id;
+        private $class_id;
+        private $course_id;
+        private $description;
+        private $type;
+        private $document_name;
 
-        public $learning_material_id;
-        public $section_id;
-        public $description;
-        public $type;
-        public $document_name;
-
-        public function __construct($db){
-            $this->conn = $db;
-        }
-
-
-        public function search($section_id, $class_id){
-            $query = "SELECT * FROM learning_material where section_id = :section_id and class_id= :class_id";
-
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":section_id", $section_id, PDO::PARAM_STR);
-            $stmt->bindParam(":class_id", $class_id, PDO::PARAM_STR);
-            $stmt->execute();
-            return $stmt;
-        }
-
-        public function insert($section_id,$class_id, $description, $type, $document_name){
-            $query = "INSERT into learning_material (section_id, description, type, document_name) values (:section_id, :class_id, :description, :type, :document_name)";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":section_id", $section_id, PDO::PARAM_STR);
-            $stmt->bindParam(":class_id", $class_id, PDO::PARAM_STR);
-            $stmt->bindParam(":description", $description, PDO::PARAM_STR);
-            $stmt->bindParam(":type", $type, PDO::PARAM_STR);
-            $stmt->bindParam(":document_name", $document_name, PDO::PARAM_STR);
-
-            $stmt->execute();
-            return $stmt;
-
-        }
+        public function __construct($learning_material_id, $section_id, $class_id, $course_id, $description, $type, $document_name){
+            $this->learning_material_id = $learning_material_id;
+            $this->section_id = $section_id;
+            $this->class_id = $class_id;
+            $this->course_id = $course_id;
+            $this->description = $description;
+            $this->type = $type;
+            $this->document_name = $document_name;
     }
 ?>
