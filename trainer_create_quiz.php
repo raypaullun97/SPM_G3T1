@@ -134,14 +134,15 @@ if (isset($_POST['submit']))
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label class="small mb-1" for="passing_mark">Passing Mark</label>
-                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  type="number" placeholder="Passing Mark of the Quiz" value="" />
+                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  min = '0' max = '100' type="number" placeholder="Passing Mark of the Quiz" value="" />
                                                     </div>
                                                 </div>
 
                                                 <div class = "row gx-3 mb-3">
                                                     <div class = "col-md-6 mb-3">
                                                         <input type = 'checkbox' value = 'Graded' name = 'quiz_type' id = 'quiz_type'></input>
-                                                        <label for ='graded'>Graded</label>
+                                                        <label for ='graded'>Graded</label><br>
+                                                        <span>*Note: if checked, quiz created will be for the last section</span>
                                                     </div>
                                                 </div>
                                                 <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Next</button>

@@ -21,6 +21,7 @@ if (isset($_POST['select_section'])){
     $section_id = $_POST['select_section'];
 }
 
+
 function getEndDate($class_id, $course_id)
 {
     $end_date_time = '';

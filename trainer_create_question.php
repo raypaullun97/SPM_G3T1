@@ -5,6 +5,27 @@
     }
 );
 
+function getNumOfSection($class_id, $course_id)
+{
+    $section_id = '';
+    $conn_manager = new ConnectionManager();
+    $pdo = $conn_manager->getConnection();
+    $sql = "SELECT section_id FROM `section` WHERE course_id = :course_id and class_id = :class_id order by section_id DESC limit 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":class_id",$class_id);
+    $stmt->bindParam(":course_id",$course_id);
+    $stmt->execute();
+
+    if($row = $stmt->fetch()){
+        $section_id = $row['section_id'];
+    }
+
+    $stmt = null;
+    $pdo = null;
+
+    return $section_id;
+}
+
 
 $time_limit = $_POST['time_limit'];
 $passing_mark = $_POST['passing_mark'];
@@ -16,6 +37,8 @@ $quiz_name = $_POST['quiz_name'];
 if (isset($_POST['quiz_type']))
 {
     $quiz_type = $_POST['quiz_type'];
+    $section = getNumOfSection($class_id, $course_id);
+
 }
 else
 {

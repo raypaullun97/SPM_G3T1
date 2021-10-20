@@ -323,6 +323,7 @@
                     $pdo = null;
 
                     $passingmark = getPassingMark($quiz_id);
+                    $passingmark = $passingmark/100 * $question_count;
 
                     #Quiz Attempt Submission
                     $submit_attempt = submitQuiz($section_id, $engineer_id, $class_id, $course_id, $grade, $quiz_id)
