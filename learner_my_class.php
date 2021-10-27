@@ -613,7 +613,7 @@ if (isset($_POST['update']))
                                                             <?php  
                                                                 }
                                                             ?>
-                                                        </td>
+                                                    </td>
                                                         <td>
                                                             <?php
                                                                 $grade = retrieveGrade($row['section_id'], $engineer_id, $class_id, $course_id, $row['quiz_id']);
@@ -694,7 +694,7 @@ if (isset($_POST['update']))
                                                         ?>
                                                         <tr>
                                                             <td><?php echo $row['section_name']?></td>    
-                                                            <td></td>
+                                                            <td>
                                                             <?php
                                                                 if ($row['type'] == 'Graded')
                                                                 {

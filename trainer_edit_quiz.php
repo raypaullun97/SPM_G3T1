@@ -105,6 +105,52 @@ function updateQuestions($question_id, $description, $option_1, $option_2, $opti
     return; 
 }
 
+function updateQuestionNumber($quiz_id, $question_id, $new_id)
+{
+    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
+    $pdo = new PDO($dsn,"root",'');
+    $query = 'UPDATE question set question_id = :new_id where quiz_id = :quiz_id and question_id = :question_id';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":question_id", $question_id);
+    $stmt->bindParam(":new_id", $new_id);
+    $stmt->bindParam(":quiz_id", $quiz_id);
+
+    $stmt->execute();
+    $stmt = null;
+    $pdo = null;
+
+    return; 
+}
+
+
+if (isset($_POST['delete']))
+{
+    $quiz_id = $_GET['quiz_id'];
+
+    deleteQuestion($quiz_id, $_POST['delete']);
+
+    $qn_id_array = array();
+    $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
+    $pdo2 = new PDO($dsn2,"root",'');
+    $sql2 = 'select * from question where quiz_id = :quiz_id';
+    $stmt2 = $pdo2->prepare($sql2);
+    $stmt2->bindParam(":quiz_id",$quiz_id);
+    $stmt2->execute();
+    $stmt2->setFetchMode(PDO::FETCH_ASSOC);
+    while ($row2 = $stmt2->fetch())
+    {
+        array_push($qn_id_array, $row2['question_id']);
+    }
+    $stmt2 = null;
+    $pdo2 = null;
+
+    for ($i = 1; $i <= count($qn_id_array); $i++)
+    {
+        updateQuestionNumber($quiz_id, $qn_id_array[$i-1], $i);
+    }
+    
+}
+
 if (isset($_POST['submit']))
     {
         if (empty($_POST['quiz_name'])  || empty($_POST['passing_mark']) || empty($_POST['time_limit']) || empty($_POST['type']))
@@ -117,8 +163,9 @@ if (isset($_POST['submit']))
         }
         else
         {
+            $quiz_id = $_GET['quiz_id'];
             $qn_count = $_POST['qn_count'];
-            $num_inDB = retrieveQnCount($_GET['quiz_id']);
+            $num_inDB = retrieveQnCount($quiz_id);
 
             updateQuiz($_GET['quiz_id'], $_POST['quiz_name'], $_POST['passing_mark'], $_POST['time_limit'], $_POST['type']);   
             
@@ -135,6 +182,10 @@ if (isset($_POST['submit']))
                     insertQuestion($_GET['quiz_id'], $k, $_POST['qn_'.$k], $_POST['qn'.$k.'_option1'], $_POST['qn'.$k.'_option2'], $_POST['qn'.$k.'_option3'], $_POST['qn'.$k.'_option4'], $_POST['qn'.$k.'_correctans'], $_POST['qn'.$k.'_type']);
                 }
             }
+
+
+
+
 
 ?>
             <script type="text/javascript">
@@ -184,6 +235,7 @@ include 'header.html';
                     <!-- Main page content-->
                     <div class="container-xl px-4 mt-4">
                         <?php
+                            $selected = '';
                             $quiz_id = $_GET['quiz_id'];
                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                             $pdo = new PDO($dsn,"root",'');
@@ -208,28 +260,26 @@ include 'header.html';
                                                     <!-- Form Group (Quiz Name)-->
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="quiz_name">Quiz Name</label>
-                                                        <input class="form-control" name = 'quiz_name' id="quiz_name"  type="text" placeholder="Enter the Quiz Name" value="<?php echo $row['quiz_name']?>" />
+                                                        <input required class="form-control" name = 'quiz_name' id="quiz_name"  type="text" placeholder="Enter the Quiz Name" value="<?php echo $row['quiz_name']?>" />
                                                     </div>
                                                     <!-- Form Group (Passing Mark)-->
                                                     <div class="col-md-6">
-                                                        <label class="small mb-1" for="passing_mark">Passing Mark</label>
-                                                        <input class="form-control" name = 'passing_mark' id="passing_mark" type="text" placeholder="Enter the Passing Mark for the quiz" value="<?php echo $row['passing_mark']?>" />
+                                                        <label class="small mb-1" for="passing_mark">Passing Mark in %</label>
+                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark" type="text" placeholder="Enter the Passing Mark for the quiz" value="<?php echo $row['passing_mark']?>" />
                                                     </div>
                                                 </div>
                                                 <div class="row gx-3 mb-3">
                                                     <!-- Form Group (Time Limit)-->
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="time_limit">Time Limit</label>
-                                                        <input class="form-control" name = 'time_limit' id="time_limit"  type="text" placeholder="Enter the Time Limit for the quiz" value="<?php echo $row['time_limit']?>" />
+                                                        <input required class="form-control" name = 'time_limit' id="time_limit"  type="text" placeholder="Enter the Time Limit for the quiz" value="<?php echo $row['time_limit']?>" />
                                                     </div>
                                                     <!-- Form Group (Course Name)-->
                                                     <div class="col-md-6">
                                                         <label class="small mb-1" for="type">Quiz Type</label>
-                                                        <select class="form-control" id="type" name="type" required>
-                                                            <option value= 'Ungraded'>Ungraded</option>
-                                                            <option value= 'Graded'>Graded</option>
+                                                        <select required class="form-control" id="type" name="type">
+                                                        <option value= '<?php echo $row['type'];?>'><?php echo $row['type'];?></option>
                                                         </select>
-                                                        
                                                     </div>
                                                 </div>
 
@@ -265,14 +315,15 @@ include 'header.html';
                                                             $stmt2->setFetchMode(PDO::FETCH_ASSOC);
                                                             while ($row2 = $stmt2->fetch())
                                                         {
-                                                            $qn_count ++;    
+                                                            $qn_count ++;   
                                                         ?>
                                                         <tr> 
                                                             <!--FETCHING DATA FROM EACH  
                                                                 ROW OF EVERY COLUMN--> 
                                                             <td><?php echo $row2['question_id'];?></td> 
                                                             <td><textarea required name = 'qn_<?php echo $row2['question_id'];?>' id = 'qn_<?php echo $row2['question_id'];?>' value = '<?php echo $row2['description'];?>'><?php echo $row2['description'];?></textarea></td> 
-                                                            <td><select style = 'width: 80px;' class="form-control" id="qn<?php echo $row2['question_id'];?>_type" name="qn<?php echo $row2['question_id'];?>_type" required>
+                                                            <td>
+                                                                <select onChange='update(<?php echo $row2['question_id'];?>)' style = 'width: 80px;' class="form-control" id="qn<?php echo $row2['question_id'];?>_type" name="qn<?php echo $row2['question_id'];?>_type" required>
                                                         <?php 
                                                             if ($row2['type'] == 'True or False')
                                                             {
@@ -289,13 +340,14 @@ include 'header.html';
                                                         <?php
                                                             }
                                                         ?>
-
-                                                            </select></td>
+                                                            </select>
+                                                            </td>
                                                             <td><textarea required name = "qn<?php echo $row2['question_id'];?>_option1" id = "qn<?php echo $row2['question_id'];?>_option1" value = '<?php echo $row2['option_1'];?>'><?php echo $row2['option_1'];?></textarea></td> 
                                                             <td><textarea required name = "qn<?php echo $row2['question_id'];?>_option2" id = "qn<?php echo $row2['question_id'];?>_option2" value = '<?php echo $row2['option_2'];?>'><?php echo $row2['option_2'];?></textarea></td> 
                                                             <td><textarea required name = "qn<?php echo $row2['question_id'];?>_option3" id = "qn<?php echo $row2['question_id'];?>_option3" value = '<?php echo $row2['option_3'];?>'><?php echo $row2['option_3'];?></textarea></td> 
                                                             <td><textarea required name = "qn<?php echo $row2['question_id'];?>_option4" id = "qn<?php echo $row2['question_id'];?>_option4" value = '<?php echo $row2['option_4'];?>'><?php echo $row2['option_4'];?></textarea></td> 
-                                                            <td><select class="form-control" id="qn<?php echo $row2['question_id'];?>_correctans" name="qn<?php echo $row2['question_id'];?>_correctans" required>
+                                                            <td><div id = 'qn<?php echo $row2['question_id'];?>_ddl'>
+                                                            <select class="form-control" id="qn<?php echo $row2['question_id'];?>_correctans" name="qn<?php echo $row2['question_id'];?>_correctans" required>
                                                         <?php 
                                                             $selected = '';
                                                             
@@ -315,8 +367,7 @@ include 'header.html';
                                                         ?>
                                                                 </select>
                                                             </td> 
-                                                            <td><a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick = "deleteQuestion($_GET['quiz_id'], $_row2['question_id'])" title="Delete Quiz"><i data-feather="trash-2"></i></a></td>
-
+                                                            <td><button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick = "return confirm('Are you sure you want to delete question?')" name = 'delete' value = '<?php echo $row2['question_id'];?>'><i data-feather="trash-2"></i></button></td>
                                                         </tr> 
                                                         <?php 
                                                             } 
@@ -332,10 +383,10 @@ include 'header.html';
                                                 <button button= 'button' class="btn btn-outline-primary mt-2" onclick = 'addQuestion(); return false;'><i class = 'fa fa-plus'></i><span style = 'padding-left: 5px;'>Add Question</span></button>
                                                 <button style = 'float:right; margin-top: 5px;' class="btn btn-primary" type="submit" id = "submit" name = "submit">Update Quiz</button>
                                             <div id = 'count'>
-                                            <input type = 'hidden' name = 'qn_count' id = 'qn_count' value = '0'></input>
-                                                        </div>
-
+                                                <input type = 'hidden' name = 'qn_count' id = 'qn_count' value = '0'></input>
+                                            </div>
                                             </form>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -351,6 +402,60 @@ include 'header.html';
 
 <script type = "text/javascript">
 
+    /*function deleteQuestion(qn)
+    {
+        document.getElementById('qnTable').deleteRow(qn+1);   
+    }*/
+
+    function update(qn_no)
+    {
+        var select = document.getElementById('qn' + qn_no.toString() + '_type');
+        var option = select.options[select.selectedIndex];
+
+        if (option.value == 'True or False')
+        {
+            document.getElementById('qn' + qn_no.toString() + '_option1').value = 'True';
+            document.getElementById('qn' + qn_no.toString() + '_option2').value = 'False';
+            document.getElementById('qn' + qn_no.toString() + '_option3').value = 'NIL';
+            document.getElementById('qn' + qn_no.toString() + '_option4').value = 'NIL';
+
+            document.getElementById('qn' + qn_no.toString() + '_option1').readOnly = true;
+            document.getElementById('qn' + qn_no.toString() + '_option2').readOnly = true;
+            document.getElementById('qn' + qn_no.toString() + '_option3').readOnly = true;
+            document.getElementById('qn' + qn_no.toString() + '_option4').readOnly = true;
+
+            document.getElementById('qn' + qn_no.toString() +'_ddl').innerHTML = `
+            <select class="form-control" id="qn`+qn_no.toString()+`_correctans" name="qn`+qn_no.toString()+`_correctans" required>
+            <option value= 'Answer 1'>Option 1</option>
+            <option value= 'Answer 2'>Option 2</option>
+            </select>
+            `;
+        }
+
+        if (option.value == 'MCQ')
+        {
+            document.getElementById('qn' + qn_no.toString() + '_option1').value = '';
+            document.getElementById('qn' + qn_no.toString() + '_option2').value = '';
+            document.getElementById('qn' + qn_no.toString() + '_option3').value = '';
+            document.getElementById('qn' + qn_no.toString() + '_option4').value = '';
+
+            document.getElementById('qn' + qn_no.toString() + '_option1').readOnly = false;
+            document.getElementById('qn' + qn_no.toString() + '_option2').readOnly = false;
+            document.getElementById('qn' + qn_no.toString() + '_option3').readOnly = false;
+            document.getElementById('qn' + qn_no.toString() + '_option4').readOnly = false;
+
+            document.getElementById('qn' + qn_no.toString() +'_ddl').innerHTML = `
+            <select class="form-control" id="qn`+qn_no.toString()+`_correctans" name="qn`+qn_no.toString()+`_correctans" required>
+            <option value= 'Answer 1'>Option 1</option>
+            <option value= 'Answer 2'>Option 2</option>
+            <option value= 'Answer 3'>Option 3</option>
+            <option value= 'Answer 4'>Option 4</option>
+            </select>
+            `;
+        }
+
+    }
+
     var question_num = <?php echo $qn_count;?>
 
     function addQuestion()
@@ -360,7 +465,7 @@ include 'header.html';
         <tr> 
             <td>${question_num}</td> 
             <td><textarea required name = 'qn_${question_num}' id = 'qn_${question_num}' value = ''></textarea></td> 
-            <td><select style = 'width: 80px;' class="form-control" id="qn${question_num}_type" name="qn${question_num}_type" required>
+            <td><select onChange='update(${question_num})' style = 'width: 80px;' class="form-control" id="qn${question_num}_type" name="qn${question_num}_type" required>
                 <option value= 'MCQ'>MCQ</option>
                 <option value= 'True or False' selected>T/F</option>
                 </select></td>
@@ -376,7 +481,7 @@ include 'header.html';
 
                 </select>
             </td> 
-            <td><a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href = '#' onclick = "return confirm('Are you sure you want to delete?')" title="Delete Quiz"><i data-feather="trash-2"></i></a></td>
+            <td><a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick = "deleteQuestion(${question_num})" title="Delete Quiz"><i data-feather="trash-2"></i></a></td>
         </tr>
         `;
         document.getElementById('table_body').innerHTML += html;
