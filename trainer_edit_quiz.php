@@ -279,6 +279,13 @@ include 'header.html';
                                                         <label class="small mb-1" for="type">Quiz Type</label>
                                                         <select required class="form-control" id="type" name="type">
                                                         <option value= '<?php echo $row['type'];?>'><?php echo $row['type'];?></option>
+                                                        <?php 
+                                                            if ($row['type'] == 'Ungraded')
+                                                            {
+                                                                echo '                                                        <option value= '<?php echo $row['type'];?>'><?php echo $row['type'];?></option>
+                                                                ';
+                                                            }
+                                                        ?>
                                                         </select>
                                                     </div>
                                                 </div>
