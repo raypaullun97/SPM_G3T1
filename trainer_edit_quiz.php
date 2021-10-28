@@ -252,9 +252,10 @@ include 'header.html';
                                 <div class="col-xl-12">
                                     <!-- Account details card-->
                                     <div class="card mb-4">
-                                        <div class="card-header">Quiz Details</div>
-                                        <div class="card-body">
-                                            <form>
+                                        <div class="card-header">Quiz Details
+                                        </div>
+                                            <div class="card-body">
+                                                <form>
                                                 <!-- Form Row-->
                                                 <div class="row gx-3 mb-3">
                                                     <!-- Form Group (Quiz Name)-->
@@ -282,8 +283,10 @@ include 'header.html';
                                                         <?php 
                                                             if ($row['type'] == 'Ungraded')
                                                             {
-                                                                echo '                                                        <option value= '<?php echo $row['type'];?>'><?php echo $row['type'];?></option>
-                                                                ';
+                                                        ?>
+                                                                <option value= '<?php echo $row['type'];?>'><?php echo $row['type'];?></option>";
+                                                                
+                                                        <?php
                                                             }
                                                         ?>
                                                         </select>
@@ -404,6 +407,7 @@ include 'header.html';
                         ?>
                     </div>
                 </main>
+        
 <?php include 'footer.html';?>
 
 

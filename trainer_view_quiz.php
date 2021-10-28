@@ -5,6 +5,11 @@
         }
     );
 
+    $quiz_id = $_GET['quiz_id'];
+    $course_id = $_GET['course_id'];
+    $class_id = $_GET['class_id'];
+    $section_id = $_GET['section_id'];
+
 ?>
 <?php include 'header.html';
 ?>
@@ -25,9 +30,13 @@
                                             <i class="me-1" data-feather="arrow-left"></i>
                                             Back to Section
                                         </a>
-                                        <a class="btn btn-sm btn-light text-primary" href="#">
+                                        <a class="btn btn-sm btn-light text-primary" href="trainer_edit_quiz.php?quiz_id=<?php echo $quiz_id;?>&class_id=<?php echo $class_id;?>&course_id=<?php echo $course_id;?>&section_id=<?php echo $section_id;?>">
                                             <i class="me-1" data-feather="user-plus"></i>
                                             Edit Quiz
+                                        </a>
+                                        <a class="btn btn-sm btn-light text-primary" href="trainer_copy_quiz.php?quiz_id=<?php echo $quiz_id;?>&class_id=<?php echo $class_id;?>&course_id=<?php echo $course_id;?>&section_id=<?php echo $section_id;?>">
+                                            <i class="me-1" data-feather="copy"></i>
+                                            Copy Quiz
                                         </a>
                                     </div>
                                 </div>

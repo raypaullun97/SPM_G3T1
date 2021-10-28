@@ -264,7 +264,7 @@ if (isset($_POST['submit']))
                                             <td><?php echo $row['type'];?></td> 
                                             <td>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2 mx-2" href="trainer_edit_quiz.php?quiz_id=<?php echo $row['quiz_id'].'&class_id='.$row['class_id'].'&course_id='.$row['course_id'].'&section_id='.$row['section_id'];?>"  title="Edit Quiz"><i data-feather="edit"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href='trainer_view_quiz.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>&quiz_id=<?php echo $row['quiz_id'];?>' title="View Quiz"><i data-feather="eye"></i></a>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href='trainer_view_quiz.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>&quiz_id=<?php echo $row['quiz_id'];?>&section_id=<?php echo $row['section_id'];?>' title="View Quiz"><i data-feather="eye"></i></a>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href = 'trainer_delete_quiz.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>&quiz_id=<?php echo $row['quiz_id'];?>' onclick = "return confirm('Are you sure you want to delete?')" title="Delete Quiz"><i data-feather="trash-2"></i></a>
                                             </td>
                                         </tr> 
