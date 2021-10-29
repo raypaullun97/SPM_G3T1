@@ -226,6 +226,7 @@ if (isset($_POST['submit']))
                                             <th>Passing Mark</th>
                                             <th>Time Limit (Minute)</th>   
                                             <th>Type</th>  
+                                            <th>Actions</th>
                                             
                                         </tr> 
                                     </thead>
