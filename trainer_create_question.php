@@ -5,12 +5,45 @@
     }
 );
 
+function getNumOfSection($class_id, $course_id)
+{
+    $section_id = '';
+    $conn_manager = new ConnectionManager();
+    $pdo = $conn_manager->getConnection();
+    $sql = "SELECT section_id FROM `section` WHERE course_id = :course_id and class_id = :class_id order by section_id DESC limit 1";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":class_id",$class_id);
+    $stmt->bindParam(":course_id",$course_id);
+    $stmt->execute();
+
+    if($row = $stmt->fetch()){
+        $section_id = $row['section_id'];
+    }
+
+    $stmt = null;
+    $pdo = null;
+
+    return $section_id;
+}
+
 
 $time_limit = $_POST['time_limit'];
 $passing_mark = $_POST['passing_mark'];
 $section = $_POST['section'];
 $class_id = $_GET['class_id'];
 $course_id = $_GET['course_id'];
+$quiz_name = $_POST['quiz_name'];
+
+if (isset($_POST['quiz_type']))
+{
+    $quiz_type = $_POST['quiz_type'];
+    $section = getNumOfSection($class_id, $course_id);
+
+}
+else
+{
+    $quiz_type = 'Ungraded';
+}
 
 
 ?>
@@ -111,14 +144,14 @@ $course_id = $_GET['course_id'];
                                                 <label for="q1">Question 1</label>
                                                 </div>
                                                 <div class = 'row'>
-                                                    <textarea class = 'form-control' name = 'qn1text' id = 'qn1text' placeholder = "E.g What is your name?"></textarea>
+                                                    <textarea required class = 'form-control' name = 'qn1text' id = 'qn1text' placeholder = "E.g What is your name?"></textarea>
                                                 </div>
                                                 <div class = 'row'>
                                                     <label class = 'radio-inline'>
-                                                        <input type = 'radio' id = 'qn1_tf' name ='question1_type' value = 'True or False' onclick = 'tftype("1")'>&nbsp;True or False</input>
+                                                        <input required type = 'radio' id = 'qn1_tf' name ='question1_type' value = 'True or False' onclick = 'tftype("1")'>&nbsp;True or False</input>
                                                     </label>
                                                     <label class = 'radio-inline'>
-                                                        <input type = 'radio' id = 'qn1_mcq' name ='question1_type' value = 'MCQ' onclick = 'mcqtype("1")'>&nbsp;Multiple Choice</input>
+                                                        <input required type = 'radio' id = 'qn1_mcq' name ='question1_type' value = 'MCQ' onclick = 'mcqtype("1")'>&nbsp;Multiple Choice</input>
                                                     </label>
                                                 </div>
 
@@ -160,6 +193,8 @@ $course_id = $_GET['course_id'];
                                             <input type = 'hidden' value = '<?php echo $time_limit; ?>' name = 'time_limit'>
                                             <input type = 'hidden' value = '<?php echo $passing_mark; ?>' name = 'passing_mark'>
                                             <input type = 'hidden' value = '<?php echo $section; ?>' name = 'section'>
+                                            <input type = 'hidden' value = '<?php echo $quiz_name; ?>' name = 'quiz_name'>
+                                            <input type = 'hidden' value = '<?php echo $quiz_type; ?>' name = 'quiz_type'>
                                         </div>
                                     </div>
                                 </form>
@@ -193,14 +228,14 @@ $course_id = $_GET['course_id'];
                     <label for="q` + question + `">Question ` + question + `</label>
                     </div>
                     <div class = 'row'>
-                        <textarea class = 'form-control' name = 'qn` + question + `text' id = 'qn` + question + `text' placeholder = "E.g What is your name?"></textarea>
+                        <textarea required class = 'form-control' name = 'qn` + question + `text' id = 'qn` + question + `text' placeholder = "E.g What is your name?"></textarea>
                     </div>
                     <div class = 'row'>
                         <label class = 'radio-inline'>
-                            <input type = 'radio' id = 'qn` + question + `_tf' name ='question` + question + `_type' value = 'True or False' onclick = 'tftype("` + question + `")'>&nbsp;True or False</input>
+                            <input required type = 'radio' id = 'qn` + question + `_tf' name ='question` + question + `_type' value = 'True or False' onclick = 'tftype("` + question + `")'>&nbsp;True or False</input>
                         </label>
                         <label class = 'radio-inline'>
-                            <input type = 'radio' id = 'qn` + question + `_mcq' name ='question` + question + `_type' value = 'MCQ' onclick = 'mcqtype("` + question + `")'>&nbsp;Multiple Choice</input>
+                            <input required type = 'radio' id = 'qn` + question + `_mcq' name ='question` + question + `_type' value = 'MCQ' onclick = 'mcqtype("` + question + `")'>&nbsp;Multiple Choice</input>
                         </label>
                     </div>
 
@@ -242,12 +277,12 @@ $course_id = $_GET['course_id'];
         var html = `
         <div class = 'col-sm-6'>
             <label for="q` + q_number + `a1">Answer 1</label>
-            <input type="text" class="form-control" id="q` + q_number + `a1" name = "q` + q_number + `a1" value = 'True'>                                    
+            <input required type="text" class="form-control" id="q` + q_number + `a1" name = "q` + q_number + `a1" value = 'True'>                                    
         </div>
 
         <div class = 'col-sm-6'>
             <label for="q` + q_number + `a2">Answer 2</label>
-            <input type="text" class="form-control" id="q` + q_number + `a2" name = "q` + q_number + `a2" value = 'False'>                                    
+            <input required type="text" class="form-control" id="q` + q_number + `a2" name = "q` + q_number + `a2" value = 'False'>                                    
         </div>
         `;
 
@@ -255,7 +290,7 @@ $course_id = $_GET['course_id'];
 
 
         var html2 = `
-            <select name = 'q` + q_number + `correct'>
+            <select required name = 'q` + q_number + `correct'>
                 <option selected disabled>Select Correct Answer</option>
                 <option value = "Answer 1">Answer 1</option>
                 <option value = "Answer 2">Answer 2</option>
@@ -274,29 +309,29 @@ $course_id = $_GET['course_id'];
         var html = `
         <div class = 'col-sm-6'>
             <label for="q` + q_number + `a1">Answer 1</label>
-            <input type="text" class="form-control" id="q` + q_number + `a1" name ="q` + q_number + `a1" placeholder="Answer 1">                                    
+            <input required type="text" class="form-control" id="q` + q_number + `a1" name ="q` + q_number + `a1" placeholder="Answer 1">                                    
         </div>
 
         <div class = 'col-sm-6'>
             <label for="q` + q_number + `a2">Answer 2</label>
-            <input type="text" class="form-control" id="q` + q_number + `a2" name = "q` + q_number + `a2" placeholder="Answer 2">                                    
+            <input required type="text" class="form-control" id="q` + q_number + `a2" name = "q` + q_number + `a2" placeholder="Answer 2">                                    
         </div>
 
         <div class = 'col-sm-6 mt-2'>
             <label for="q` + q_number + `a3">Answer 3</label>
-            <input type="text" class="form-control" id="q` + q_number + `a3" name = "q` + q_number + `a3" placeholder="Answer 3">                                    
+            <input required type="text" class="form-control" id="q` + q_number + `a3" name = "q` + q_number + `a3" placeholder="Answer 3">                                    
         </div>
 
         <div class = 'col-sm-6 mt-2'>
             <label for="q` + q_number + `a4">Answer 4</label>
-            <input type="text" class="form-control" id="q` + q_number + `a4" name = "q` + q_number + `a4" placeholder="Answer 4">                                    
+            <input required type="text" class="form-control" id="q` + q_number + `a4" name = "q` + q_number + `a4" placeholder="Answer 4">                                    
         </div>
         `;
 
         document.getElementById(qid).innerHTML = html;
 
         var html2 = `
-            <select name = 'q` + q_number + `correct'>
+            <select required name = 'q` + q_number + `correct'>
                 <option selected disabled>Select Correct Answer</option>
                 <option value = "Answer 1">Answer 1</option>
                 <option value = "Answer 2">Answer 2</option>

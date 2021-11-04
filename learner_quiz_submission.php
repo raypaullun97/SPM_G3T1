@@ -10,6 +10,80 @@
     $section_id = $_GET['section_id'];
     $engineer_id = 1;
     $passingmark = 0;
+    $quiz_type = getQuizType($quiz_id);
+    $badge_name = getBadgeName($course_id);
+
+    function updateCourseStatus($engineer_id, $course_id)
+    {
+        $badge_name = '';
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = 'update course_status set status = "Completed" where engineer_id = :engineer_id and course_id = :course_id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":engineer_id",$engineer_id);
+        $stmt->bindParam(":course_id",$course_id);
+        $updateStatus = $stmt->execute();
+        
+        $stmt = null;
+        $pdo = null;
+    
+        return $badge_name;
+    }
+
+    function getBadgeName($course_id)
+    {
+        $badge_name = '';
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = 'select * from course where course_id = :course_id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":course_id",$course_id);
+        $stmt->execute();
+    
+        if($row = $stmt->fetch()){
+            $badge_name = $row['description'];
+        }
+        
+        $badge_name = $badge_name . ' Specialist';
+        $stmt = null;
+        $pdo = null;
+    
+        return $badge_name;
+    }
+
+    function assignBadge($engineer_id, $badge_name)
+    {
+        $dsn = "mysql:host=localhost;dbname=lms;port=3306";
+        $pdo = new PDO($dsn,"root",'');
+        $query = 'insert into engineer_badges (`engineer_id`, `badge_name`) values (:engineer_id, :badge_name)';
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":engineer_id", $engineer_id);
+        $stmt->bindParam(":badge_name", $badge_name);
+        $insertStatus = $stmt->execute();
+        $stmt = null;
+        $pdo = null;
+
+        return $insertStatus;
+    }
+
+    function getQuizType($quiz_id){
+        $conn_manager = new ConnectionManager();
+        $pdo = $conn_manager->getConnection();
+        $sql = 'select * from quiz where quiz_id = :quiz_id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":quiz_id",$quiz_id);
+        $stmt->execute();
+    
+        if($row = $stmt->fetch()){
+            $quiz_type = $row['type'];
+        }
+    
+        $stmt = null;
+        $pdo = null;
+    
+        return $quiz_type;
+     }
+
     function getPassingMark($quiz_id){
         $conn_manager = new ConnectionManager();
         $pdo = $conn_manager->getConnection();
@@ -177,7 +251,7 @@
                                         <label class = 'radio-inline'>
                                             <input type = 'radio' id = 'qn<?php echo $row['question_id'];?>_ans' <?php if ($count == $selected_answer){echo 'checked';}?> 
                                             disabled name ='question<?php echo $row['question_id'];?>_ans' value = 'Answer 4'>&nbsp;<?php echo $row['option_4'];?></input>
-                                            <?php 
+                                            <?php
                                                 if ($count == $correct_answer2)
                                                 {
                                                     echo '<span style = "color: #04d43f">&#10003;</span>';
@@ -200,12 +274,36 @@
                                     <label class = 'radio-inline'>
                                         <input type = 'radio' id = 'qn<?php echo $row['question_id'];?>_ans' <?php if ($count == $selected_answer){echo 'checked';}$count ++;?> 
                                         disabled name ='question<?php echo $row['question_id'];?>_ans' value = 'Answer 1'>&nbsp;<?php echo $row['option_1'];?></input>
+                                        <?php
+                                            if ($count == $correct_answer2)
+                                            {
+                                                echo '<span style = "color: #04d43f">&#10003;</span>';
+                                            }
+
+                                            if ($selected_answer != $correct_answer2 and $count == $selected_answer)
+                                            {
+                                                echo '<span style = "color: #FF0000	">&#88;</span>';
+                                            }
+                                            $count = 1;
+                                        ?>
                                     </label>
                                 </div>
                                 <div class = 'row'>
                                     <label class = 'radio-inline'>
                                         <input type = 'radio' id = 'qn<?php echo $row['question_id'];?>_ans' <?php if ($count == $selected_answer){echo 'checked';}$count = 1;?> 
                                         disabled name ='question<?php echo $row['question_id'];?>_ans' value = 'Answer 2'>&nbsp;<?php echo $row['option_2'];?></input>
+                                        <?php
+                                            if ($count == $correct_answer2)
+                                            {
+                                                echo '<span style = "color: #04d43f">&#10003;</span>';
+                                            }
+
+                                            if ($selected_answer != $correct_answer2 and $count == $selected_answer)
+                                            {
+                                                echo '<span style = "color: #FF0000	">&#88;</span>';
+                                            }
+                                            $count = 1;
+                                        ?>
                                     </label>
                                 </div>
                                 <?php
@@ -225,26 +323,29 @@
                     $pdo = null;
 
                     $passingmark = getPassingMark($quiz_id);
+                    $passingmark = $passingmark/100 * $question_count;
 
                     #Quiz Attempt Submission
-
-
-
-                    
                     $submit_attempt = submitQuiz($section_id, $engineer_id, $class_id, $course_id, $grade, $quiz_id)
-
-
                 ?>
-                            
-   
-                            <div class = 'container'>
+                            <div class = 'container' style = 'text-align:center;'>
                                 <div class = 'col-sm-6'>
                                     <p><b>Final Grade:</b> <?php echo $grade.' / '.$question_count;?></p>
                                     <p>
                                     <?php 
                                     if ($grade >= $passingmark)
                                     {
-                                        echo 'Congratulations you have <b>Passed</b> the quiz!';
+                                        echo 'Congratulations you have <b>Passed</b> the quiz!<br>';
+
+                                        if ($quiz_type == 'Graded')
+                                        {
+                                            assignBadge($engineer_id, $badge_name);
+                                            updateCourseStatus($engineer_id, $course_id);
+                                            echo 'You have been awarded the <b>'.$badge_name.'</b> badge!<br>';
+
+                                            echo '<br><img src = "assets/img/badges.png">';
+                                        }
+
                                     }
                                     else
                                     {
