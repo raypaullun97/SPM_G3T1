@@ -2,7 +2,7 @@
     class QuizDAO{
 
         # Add a new user to the database
-        public function add($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $type, $quiz_name){
+        public function insert($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $type, $quiz_name){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             $sql = 'insert into quiz(`class_id`, `course_id`,`section_id`, `engineer_id`, `passing_mark`, `time_limit`, `type`, `quiz_name`) VALUES 
