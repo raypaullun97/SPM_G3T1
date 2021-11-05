@@ -1,7 +1,7 @@
 <?php
 class ConnectionManager {
     public function getConnection() {
-        $servername = '127.0.0.1';
+        $servername = 'localhost';
         $dbname = 'lms';
         $username = 'root';
         $password = '';
