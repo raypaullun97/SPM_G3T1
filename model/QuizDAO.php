@@ -1,8 +1,10 @@
 <?php
+    require './model/ConnectionManager.php';
+    
     class QuizDAO{
 
         # Add a new user to the database
-        public function insert($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $type, $quiz_name){
+        function createQuiz($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $quiz_type, $quiz_name){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             $sql = 'insert into quiz(`class_id`, `course_id`,`section_id`, `engineer_id`, `passing_mark`, `time_limit`, `type`, `quiz_name`) VALUES 
@@ -17,12 +19,12 @@
             $stmt->bindParam(":type",$quiz_type);
             $stmt->bindParam(":quiz_name",$quiz_name);
 
-            $status = $stmt->execute();
+            $quizCreation = $stmt->execute();
             $stmt = null;
             $pdo = null;
 
-            return $status;
-        }
+            return $quizCreation;
+         }
 
         public function retrieveLastQuizId()
         {
@@ -46,7 +48,7 @@
 
         # Retrieve a quiz with a given course_id, class_id and section_id
         # Return null if no such course exists
-        public function retrieveCourseByID($course_id, $class_id, $section_id){
+        public function retrieveQuizByID($course_id, $class_id, $section_id){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             
@@ -85,6 +87,20 @@
             $pdo = null;
 
             return; 
+        }
+
+        public function deleteQuiz($quiz_id)
+        {
+            $conn_manager = new ConnectionManager();
+            $pdo = $conn_manager->getConnection();
+            $sql = 'delete from question where quiz_id = :temp';
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(":temp", $quiz_id);
+            $delQuestionStatus = $stmt->execute();
+            $stmt = null;
+            $pdo = null;
+    
+            return $delQuestionStatus;
         }
     }
 ?>
