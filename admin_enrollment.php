@@ -124,29 +124,45 @@ spl_autoload_register(
                                 
                                 $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                 $pdo = new PDO($dsn, "root", '');
-
                                 if ($prerequisite == "") {
                                     $sql = 'select distinct e.engineer_id, e.engineer_name, username
-                                                from course_status cs
-                                                right outer join engineer e on cs.engineer_id = e.engineer_id
-                                                where e.engineer_id not in (select distinct(engineer_id)
-                                                from course_status 
-                                                where course_id = :course_id) and e.engineer_id != :engineer_id 
+                                    from engineer e
+                                    where e.engineer_id not in (select distinct(engineer_id)
+                                    from course_status 
+                                    where course_id = :course_id and status = "Completed") 
+                                    and e.engineer_id not in (select distinct(engineer_id)
+                                    from learner_enrollment 
+                                    where course_id = :course_id and status = "Enrolled")
+                                    and e.engineer_id not in (select engineer_id
+                                    from class 
+                                    where course_id = :course_id and class_id = :class_id)
                                                                 ';
+                                    $stmt = $pdo->prepare($sql);
                                 } else {
-                                    $sql = 'select *
-                                                from course_status cs
-                                                inner join engineer e on cs.engineer_id = e.engineer_id
-                                                inner join course_prerequisite cp on cp.course_id = :course_id and cp.prerequisite = cs.course_id where e.engineer_id != (select distinct(engineer_id)
-                                                from course_status 
-                                                where course_id = :course_id) and e.engineer_id != :engineer_id 
+                                    $sql = 'select distinct e.engineer_id, e.engineer_name, username
+                                    from engineer e
+                                     
+                                    where e.engineer_id not in (select distinct(engineer_id)
+                                    from course_status 
+                                    where course_id = :course_id and status = "Completed") 
+                                    and e.engineer_id not in (select distinct(engineer_id)
+                                    from learner_enrollment 
+                                    where course_id = :course_id and status = "Enrolled")
+                                    and e.engineer_id not in (select engineer_id
+                                    from class 
+                                    where course_id = :course_id and class_id = :class_id)
+                                    and e.engineer_id  in (select engineer_id
+                                    from course_status 
+                                    where course_id = :prerequisite and status = "Completed")
                                                                 ';
+                                    $stmt = $pdo->prepare($sql);
+                                    $stmt->bindParam(':prerequisite', $prerequisite);
                                 }
 
 
-                                $stmt = $pdo->prepare($sql);
+                                
                                 $stmt->bindParam(':course_id', $_GET['course_id']);
-                                $stmt->bindParam(':engineer_id', $engineer_id_trainer);
+                                $stmt->bindParam(':class_id', $_GET['class_id']);
                                 $stmt->execute();
                                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                 while ($row = $stmt->fetch()) {

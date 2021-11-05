@@ -49,10 +49,11 @@ $engineer_id = "1";
                                             
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
                                             $pdo = new PDO($dsn,"root",'');
-                                            $sql = 'select co.course_id, course_name, cl.class_id, le.status, enrollment_id from course co 
+                                            $sql = 'select co.course_id, course_name, cl.class_id, le.status, end_register_date, enrollment_id from course co 
                                                     inner join class cl on co.course_id = cl.course_id
                                                     inner join learner_enrollment le on le.class_id = cl.class_id and le.course_id = cl.course_id
-                                                    where le.engineer_id = :engineer_id and type = "Self"';
+                                                    where le.engineer_id = :engineer_id 
+                                                    and type = "Self"';
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
                                             $stmt->execute();
@@ -72,7 +73,9 @@ $engineer_id = "1";
                                                 
                                             
                                                 <?php
-                                                if($row['status'] == "Enrolled"){?>
+                                                $end_register_date = $row['end_register_date'];
+                                                $today = date("Y-m-d");
+                                                if($row['status'] == "Enrolled" & strtotime($end_register_date) > strtotime($today)){?>
                                                     <form method="post"  action ="withdraw_enrollment.php">
                                                         <input type="hidden" name="enrollment_id" value="<?php echo $row['enrollment_id']?>">
                                                         <input type="hidden" name="course_id" value="<?php echo $row['course_id']?>">

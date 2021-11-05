@@ -86,7 +86,7 @@ function approveuser(id){
                                 {
                                     $start_date = $row['start_date'];
                                 }
-                                $today = date("Y-m-d");;
+                                $today = date("Y-m-d");
                                 if(strtotime($today) < strtotime($start_date)){
 
                                 

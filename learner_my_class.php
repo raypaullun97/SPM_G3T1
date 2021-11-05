@@ -203,6 +203,10 @@ if (isset($_POST['update']))
                                             <i class="me-1" data-feather="arrow-left"></i>
                                             Back to Course List
                                         </a>
+                                        <a class="btn btn-sm btn-light text-primary" href="learner_my_class_thread.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>">
+                                            <i class="me-1" data-feather="arrow-right"></i>
+                                            View Class Forum
+                                        </a>
                                     </div>
                                 </div>
                             </div>

@@ -29,8 +29,8 @@
                                 ,$_POST['end__date'],$_POST['start_time'],$_POST['end_time'],$_POST['engineer_id']);
 ?>
             <script type="text/javascript">
-            alert('Class has been edit successfully!');
-            // location.href = 'admin_view_class.php?course_id=<?php echo $_GET['course_id']?>';
+            alert('Class has been updated successfully!');
+            location.href = 'admin_view_class.php?course_id=<?php echo $_GET['course_id']?>';
             </script>
 <?php            
         }

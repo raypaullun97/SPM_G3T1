@@ -21,12 +21,38 @@ function createSections($class_id, $course_id, $section_name, $description){
 
     return $insertStatus;
 }
+function delete_material($learning_material_id){
+    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
+    $pdo = new PDO($dsn,"root",'');
+    $query = 'delete from learning_material where learning_material_id= :learning_material_id';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":learning_material_id", $learning_material_id);
+
+    $deleteStatus = $stmt->execute();
+    $stmt = null;
+    $pdo = null;
+
+    return $deleteStatus;
+
+}
 $class_id = $_GET['class_id'];
 $course_id = $_GET['course_id'];
 $section_id='';
 if (isset($_GET['section_id'])){
     $section_id = $_GET['section_id'];
 }
+if (isset($_POST['delete']))
+    {   
+        $delete_stats= delete_material($_POST['delete']);
+    
+
+?>
+    <script type="text/javascript">
+            alert('Learning Material has been deleted successfully!');
+    </script>
+
+<?php
+    }
 if (isset($_POST['submit']))
 {
      if (empty($_POST['section_name'])  || empty($_POST['description']))
@@ -161,6 +187,9 @@ if (isset($_POST['submit']))
                                         </tr> 
                                     </thead>
                                     <tbody>
+                                        <form action="trainer_view_section.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>"  method='POST' enctype = "multipart/form-data" id = 'delete_material'>
+
+                                       
                                         <?php
                                             if($section_id == ''){
                                             $dsn = "mysql:host=localhost;dbname=lms;port=3306";
@@ -197,7 +226,7 @@ if (isset($_POST['submit']))
                                             <td>
                                                 <?php $class_id = $row['class_id'];?>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="trainer_edit_learning_materials.php?learning_material_id=<?php echo $row['learning_material_id']?>"  title="Edit Learning Materials"><i data-feather="edit"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark" href="#!" title="Delete Learning Materials"><i data-feather="trash-2"></i></a>
+                                                <button class="btn btn-datatable btn-icon btn-transparent-dark" type ="submit" value="<?php echo $row['learning_material_id']?>" name='delete' title="Delete Learning Materials"><i data-feather="trash-2"></i></button>
                                                 <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"   value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
                                                 <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"  data-toggle="modal" data-target="#self_enrollment" value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
                                             </td>
@@ -206,7 +235,8 @@ if (isset($_POST['submit']))
                                             } 
                                             $stmt = null;
                                             $pdo = null;
-                                        ?> 
+                                        ?>
+                                        </form>
                                     </tbody>
                                 </table>
                                
