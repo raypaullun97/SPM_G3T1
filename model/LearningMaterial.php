@@ -1,13 +1,13 @@
 <?php 
     class LearningMaterial{
        
-        private $learning_material_id;
-        private $section_id;
-        private $class_id;
-        private $course_id;
-        private $description;
-        private $type;
-        private $document_name;
+        public $learning_material_id;
+        public $section_id;
+        public $class_id;
+        public $course_id;
+        public $description;
+        public $type;
+        public $document_name;
 
         public function __construct($learning_material_id, $section_id, $class_id, $course_id, $description, $type, $document_name){
             $this->learning_material_id = $learning_material_id;

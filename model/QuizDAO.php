@@ -1,8 +1,9 @@
 <?php
+    require 'ConnectionManager.php';
     class QuizDAO{
 
         # Add a new user to the database
-        public function insert($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $type, $quiz_name){
+        function createQuiz($class_id, $course_id, $section_id, $engineer_id, $passing_mark, $time_limit, $quiz_type, $quiz_name){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             $sql = 'insert into quiz(`class_id`, `course_id`,`section_id`, `engineer_id`, `passing_mark`, `time_limit`, `type`, `quiz_name`) VALUES 
@@ -17,12 +18,12 @@
             $stmt->bindParam(":type",$quiz_type);
             $stmt->bindParam(":quiz_name",$quiz_name);
 
-            $status = $stmt->execute();
+            $quizCreation = $stmt->execute();
             $stmt = null;
             $pdo = null;
 
-            return $status;
-        }
+            return $quizCreation;
+         }
 
         public function retrieveLastQuizId()
         {
@@ -46,7 +47,7 @@
 
         # Retrieve a quiz with a given course_id, class_id and section_id
         # Return null if no such course exists
-        public function retrieveCourseByID($course_id, $class_id, $section_id){
+        public function retrieveQuizByID($course_id, $class_id, $section_id){
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             
@@ -61,7 +62,7 @@
             $quiz = null;
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             if($row = $stmt->fetch()){
-                $quiz = new Quiz($quiz_id, $course_id, $class_id, $section_id, $engineer_id, $passing_mark, $time_limit, $type, $quiz_name);
+                $quiz = new Quiz($row['quiz_id'], $row['course_id'], $row['class_id'], $row['section_id'], $row['engineer_id'], $row['passing_mark'], $row['time_limit'], $row['type'], $row['quiz_name']);
             }
             
             $stmt = null;
@@ -80,11 +81,25 @@
             $stmt->bindParam(":type", $type);
             $stmt->bindParam(":quiz_id", $quiz_id);
 
-            $stmt->execute();
+            $status = $stmt->execute();
             $stmt = null;
             $pdo = null;
 
-            return; 
+            return $status; 
+        }
+
+        public function deleteQuiz($quiz_id)
+        {
+            $conn_manager = new ConnectionManager();
+            $pdo = $conn_manager->getConnection();
+            $sql = 'delete from quiz where quiz_id = :temp';
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(":temp", $quiz_id);
+            $delQuizStatus = $stmt->execute();
+            $stmt = null;
+            $pdo = null;
+
+            return $delQuizStatus;
         }
     }
 ?>

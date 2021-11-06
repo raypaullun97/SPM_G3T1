@@ -1,14 +1,14 @@
 <?php 
     class Quiz{
-        private $quiz_id;
-        private $course_id;
-        private $class_id;
-        private $section_id;
-        private $engineer_id;
-        private $passing_mark;
-        private $time_limit;
-        private $type;
-        private $quiz_name;
+        public $quiz_id;
+        public $course_id;
+        public $class_id;
+        public $section_id;
+        public $engineer_id;
+        public $passing_mark;
+        public $time_limit;
+        public $type;
+        public $quiz_name;
         
         public function __construct($quiz_id, $course_id, $class_id, $section_id, $engineer_id, $passing_mark, $time_limit, $type, $quiz_name){
             $this->quiz_id = $quiz_id;

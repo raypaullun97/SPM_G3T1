@@ -1,4 +1,6 @@
 <?php 
+    require 'ConnectionManager.php';
+
     class LearningMaterialDAO{
 
         #Insert new Learning Material 
