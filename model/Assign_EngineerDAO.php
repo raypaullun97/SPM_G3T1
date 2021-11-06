@@ -52,23 +52,6 @@
             $stmt = null;
             $pdo = null;
             return $enrollment;
-        }       
-        public function updateEnrollment($engineer_id, $course_id,$class_id){
-            $conn_manager = new ConnectionManager();
-            $pdo = $conn_manager->getConnection();
-            
-            $sql = "UPDATE learner_enrollment SET engineer_id=:engineer_id, course_id=:course_id, class_id=:class_id, status=:status  WHERE enrollmentid_id=:enrollment_id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
-            $stmt->bindParam(":course_id",$course_id,PDO::PARAM_STR);
-            $stmt->bindParam(":class_id",$class_id,PDO::PARAM_STR);
-            $stmt->bindParam(":status",$status,PDO::PARAM_STR);
-
-            $is_update_ok = $stmt->execute();
-            
-            $stmt = null;
-            $pdo = null;
-            return $is_update_ok;
-        }
+        }      
     }
 ?>

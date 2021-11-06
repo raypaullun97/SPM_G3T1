@@ -7,7 +7,7 @@
             $conn_manager = new ConnectionManager();
             $pdo = $conn_manager->getConnection();
             
-            $sql = "SELECT status from course_status where engineer_id = $engineer_id and course_id = $course_id ";
+            $sql = "SELECT status from course_status where engineer_id = :engineer_id and course_id = :course_id ";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(":engineer_id",$engineer_id,PDO::PARAM_STR);
             $stmt->bindParam(":course_id",$course_id,PDO::PARAM_STR);
@@ -38,6 +38,24 @@
             $stmt = null;
             $pdo = null;
             return $is_update_ok;
+        }
+
+        public function insertCourseStatus($engineer_id, $course_id, $status)
+        {
+            $conn_manager = new ConnectionManager();
+            $pdo = $conn_manager->getConnection();
+            $sql = 'insert into course_status(`course_id`, `engineer_id`, `status`) VALUES 
+            (:course_id, :engineer_id, :status)';
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(":status",$status);
+            $stmt->bindParam(":course_id",$course_id);
+            $stmt->bindParam(":engineer_id",$engineer_id);
+
+            $insertStatus = $stmt->execute();
+            $stmt = null;
+            $pdo = null;
+
+            return $insertStatus;
         }
 
     }

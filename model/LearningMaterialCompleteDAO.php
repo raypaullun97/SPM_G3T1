@@ -1,7 +1,6 @@
 <?php 
-    require 'ConnectionManager.php';
 
-    class LearningMaterialDAO{
+    class LearningMaterialCompleteDAO{
 
         #Insert new Learning Material 
         public function insert_learning_material_complete($learning_material_id, $engineer_id){

@@ -1,8 +1,8 @@
 <?php 
     class Course{
-        private $course_id;
-        private $course_name;
-        private $description;
+        public $course_id;
+        public $course_name;
+        public $description;
         
         public function __construct($course_id,$course_name, $description){
             $this->course_id = $course_id;
