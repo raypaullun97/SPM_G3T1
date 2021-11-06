@@ -53,5 +53,4 @@ class QuizTest extends \PHPUnit\Framework\TestCase
         $status = $quiz->deleteQuiz($result->quiz_id);
         $this->assertEquals(true, $status);
     }
-
 }
