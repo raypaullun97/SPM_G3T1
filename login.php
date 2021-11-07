@@ -28,7 +28,7 @@ $errors = array();
 if(isset($_POST['guestlogin']))
 {
 
-    $errors['username'] = validStrLen($_POST['username'], 4, 16, $con, $config);
+    $errors['username'] = validStrLen($_POST['username'], 4, 16, $con, $config,$_GET['lang']);
 
     if($errors['username'] == 1)
     {

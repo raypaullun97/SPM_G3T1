@@ -1,4 +1,4 @@
-<?php include 'header.html';
+<?php include 'learner_header.html';
 $quiz_id = $_GET['quiz_id'];
 $class_id = $_GET['class_id'];
 $course_id = $_GET['course_id'];
