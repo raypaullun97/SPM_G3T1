@@ -1,7 +1,7 @@
 
 <?php 
 
-    include 'header.html';
+    include 'learner_header.html';
     $section_id='';
     $class_id= 'G2';
     $course_id= 'IS212'; 

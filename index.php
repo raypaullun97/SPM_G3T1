@@ -14,6 +14,7 @@ if(!isset($GLOBALS['sesId'])) {
     header("Location: login.php");
     exit;
 }
+
 $config['lang'] = check_user_lang($config);
 require_once('includes/lang/lang_'.$config['lang'].'.php');
 
@@ -23,6 +24,7 @@ $TFuserid      = $GLOBALS['MySQLi_userid_field'];
 $TFusername    = $GLOBALS['MySQLi_username_field'];
 $TFPicname     = $GLOBALS['MySQLi_photo_field'];
 
+$engineer_id = 1;
 $query1 = "SELECT $TFPicname FROM `".$config['db']['pre'].$TNMuser."` where $TFuserid = '".$GLOBALS['sesId']."'";
 $result1 = $con->query($query1);
 $row1 = mysqli_fetch_assoc($result1);

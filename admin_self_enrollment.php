@@ -10,7 +10,7 @@ $class_id = $_GET['class_id'];
 ?>
 
 
-<?php include 'header.html';?>
+<?php include 'admin_header.html';?>
 
 <script>
 function approveuser(id){

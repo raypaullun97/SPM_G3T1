@@ -11,7 +11,7 @@ spl_autoload_register(
 ?>
 
 
-<?php include 'header.html'; ?>
+<?php include 'admin_header.html'; ?>
 
 <script>
     function approveuser(id) {

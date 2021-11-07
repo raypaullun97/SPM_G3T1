@@ -6,7 +6,7 @@ $config['db']['pass'] = '';
 $config['db']['pre'] = 'chat';
 
 $config['site_title'] = 'Wchat';
-$config['site_url'] = 'http://localhost/code/';
+$config['site_url'] = 'http://localhost/SPM_G3T1/';
 $config['admin_email'] = 'limweilun1997@gmail.com';
 
 $config['tpl_name'] = 'style-light';
