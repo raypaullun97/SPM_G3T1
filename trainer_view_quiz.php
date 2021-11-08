@@ -11,7 +11,7 @@
     $section_id = $_GET['section_id'];
 
 ?>
-<?php include 'header.html';
+<?php include 'trainer_header.html';
 ?>
             <div id="layoutSidenav_content">
                 <main>

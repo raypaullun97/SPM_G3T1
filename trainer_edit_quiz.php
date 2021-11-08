@@ -196,7 +196,7 @@ if (isset($_POST['submit']))
         }
     }
 
-include 'header.html';
+include 'trainer_header.html';
  ?>
  <style>
 
