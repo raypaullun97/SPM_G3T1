@@ -21,7 +21,7 @@
                                     <div class="col-12 col-xl-auto mb-3">
                                         <a class="btn btn-sm btn-light text-primary" href="admin_view_class.php?course_id=<?php echo $_GET['course_id'] ?>">
                                             <i class="me-1" data-feather="arrow-left"></i>
-                                            Back to Classs
+                                            Back to Class
                                         </a>
                                         
 
