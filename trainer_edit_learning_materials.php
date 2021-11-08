@@ -86,7 +86,7 @@ if (isset($_POST['submit']))
 ?>
 
 
-<?php include 'header.html';?>
+<?php include 'trainer_header.html';?>
             <div id="layoutSidenav_content">
             
                 <main>
