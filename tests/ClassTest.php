@@ -1,5 +1,6 @@
 <?php 
-#DONE BY CHERYL
+# Done by Cheryl 
+
 require './model/ClassDAO.php';
 
 class ClassTest extends \PHPUnit\Framework\TestCase

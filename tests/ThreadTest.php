@@ -1,5 +1,6 @@
 <?php 
-#DONE BY Jia Xiang
+# Done by Jia Xiang 
+
 require './model/ThreadDAO.php';
 
 class ThreadTest extends \PHPUnit\Framework\TestCase

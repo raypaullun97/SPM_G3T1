@@ -1,5 +1,6 @@
 <?php 
-#DONE BY JIA XIANG
+# Done by Jia Xiang 
+
 require './model/PostDAO.php';
 
 class PostTest extends \PHPUnit\Framework\TestCase

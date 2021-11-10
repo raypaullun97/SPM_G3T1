@@ -1,5 +1,6 @@
-<?php
-#DONE BY IAN
+<?php 
+# Done by Ian 
+
 require './model/Quiz.php';
 require './model/QuizDAO.php';
 

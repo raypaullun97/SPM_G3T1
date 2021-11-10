@@ -1,5 +1,6 @@
 <?php 
-#DONE BY Jia Xiang
+# Done by Jia Xiang
+
 require './model/Section.php';
 require './model/SectionDAO.php';
 

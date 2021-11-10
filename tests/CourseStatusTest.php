@@ -1,8 +1,8 @@
 <?php 
-#DONE BY WEILUN
+# Done by Weilun 
+
 require './model/CourseStatus.php';
 require './model/CourseStatusDAO.php';
-
 
 class CourseStatusTest extends \PHPUnit\Framework\TestCase
 {
