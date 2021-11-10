@@ -1,4 +1,5 @@
 <?php 
+#DONE BY CHERYL
 require './model/Assign_Engineer.php';
 require './model/Assign_EngineerDAO.php';
 
@@ -17,8 +18,8 @@ class Assign_EngineerTest extends \PHPUnit\Framework\TestCase
         $status = $engineer->addEngineer_course_status('10','IS453','Incomplete');
         $this->assertEquals(true, $status);
 
-        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $sql = 'delete from course_status where engineer_id = "10" and course_id = "IS453" and status = "Incomplete"';
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":engineer", $engineer_id);
@@ -38,8 +39,8 @@ class Assign_EngineerTest extends \PHPUnit\Framework\TestCase
         $result = $engineer->retrieveAllenrollment();
         $this->assertTrue($result->engineer_id != '');
 
-        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $sql = 'delete from learner_enrollment where engineer_id = "10" and course_id = "IS453" and class_id = "G1" and status = "Pending"';
         $stmt = $pdo->prepare($sql);
 

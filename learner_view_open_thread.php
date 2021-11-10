@@ -24,7 +24,7 @@ $engineer_id = "1";
                                         <div class="page-header-subtitle">You can post and chat with other learners</div>
                                     </div>
                                     <div class="col-12 col-xl-auto mt-4">
-                                        <a class="btn btn-sm btn-light text-primary "  href="learner_view_open_forum.php?">
+                                        <a class="btn btn-sm btn-light text-primary "  href="learner_view_open_forum.php">
                                             <i class="me-1" data-feather="arrow-left"></i>
                                             Back
                                         </a>
@@ -55,8 +55,8 @@ $engineer_id = "1";
                                     <tbody>
                                         <?php
                                             
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from post p
                                             inner join thread t on t.thread_id = p.thread_id
                                             inner join engineer e on e.engineer_id = p.engineer_id

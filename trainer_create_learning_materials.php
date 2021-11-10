@@ -6,8 +6,8 @@
 );
 
 function insert($section_id, $class_id ,$course_id, $description, $type, $document_name){
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'insert into learning_material (`section_id`, `class_id`,`course_id`, `description`, `type`, `document_name`) values (:section_id, :class_id, :course_id,:description, :type, :document_name)';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":section_id", $section_id);
@@ -106,8 +106,8 @@ if (isset($_POST['submit']))
                                                             <option value= '' disabled selected>Select Section</option>
                                                         <?php
                                                             
-                                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                            $pdo = new PDO($dsn,"root",'');
+                                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                             $sql = 'select * from section where course_id= :course_id and class_id= :class_id';
                                                             $stmt = $pdo->prepare($sql);
                                                             $stmt->bindParam(':course_id', $_GET['course_id'] , PDO::PARAM_STR);

@@ -1,4 +1,5 @@
 <?php 
+#DONE BY WEILUN
 require './model/Course.php';
 require './model/CourseDAO.php';
 
@@ -34,8 +35,8 @@ class CourseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($result->description, 'Testing Update for Course');
         $this->assertEquals($result->course_name, 'TDD Update');
 
-        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $sql = 'delete from course where course_id = "IS123"';
         $stmt = $pdo->prepare($sql);
 

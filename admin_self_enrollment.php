@@ -74,8 +74,8 @@ function approveuser(id){
                             <div class="card-body">
                                 <?php
                                     $start_date = "";
-                                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                    $pdo = new PDO($dsn,"root",'');
+                                    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                     $sql = "select * from class where course_id =:course_id and class_id =:class_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':course_id', $_GET['course_id'] , PDO::PARAM_STR);
@@ -104,11 +104,11 @@ function approveuser(id){
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                $pdo = new PDO($dsn,"root",'');
+                                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                 $sql = "select enrollment_id, learner_enrollment.engineer_id, engineer_name, username, learner_enrollment.status
                                                 from engineer
-                                                inner join learner_enrollment on learner_enrollment.engineer_id = engineer.engineer_id where course_id = :course_id and class_id = :class_id";
+                                                inner join learner_enrollment on learner_enrollment.engineer_id = engineer.engineer_id where course_id = :course_id and class_id = :class_id and learner_enrollment.status = 'Pending' and type = 'Self' ";
                                                 $stmt = $pdo->prepare($sql);
                                                 $stmt->bindParam(':course_id', $_GET['course_id'] , PDO::PARAM_STR);
                                                 $stmt->bindParam(':class_id', $_GET['class_id'] , PDO::PARAM_STR);

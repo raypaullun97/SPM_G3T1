@@ -2,11 +2,12 @@
 $config['db']['host'] = 'localhost';
 $config['db']['name'] = 'lms';
 $config['db']['user'] = 'root';
-$config['db']['pass'] = '';
+$config['db']['pass'] = 'MCWUlrGKEOi2';
 $config['db']['pre'] = 'chat';
+$config['db']['port'] = 8888;
 
 $config['site_title'] = 'Wchat';
-$config['site_url'] = 'http://localhost/SPM_G3T1/';
+$config['site_url'] = 'http://3.220.46.218/';
 $config['admin_email'] = 'limweilun1997@gmail.com';
 
 $config['tpl_name'] = 'style-light';

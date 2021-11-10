@@ -19,7 +19,7 @@
                                         </h1>
                                     </div>
                                     <div class="col-12 col-xl-auto mb-3">
-                                        <a class="btn btn-sm btn-light text-primary" href="admin_create_course">
+                                        <a class="btn btn-sm btn-light text-primary" href="admin_create_course.php">
                                             <i class="me-1" data-feather="user-plus"></i>
                                             Add New Course
                                         </a>
@@ -43,8 +43,8 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from course';
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->execute();
@@ -59,7 +59,7 @@
                                             <td><?php echo $row['description'];?></td> 
                                             <td>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark me-2" href="admin_edit_course.php?course_id=<?php echo $row['course_id']?>"  title="Edit Course"><i data-feather="edit"></i></a>
-                                                <a class="btn btn-datatable btn-icon btn-transparent-dark" href="#!" title="Delete Course"><i data-feather="trash-2"></i></a>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark" href="admin_delete_course.php?course_id=<?php echo $row['course_id']?>" title="Delete Course"><i data-feather="trash-2"></i></a>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark" href="admin_view_class.php?course_id=<?php echo $row['course_id']?>" title="View Class"><i data-feather="arrow-right"></i></a>
                                             </td>
                                         </tr> 

@@ -10,8 +10,8 @@
     var_dump($learning_material_id);
 
     function update($section_id, $class_id ,$course_id, $description, $type, $document_name, $learning_material_id){
-            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-            $pdo = new PDO($dsn,"root",'');
+            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
             $query = 'UPDATE learning_material SET section_id=:section_id, class_id=:class_id, course_id=:course_id, description=:description, type=:type, document_name = :document_name where learning_material_id = :learning_material_id';
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(":section_id", $section_id);
@@ -89,8 +89,8 @@
                     <button class="btn btn-primary" onclick="location.href='learning_materials_trainer_page.php'" >Back</button>
                         <form action= 'learning_materials_edit_page.php' method='POST' enctype = "multipart/form-data" id = 'edit_learning_material'>
                             <?php   
-                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                $pdo = new PDO($dsn,"root",'');
+                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                 $sql = "select * from learning_material where learning_material_id= :learning_material_id";
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->bindParam(':learning_material_id', $learning_material_id, PDO::PARAM_STR);

@@ -6,8 +6,8 @@
 );
 
 function insert($section_id, $class_id ,$course_id, $description, $type, $document_name){
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'insert into learning_material (`section_id`, `class_id`,`course_id`, `description`, `type`, `document_name`) values (:section_id, :class_id, :course_id,:description, :type, :document_name)';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":section_id", $section_id);
@@ -105,8 +105,8 @@ if (isset($_POST['submit']))
                                                             <option value= '' disabled selected>Select Section</option>
                                                         <?php
                                                             
-                                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                            $pdo = new PDO($dsn,"root",'');
+                                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                             $sql = 'select * from section where course_id= :course_id and class_id= :class_id';
                                                             $stmt = $pdo->prepare($sql);
                                                             $stmt->bindParam(':course_id', $_GET['course_id'] , PDO::PARAM_STR);
@@ -133,8 +133,8 @@ if (isset($_POST['submit']))
                                                         <input class="form-control" required name = 'time_limit' id="time_limit"  rows="3" type="number" placeholder="Time Limit of Quiz in Minutes" value="">
                                                     </div>
                                                     <div class="col-md-6 mb-3">
-                                                        <label class="small mb-1" for="passing_mark">Passing Mark</label>
-                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  min = '0' max = '100' type="number" placeholder="Passing Mark of the Quiz" value="" />
+                                                        <label class="small mb-1" for="passing_mark">Passing Percentage</label>
+                                                        <input required class="form-control" name = 'passing_mark' id="passing_mark"  min = '0' max = '100' type="number" placeholder="Passing Percentage of the Quiz" value="" />
                                                     </div>
                                                 </div>
 

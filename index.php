@@ -15,6 +15,7 @@ if(!isset($GLOBALS['sesId'])) {
     exit;
 }
 
+
 $config['lang'] = check_user_lang($config);
 require_once('includes/lang/lang_'.$config['lang'].'.php');
 

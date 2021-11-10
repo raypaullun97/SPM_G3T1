@@ -12,14 +12,13 @@
     }
     if (isset($_POST['submit']))
     {
-
+        echo $_POST['p_description'];
         date_default_timezone_set('Singapore');
         $time = date('h:i:s', time());
         $date = date('Y/m/d', time());
 
         $dao = new PostDAO();
-        $status = $dao->add($thread_id, $_POST['p_description'],$engineer_id
-                            ,$time,$date);
+        $status = $dao->add($thread_id, $_POST['p_description'],$engineer_id,$time,$date);
         if (!isset($_GET['course_id'])){
 ?>
             <script type="text/javascript">
@@ -79,18 +78,14 @@
                                     <!-- Account details card-->
                                     <div class="card mb-4">
                                         <div class="card-header">Post Details</div>
-                                        <div class="card-body">
-                                            <form>  
-                                                <!-- Form Group (description)-->
-                                                
-                                                <div class="mb-3">
-                                                    <label class="small mb-1" for="p_description">Description</label>
-                                                    <input class="form-control" required name = 'p_description' id="p_description" type="text" placeholder="Enter your description" value="" />
-                                                </div>
-                                                <!-- Submit button-->
-                                                <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Add Post</button>
-                                               
-                                            </form>
+                                        <div class="card-body">                     
+                                            <!-- Form Group (description)-->                    
+                                            <div class="mb-3">
+                                                <label class="small mb-1" for="p_description">Description</label>
+                                                <input class="form-control" required name="p_description" id="p_description" type="text" placeholder="Enter your description" value="" />
+                                            </div>
+                                            <!-- Submit button-->
+                                            <button class="btn btn-primary" type="submit" id = "submit" name = "submit">Add Post</button>
                                         </div>
                                     </div>
                                 </div>

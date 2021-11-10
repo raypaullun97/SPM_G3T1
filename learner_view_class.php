@@ -55,8 +55,8 @@ $engineer_id = "1";
                                     <tbody>
                                         <?php
                                             
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from class c inner join engineer e on c.engineer_id = e.engineer_id where course_id =:course_id and start_register_date <= cast(now() as date) and end_register_date >= cast(now() as date)';
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(":course_id",$_GET['course_id'],PDO::PARAM_STR);

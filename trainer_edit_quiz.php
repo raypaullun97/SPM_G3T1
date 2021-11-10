@@ -64,8 +64,8 @@ function insertQuestion($quiz_id, $question_no, $description, $option_1, $option
 
 function updateQuiz($quiz_id, $quiz_name, $passing_mark, $time_limit, $type)
 {
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'UPDATE quiz set quiz_name = :quiz_name, passing_mark = :passing_mark, time_limit = :time_limit, type = :type where quiz_id = :quiz_id';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":quiz_name", $quiz_name);
@@ -83,8 +83,8 @@ function updateQuiz($quiz_id, $quiz_name, $passing_mark, $time_limit, $type)
 
 function updateQuestions($question_id, $description, $option_1, $option_2, $option_3, $option_4, $answer, $type, $quiz_id)
 {
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'UPDATE question set description = :description, option_1 = :option_1, option_2 = :option_2, option_3 = :option_3, option_4 = :option_4, answer = :answer, type = :type where quiz_id = :quiz_id and question_id = :question_id';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":question_id", $question_id);
@@ -107,8 +107,8 @@ function updateQuestions($question_id, $description, $option_1, $option_2, $opti
 
 function updateQuestionNumber($quiz_id, $question_id, $new_id)
 {
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'UPDATE question set question_id = :new_id where quiz_id = :quiz_id and question_id = :question_id';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":question_id", $question_id);
@@ -130,8 +130,8 @@ if (isset($_POST['delete']))
     deleteQuestion($quiz_id, $_POST['delete']);
 
     $qn_id_array = array();
-    $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo2 = new PDO($dsn2,"root",'');
+    $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo2 = new PDO($dsn2,"root",'MCWUlrGKEOi2');
     $sql2 = 'select * from question where quiz_id = :quiz_id';
     $stmt2 = $pdo2->prepare($sql2);
     $stmt2->bindParam(":quiz_id",$quiz_id);
@@ -237,8 +237,8 @@ include 'trainer_header.html';
                         <?php
                             $selected = '';
                             $quiz_id = $_GET['quiz_id'];
-                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                            $pdo = new PDO($dsn,"root",'');
+                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                             $sql = 'select * from quiz where quiz_id = :quiz_id';
                             $stmt = $pdo->prepare($sql);
                             $stmt->bindParam(':quiz_id', $quiz_id , PDO::PARAM_STR);
@@ -316,8 +316,8 @@ include 'trainer_header.html';
                                                     <tbody id = 'table_body'>
                                                         <?php
                                                             $qn_count = 0;
-                                                            $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                            $pdo2 = new PDO($dsn2,"root",'');
+                                                            $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                                            $pdo2 = new PDO($dsn2,"root",'MCWUlrGKEOi2');
                                                             $sql2 = 'select * from question where quiz_id = :quiz_id';
                                                             $stmt2 = $pdo2->prepare($sql2);
                                                             $stmt2->bindParam(":quiz_id",$quiz_id);

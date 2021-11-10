@@ -1,4 +1,5 @@
 <?php 
+#DONE BY JIA CHENG
 require './model/LearningMaterialComplete.php';
 require './model/LearningMaterialCompleteDAO.php';
 
@@ -20,8 +21,8 @@ class LearningMaterialCompleteTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result->learning_material_id == '100');
         $this->assertTrue($result->engineer_id == '1');
 
-        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $sql = 'delete from learning_material_complete where learning_material_id = "100" and engineer_id = "1"';
         $stmt = $pdo->prepare($sql);
 

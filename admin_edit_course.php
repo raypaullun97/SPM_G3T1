@@ -56,8 +56,8 @@
                     <div class="container-xl px-4 mt-4">
                         <?php
                             $course_id= $_GET['course_id'];
-                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                            $pdo = new PDO($dsn,"root",'');
+                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                             $sql = 'select * from course where course_id = :course_id';
                             $stmt = $pdo->prepare($sql);
                             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);

@@ -1,4 +1,5 @@
 <?php 
+#DONE BY CHERYL
 require './model/ClassDAO.php';
 
 class ClassTest extends \PHPUnit\Framework\TestCase
@@ -19,8 +20,8 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         '2021-12-25', '12:00:00', '15:00:00', '10');
         $this->assertEquals(true, $status);
 
-        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=127.0.0.1;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $sql = 'delete from class where course_id = "IS453" and class_id = "G1"';
         $stmt = $pdo->prepare($sql);
 

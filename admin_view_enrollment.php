@@ -47,8 +47,8 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from class c inner join learner_enrollment le on c.class_id = le.class_id and c.course_id = le.course_id
                                                     inner join engineer e on e.engineer_id = le.engineer_id
                                                     where c.class_id = :class_id and c.course_id = :course_id and le.status = "Enrolled" ';

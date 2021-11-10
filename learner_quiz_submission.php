@@ -53,8 +53,8 @@
 
     function assignBadge($engineer_id, $badge_name)
     {
-        $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $query = 'insert into engineer_badges (`engineer_id`, `badge_name`) values (:engineer_id, :badge_name)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":engineer_id", $engineer_id);
@@ -151,8 +151,8 @@
                     $grade = 0;
                     $question_count = 0;
                     $count = 1;
-                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                    $pdo = new PDO($dsn,"root",'');
+                    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                     $sql = 'select * from question where quiz_id = :quiz_id';
                     $stmt = $pdo->prepare($sql);
                     $stmt->bindParam(":quiz_id",$quiz_id);

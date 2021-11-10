@@ -7,8 +7,8 @@ spl_autoload_register(
 
 function deleteQuestion($quiz_id)
 {
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $sql = 'delete from question where quiz_id = :temp';
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(":temp", $quiz_id);
@@ -21,8 +21,8 @@ function deleteQuestion($quiz_id)
 
 function deleteQuiz($quiz_id)
 {
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $sql = 'delete from quiz where quiz_id = :temp';
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(":temp", $quiz_id);

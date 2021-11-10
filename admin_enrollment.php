@@ -99,8 +99,8 @@ spl_autoload_register(
 
                                 <?php
                                 $prerequisite = "";
-                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                $pdo = new PDO($dsn, "root", '');
+                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                $pdo = new PDO($dsn, "root", 'MCWUlrGKEOi2');
                                 $sql = 'select * from course_prerequisite where course_id =:course_id';
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->bindParam(':course_id', $_GET['course_id']);
@@ -110,8 +110,8 @@ spl_autoload_register(
                                     $prerequisite = $row['prerequisite'];
                                 }
                                 $engineer_id_trainer = "";
-                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                $pdo = new PDO($dsn, "root", '');
+                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                $pdo = new PDO($dsn, "root", 'MCWUlrGKEOi2');
                                 $sql = 'select * from class where course_id =:course_id and class_id =:class_id';
                                 $stmt = $pdo->prepare($sql);
                                 $stmt->bindParam(':class_id', $_GET['class_id']);
@@ -122,8 +122,8 @@ spl_autoload_register(
                                     $engineer_id_trainer = $row['engineer_id'];
                                 }
                                 
-                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                $pdo = new PDO($dsn, "root", '');
+                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                $pdo = new PDO($dsn, "root", 'MCWUlrGKEOi2');
                                 if ($prerequisite == "") {
                                     $sql = 'select distinct e.engineer_id, e.engineer_name, username
                                     from engineer e

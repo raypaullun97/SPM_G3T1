@@ -6,8 +6,8 @@
 );
 
 function update($section_id, $class_id ,$course_id, $description, $type, $document_name, $learning_material_id){
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'UPDATE learning_material SET section_id=:section_id, class_id=:class_id, course_id=:course_id, description=:description, type=:type, document_name = :document_name where learning_material_id = :learning_material_id';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":section_id", $section_id);
@@ -29,8 +29,8 @@ $learning_material_id = $_GET['learning_material_id'];
 $class_id = ''; 
 $course_id = '';
 
-$dsn = "mysql:host=localhost;dbname=lms;port=3306";
-$pdo = new PDO($dsn,"root",'');
+$dsn = "mysql:host=localhost;dbname=lms;port=8888";
+$pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
 $sql = "select * from learning_material where learning_material_id= :learning_material_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':learning_material_id', $learning_material_id, PDO::PARAM_STR);
@@ -137,8 +137,8 @@ if (isset($_POST['submit']))
                                                             <option value= '' disabled selected>Select Section</option>
                                                         <?php
                                                             
-                                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                            $pdos = new PDO($dsn,"root",'');
+                                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                            $pdos = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                             $sqls = 'select * from section where course_id= :course_id and class_id= :class_id';
                                                             $stmts = $pdos->prepare($sqls);
                                                             $stmts->bindParam(':course_id', $row['course_id'] , PDO::PARAM_STR);

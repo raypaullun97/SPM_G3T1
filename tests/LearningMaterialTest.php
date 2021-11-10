@@ -1,4 +1,5 @@
 <?php 
+#DONE BY JIA CHENG
     require './model/LearningMaterialDAO.php';
     require './model/LearningMaterial.php';
 
@@ -29,8 +30,8 @@
             $result = $learning->update_learning_material('4', 'G2' ,'IS212', 'Week1 Updated', '.pptx', 'Data Mining', 1);
 
             $learning_material_id= 1;
-            $dsn = "mysql:host=127.0.0.1;dbname=lms;port=3306";
-            $pdo = new PDO($dsn,"root",'');
+            $dsn = "mysql:host=127.0.0.1;dbname=lms;port=8888";
+            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
             $sql = "select * from learning_material where learning_material_id = :learning_material_id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':learning_material_id', $learning_material_id);

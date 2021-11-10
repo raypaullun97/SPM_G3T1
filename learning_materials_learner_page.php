@@ -13,8 +13,8 @@
     $last_saved[] ='1';
 
     function updateStatus($learning_material_id, $engineer_id){
-        $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $query = 'insert into learning_material_complete (`learning_material_id`, `engineer_id`) values (:learning_material_id, :engineer_id)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":learning_material_id", $learning_material_id);
@@ -30,8 +30,8 @@
     function updateSectionStatus($current_section, $engineer_id, $class_id, $course_id){
         $status="Completed";
         $mark = 0;
-        $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-        $pdo = new PDO($dsn,"root",'');
+        $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+        $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
         $query = 'insert ignore into section_status values (:section_id, :engineer_id, :class_id, :course_id, :mark)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(":section_id", $current_section);
@@ -91,8 +91,8 @@
                             <?php 
                                 //display all available sections
                              
-                                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                    $pdo = new PDO($dsn,"root",'');
+                                    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                     $sql = "select * from section where class_id=:class_id and course_id = :course_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
@@ -106,8 +106,8 @@
                                         //count what learning material in each section
 
                                         // array_push($sections, $row['section_id']);
-                                        // $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                        // $pdo2 = new PDO($dsn2,"root",'');
+                                        // $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                        // $pdo2 = new PDO($dsn2,"root",'MCWUlrGKEOi2');
                                         // $sql2 = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
                                         // $stmt2 = $pdo->prepare($sql2);
                                         // $stmt2->bindParam(':class_id', $class_id);
@@ -119,8 +119,8 @@
                                         // $all_sections[$row['section_id']]= $total;
 
                                         array_push($sections, $row['section_id']);
-                                        $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                        $pdo2 = new PDO($dsn2,"root",'');
+                                        $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                        $pdo2 = new PDO($dsn2,"root",'MCWUlrGKEOi2');
                                         $sql2 = "SELECT section_id, engineer_id FROM learning_material LEFT JOIN learning_material_complete ON learning_material.learning_material_id = learning_material_complete.learning_material_id WHERE class_id= :class_id and section_id= :section_id and course_id= :course_id";
                                         $stmt2 = $pdo->prepare($sql2);
                                         $stmt2->bindParam(':class_id', $class_id);
@@ -174,8 +174,8 @@
                                         $current_section= $sections[$x];
                                         $total_material= $all_sections[$current_section];
                                         if($current_section == 'Session 1' && $completed == TRUE){
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id and course_id= :course_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
@@ -191,8 +191,8 @@
                                                 $file_location= "learningmaterials/". $row["document_name"];
                                                 $file_location .= $row['type'];
                                                 
-                                                $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                $pdo2 = new PDO($dsn,"root",'');
+                                                $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                                $pdo2 = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                 $sql2 = "select * from learning_material_complete where learning_material_id = :learning_material_id and engineer_id =:engineer_id";
                                                 $stmt2 = $pdo2->prepare($sql2);
                                                 $stmt2->bindParam(':learning_material_id', $learning_material_id);
@@ -235,8 +235,8 @@
 
                                             }//end of inner if
                                             elseif ($completed == TRUE) {
-                                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                $pdo = new PDO($dsn,"root",'');
+                                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                 $sql = "select * from learning_material where class_id = :class_id and section_id = :section_id";
                                                 $stmt = $pdo->prepare($sql);
                                                 $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
@@ -251,8 +251,8 @@
                                                     $file_location= "learningmaterials/". $row["document_name"];
                                                     $file_location .= $row['type'];
                                                     
-                                                    $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                    $pdo2 = new PDO($dsn,"root",'');
+                                                    $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                                    $pdo2 = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                     $sql2 = "select * from learning_material_complete where learning_material_id = :learning_material_id and engineer_id =:engineer_id";
                                                     $stmt2 = $pdo2->prepare($sql2);
                                                     $stmt2->bindParam(':learning_material_id', $learning_material_id);
@@ -297,8 +297,8 @@
                                         }//end of for loop
                                     }//end of if statement
                                     else{
-                                        $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                        $pdo2 = new PDO($dsn2,"root",'');
+                                        $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                        $pdo2 = new PDO($dsn2,"root",'MCWUlrGKEOi2');
                                         $query2 = 'select * from section_status where class_id=:class_id and engineer_id= :engineer_id';
                                         $stmt2 = $pdo2->prepare($query2);
                                         $stmt2->bindParam(":class_id", $class_id);
@@ -314,8 +314,8 @@
                                         
                                         if(in_array($section_id, $last_saved) == TRUE || $section_id =='1'){
                                             
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = "select * from learning_material where class_id=:class_id and section_id = :section_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
@@ -329,8 +329,8 @@
                                                 $file_location= "learningmaterials/". $row["document_name"];
                                                 $file_location .= $row['type'];
                                                 
-                                                $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                $pdo2 = new PDO($dsn,"root",'');
+                                                $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                                $pdo2 = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                 $sql2 = "select * from learning_material_complete where learning_material_id = :learning_material_id and engineer_id =:engineer_id";
                                                 $stmt2 = $pdo2->prepare($sql2);
                                                 $stmt2->bindParam(':learning_material_id', $learning_material_id);

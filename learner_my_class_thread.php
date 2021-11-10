@@ -9,8 +9,8 @@
 $course_id = $_GET['course_id'];
 $class_id = $_GET['class_id'];
 $engineer_id = "1";
-$dsn = "mysql:host=localhost;dbname=lms;port=3306";
-$pdo = new PDO($dsn,"root",'');
+$dsn = "mysql:host=localhost;dbname=lms;port=8888";
+$pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
 $sql = 'select * from forum 
         where  course_id = :course_id
         and class_id = :class_id ';
@@ -64,8 +64,8 @@ $pdo = null;
                                     <tbody>
                                         <?php
                                             
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from thread t
                                                     inner join engineer e on e.engineer_id = t.engineer_id
                                                     inner join forum f on f.forum_id = t.forum_id 

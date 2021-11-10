@@ -32,8 +32,8 @@ $engineer_id = 1;
                     <div class="container-xl px-4 mt-4">
                         <div class="row">
                             <?php
-                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                            $pdo = new PDO($dsn,"root",'');
+                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                             $sql = "SELECT * from learner_enrollment 
                                     inner join course on course.course_id = learner_enrollment.course_id 
                                     inner join class c on c.course_id = course.course_id and c.class_id  = learner_enrollment.class_id

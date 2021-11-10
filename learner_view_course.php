@@ -42,13 +42,11 @@ $engineer_id = "1";
                         <div class="row">
                             <!-- DB Connection Start for pagination-->
                             <?php
-                            $con = mysqli_connect('localhost', 'root', '');
-                            mysqli_select_db($con, 'lms');
+                            $con = mysqli_connect('localhost', 'root', 'MCWUlrGKEOi2', 'lms', '8888');
                             $results_per_page = 6;
-                            $sql = 'select * from course C left outer join course_prerequisite cp on c.course_id = cp.course_id ORDER BY c.course_id ';
+                            $sql = 'select * from course c left outer join course_prerequisite cp on c.course_id = cp.course_id ORDER BY c.course_id ';
                             $result = mysqli_query($con, $sql);
-                            $number_of_results = mysqli_num_rows($result);
-
+                            $number_of_results = mysqli_num_rows($result);                            
                             $number_of_pages = ceil($number_of_results / $results_per_page);
                             // $previous = 0;
                             // $next = 0;
@@ -63,8 +61,8 @@ $engineer_id = "1";
                                 $page = $_GET['page'];
                             }
                             $this_page_first_result = ($page - 1) * $results_per_page;
-                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                            $pdo = new PDO($dsn,"root",'');
+                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                             $sql = "SELECT * from course_prerequisite c right outer join course cp on c.course_id = cp.course_id ORDER BY cp.course_id   LIMIT " . $this_page_first_result . ',' . $results_per_page;
                             $stmt = $pdo->prepare($sql);
                             $stmt->execute();
@@ -87,8 +85,8 @@ $engineer_id = "1";
                                                     echo "<b>" . $row['prerequisite'] . 
                                                     "</b>";
                                                     $prerequisite = $row['prerequisite'];
-                                                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                    $pdos = new PDO($dsn,"root",'');
+                                                    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                    $pdos = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                     $sqls = "SELECT status from course_status where engineer_id = :engineer_id and course_id = :course_id and status = 'Completed' ";
                                                     $stmts = $pdos->prepare($sqls);
                                                     $stmts->bindParam(":course_id",$prerequisite,PDO::PARAM_STR);
@@ -108,8 +106,8 @@ $engineer_id = "1";
                                                     <?php  };
                                                 }
                                             $course_id = $row['course_id'];
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdoss = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdoss = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sqlss = "SELECT status from course_status where engineer_id = :engineer_id and course_id = :course_id and status = 'Completed' ";
                                             $stmtss = $pdoss->prepare($sqlss);
                                             $stmtss->bindParam(":course_id",$course_id,PDO::PARAM_STR);
@@ -133,8 +131,8 @@ $engineer_id = "1";
 
                                                 
                                                 else{
-                                                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                    $pdosss = new PDO($dsn,"root",'');
+                                                    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                    $pdosss = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                     $sqlsss = "SELECT status from learner_enrollment where engineer_id = :engineer_id and course_id = :course_id and (status = 'Pending' or status = 'Enrolled') ";
                                                     $stmtsss = $pdosss->prepare($sqlsss);
                                                     $stmtsss->bindParam(":course_id",$course_id,PDO::PARAM_STR);

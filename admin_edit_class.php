@@ -65,8 +65,8 @@
                         <?php
                             $course_id= $_GET['course_id'];
                             $class_id= $_GET['class_id'];
-                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                            $pdo = new PDO($dsn,"root",'');
+                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                             $sql = 'select * from class where course_id = :course_id and class_id = :class_id';
                             $stmt = $pdo->prepare($sql);
                             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
@@ -152,8 +152,8 @@
                                                     <select required class="form-select" aria-label="Default select example" id="engineer_id" name="engineer_id">
                                                         <option selected disabled>Select a trainer:</option>
                                                         <?php
-                                                            $dsn2 = "mysql:host=localhost;dbname=lms;port=3306";
-                                                            $pdo2 = new PDO($dsn2,"root",'');
+                                                            $dsn2 = "mysql:host=localhost;dbname=lms;port=8888";
+                                                            $pdo2 = new PDO($dsn2,"root",'MCWUlrGKEOi2');
                                                             $sql2 = 'select * from engineer e inner join qualified_courses qc on e.engineer_id = qc.engineer_id where course_id = :course_id';
                                                             $stmt2 = $pdo->prepare($sql2);
                                                             $stmt2->bindParam(':course_id', $course_id , PDO::PARAM_STR);

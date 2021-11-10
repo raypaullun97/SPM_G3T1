@@ -17,7 +17,7 @@
         
         echo '<script>alert("Send enrollment to admin successfully")</script>';
         // echo "<script>document.getElementById('unique_course_id').textContent";
-        echo "<script>window.location.href = 'http://localhost/SPM_G3T1/learner_view_course.php'</script>";
+        echo "<script>window.location.href = 'http://localhost:8888/learner_view_course.php'</script>";
         // header("Location: http://localhost/SPM_G3T1/learner_view_class.php?course_id=$course_id");
 
     }

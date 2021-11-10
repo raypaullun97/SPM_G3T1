@@ -22,8 +22,8 @@ function createSections($class_id, $course_id, $section_name, $description){
     return $insertStatus;
 }
 function delete_material($learning_material_id){
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'delete from learning_material where learning_material_id= :learning_material_id';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":learning_material_id", $learning_material_id);
@@ -93,7 +93,7 @@ if (isset($_POST['submit']))
                                     <div class="col-auto mb-3">
                                         <h1 class="page-header-title">
                                             <div class="page-header-icon"><i data-feather="user"></i></div>
-                                            Create Section in <?php echo $course_id?> <?php echo $class_id?>
+                                             <?php echo $course_id?> <?php echo $class_id?> Trainer Page
                                         </h1>
                                     </div>
                                     <div class="col-12 col-xl-auto mb-3">
@@ -137,8 +137,8 @@ if (isset($_POST['submit']))
                                     <tbody>
                                         
                                         <?php
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from section where course_id= :course_id and class_id= :class_id';
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
@@ -155,6 +155,7 @@ if (isset($_POST['submit']))
                                             <td>
                                                 <?php $class_id = $row['class_id'];?>
                                                 <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="trainer_view_section.php?course_id=<?php echo $course_id?>&class_id=<?php echo $class_id?>&section_id=<?php echo $row['section_id']?>" title="View <?php echo $row['section_name']?> Training Materials and Quiz"><i data-feather="user-check"></i></a>
+                                                <a class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="trainer_delete_section.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>&section_id=<?php echo $row['section_id']?>" title="Delete Section"><i data-feather="trash-2"></i></a>
                                                 <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" href="admin_self_enrollment.php?course_id=<?php echo $row['course_id']?>&class_id=<?php echo $row['class_id']?>" title="View Training Materials"><i data-feather="user-check" ></i></button> -->
                                                 <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark mx-2" onclick="runPop(this);" href=""  title="Self-Enrollment"   value="<?php $class_id;?>"><i data-feather="user-check"></i></button> -->
 
@@ -192,8 +193,8 @@ if (isset($_POST['submit']))
                                        
                                         <?php
                                             if($section_id == ''){
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = "select * from learning_material where class_id = :class_id and course_id= :course_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
@@ -202,8 +203,8 @@ if (isset($_POST['submit']))
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                             }
                                             else{
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = "select * from learning_material where class_id = :class_id and section_id= :section_id and course_id= :course_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);
@@ -221,7 +222,7 @@ if (isset($_POST['submit']))
                                                 <?php $file_location= "learningmaterials/". $row["document_name"];
                                                 $file_location .= $row['type'];?>
                                             
-                                            <td><a href="<?php echo $file_location?>"><?php echo $row['document_name']?></a></td> 
+                                            <td><a href="<?php echo $file_location?>" target="_blank"><?php echo $row['document_name']?></a></td> 
                                             <td><?php echo $row['description'];?></td> 
                                             <td>
                                                 <?php $class_id = $row['class_id'];?>
@@ -263,8 +264,8 @@ if (isset($_POST['submit']))
                                     <tbody>
                                         <?php
                                             if($section_id == ''){
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = "select * from quiz where class_id = :class_id and course_id= :course_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
@@ -273,8 +274,8 @@ if (isset($_POST['submit']))
                                             $stmt->setFetchMode(PDO::FETCH_ASSOC);
                                             }
                                             else{
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = "select * from quiz where class_id = :class_id and course_id= :course_id and section_id= :section_id";
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':class_id', $class_id , PDO::PARAM_STR);

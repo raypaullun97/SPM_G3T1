@@ -1,9 +1,11 @@
+CREATE DATABASE IF NOT EXISTS lms DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE lms;
 -- phpMyAdmin SQL Dump
 -- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 05, 2021 at 09:00 AM
+-- Generation Time: Nov 08, 2021 at 09:02 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.4.0
 
@@ -21,17 +23,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `lms`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `chat`
---
-
-DROP TABLE IF EXISTS `chat`;
-CREATE TABLE IF NOT EXISTS `chat` (
-  `testing` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -343,7 +334,16 @@ CREATE TABLE IF NOT EXISTS `chatmessages` (
   `seen` enum('0','1') NOT NULL DEFAULT '0',
   `message_type` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`message_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `chatmessages`
+--
+
+INSERT INTO `chatmessages` (`message_id`, `from_id`, `to_id`, `from_uname`, `to_uname`, `message_content`, `message_date`, `recd`, `seen`, `message_type`) VALUES
+(1, '1', '2', 'weilun', 'kankan', 'hi instructor', '2021-11-07 08:06:12', 1, '0', 'text'),
+(2, '2', '1', 'kankan', 'weilun', 'hi', '2021-11-07 08:25:29', 1, '1', 'text'),
+(3, '1', '2', 'weilun', 'kankan', 'hi', '2021-11-07 08:36:09', 1, '0', 'text');
 
 -- --------------------------------------------------------
 
@@ -369,14 +369,15 @@ CREATE TABLE IF NOT EXISTS `chatuserdata` (
   `oauth_uid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `oauth_link` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chatuserdata`
 --
 
 INSERT INTO `chatuserdata` (`id`, `status`, `username`, `password`, `email`, `name`, `joined`, `country`, `about`, `sex`, `dob`, `picname`, `oauth_provider`, `oauth_uid`, `oauth_link`) VALUES
-(1, '0', 'raypaullun', '21232f297a57a5a743894a0e4a801fc3', 'lwl_1997@hotmail.com', 'Weilun Lim', '2021-11-05 04:41:27', '', '', '', '', 'avatar_default.png', '', '', '');
+(1, '0', 'weilun', '21232f297a57a5a743894a0e4a801fc3', 'lwl_1997@hotmail.com', 'Weilun Lim', '2021-11-05 04:41:27', '', '', '', '', 'avatar_default.png', '', '', ''),
+(2, '0', 'kankan', '21232f297a57a5a743894a0e4a801fc3', 'kankan@lms.com', 'kankan', '2021-11-05 04:41:27', NULL, '', '', '', 'avatar_default.png', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -519,7 +520,7 @@ CREATE TABLE IF NOT EXISTS `engineer` (
 --
 
 INSERT INTO `engineer` (`engineer_id`, `engineer_name`, `username`, `first_name`, `last_name`, `status`, `designation`, `department`) VALUES
-('1', 'weilun', 'lwl_1997@hotmail.com', 'wl', 'lim', 'engineer', NULL, NULL),
+('1', 'weilun', 'weilun@lms.com', 'wl', 'lim', 'engineer', NULL, NULL),
 ('2', 'james', 'james123@lms.com', 'james', 'ong', 'engineer', NULL, NULL),
 ('3', 'kankan', 'kankanzhou123@lms.com', 'kankan', 'zhou', 'senior engineer', NULL, NULL),
 ('4', 'jia cheng', 'jcteo@lms.com', 'jc', 'teo', 'engineer', NULL, NULL),

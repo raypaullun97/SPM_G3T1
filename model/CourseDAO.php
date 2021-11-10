@@ -1,3 +1,4 @@
+<require_
 <?php
     class CourseDAO{
 

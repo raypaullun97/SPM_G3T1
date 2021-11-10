@@ -1,12 +1,13 @@
 <?php
 class ConnectionManager {
     public function getConnection() {
-        $servername = '127.0.0.1';
+        $servername = 'localhost';
         $dbname = 'lms';
         $username = 'root';
-        $password = '';
+        $password = 'MCWUlrGKEOi2';
+
         
-        $url  = "mysql:host=$servername;dbname=$dbname";
+        $url  = "mysql:host=$servername;dbname=$dbname;port=8888";
         return new PDO($url, $username, $password);  
     }
 }

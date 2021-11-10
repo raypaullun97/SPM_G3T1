@@ -65,8 +65,8 @@
                                     <tbody>
                                         <?php
                                             $quiz_id = $_GET['quiz_id'];
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from question where quiz_id = :quiz_id';
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(":quiz_id",$quiz_id);

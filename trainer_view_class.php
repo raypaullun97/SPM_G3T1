@@ -48,8 +48,8 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                            $pdo = new PDO($dsn,"root",'');
+                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                             $sql = 'select * from class where engineer_id= :engineer_id';
                                             $stmt = $pdo->prepare($sql);
                                             $stmt->bindParam(':engineer_id', $engineer_id , PDO::PARAM_STR);

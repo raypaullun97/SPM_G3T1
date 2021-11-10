@@ -5,8 +5,8 @@ $course_id = $_GET['course_id'];
 $section_id = $_GET['section_id'];
 $time_limit = 0;   
 
- $dsn = "mysql:host=localhost;dbname=lms;port=3306";
- $pdo = new PDO($dsn,"root",'');
+ $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+ $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
  $sql = 'select * from quiz where quiz_id = :quiz_id';
  $stmt = $pdo->prepare($sql);
  $stmt->bindParam(":quiz_id",$quiz_id);
@@ -71,8 +71,8 @@ $time_limit = 0;
                             <!--Each Question-->
                 <?php 
                     $question_count = 0;
-                    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                    $pdo = new PDO($dsn,"root",'');
+                    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                     $sql = 'select * from question where quiz_id = :quiz_id';
                     $stmt = $pdo->prepare($sql);
                     $stmt->bindParam(":quiz_id",$quiz_id);

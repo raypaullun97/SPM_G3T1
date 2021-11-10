@@ -55,8 +55,8 @@ function insertQuiz($class_id, $course_id, $section_id, $engineer_id, $passing_m
  }
 
 function insertQuestion($quiz_id, $question_id ,$description, $option_1, $option_2, $option_3, $option_4, $answer, $type){
-    $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-    $pdo = new PDO($dsn,"root",'');
+    $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
     $query = 'insert into question (`quiz_id`, `question_id`,`description`, `option_1`, `option_2`, `option_3`, `option_4`, `answer`, `type`) values (:quiz_id, :question_id, :description, :option_1, :option_2, :option_3, :option_4, :answer, :type)';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":quiz_id", $quiz_id);
@@ -88,8 +88,8 @@ if (isset($_POST['submit']))
         else
         {
             #Copy Quiz Details
-            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-            $pdo = new PDO($dsn,"root",'');
+            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
             $sql = 'select * from quiz where course_id= :course_id and class_id= :class_id and section_id = :section_id';
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
@@ -106,8 +106,8 @@ if (isset($_POST['submit']))
 
             #Copy Quiz Questions
             $lastQuiz_id = retrieveQuizID();
-            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-            $pdo = new PDO($dsn,"root",'');
+            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
             $sql = 'select * from question where quiz_id = :quiz_id';
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':quiz_id', $quiz_id);
@@ -181,8 +181,8 @@ if (isset($_POST['submit']))
                                                             <option value= '' disabled selected>Select Class & Section</option>
                                                         <?php
                                                             $class_array = array();
-                                                            $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                            $pdo = new PDO($dsn,"root",'');
+                                                            $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                            $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                             $sql = 'select * from class where course_id= :course_id and engineer_id= :engineer_id';
                                                             $stmt = $pdo->prepare($sql);
                                                             $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
@@ -214,8 +214,8 @@ if (isset($_POST['submit']))
                                                         <?php
                                                             for ($i = 0; $i < count($class_array); $i++)
                                                             {
-                                                                $dsn = "mysql:host=localhost;dbname=lms;port=3306";
-                                                                    $pdo = new PDO($dsn,"root",'');
+                                                                $dsn = "mysql:host=localhost;dbname=lms;port=8888";
+                                                                    $pdo = new PDO($dsn,"root",'MCWUlrGKEOi2');
                                                                     $sql = 'select * from section where course_id= :course_id and class_id= :class_id';
                                                                     $stmt = $pdo->prepare($sql);
                                                                     $stmt->bindParam(':course_id', $course_id , PDO::PARAM_STR);
