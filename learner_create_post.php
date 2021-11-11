@@ -19,20 +19,13 @@
 
         $dao = new PostDAO();
         $status = $dao->add($thread_id, $_POST['p_description'],$engineer_id,$time,$date);
-        if (!isset($_GET['course_id'])){
+        if (!isset($_GET['course_id']) & $status){
 ?>
             <script type="text/javascript">
             alert('Post has been added successfully!');
             location.href = 'learner_view_open_thread.php?thread_id=<?php echo $_GET['thread_id']?>';
             </script>
-<?php
-        }
-        else{
-?>
-            <script type="text/javascript">
-            alert('Post has been added successfully!');
-            location.href = 'learner_my_class_post.php?course_id=<?php echo $_GET['course_id']?>&class_id=<?php echo $_GET['class_id']?>&thread_id=<?php echo $_GET['thread_id']?>';
-            </script>
+
 <?php            
         }
     

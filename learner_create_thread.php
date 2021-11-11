@@ -14,20 +14,13 @@
     {    
             $dao = new ThreadDAO();
             $status = $dao->add( $forum_id ,$_POST['t_description'],$engineer_id);
-        if (!isset($_GET['course_id'])){
+        if (!isset($_GET['course_id']) & $status){
 ?>
             <script type="text/javascript">
             alert('Thread has been added successfully!');
             location.href = 'learner_view_open_forum.php';
             </script>
-<?php
-        }
-        else{
-?>
-            <script type="text/javascript">
-            alert('Thread has been added successfully!');
-            location.href = 'learner_my_class_thread.php?course_id=<?php echo $_GET['course_id']?>&class_id=<?php echo $_GET['class_id']?>';
-            </script>
+
 <?php            
         }
     }

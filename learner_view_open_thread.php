@@ -7,8 +7,8 @@
 );
 
 $thread_id = $_GET['thread_id'];
-
 $engineer_id = "1";
+
 ?>
 <div id="layoutSidenav_content">
                 <main>
